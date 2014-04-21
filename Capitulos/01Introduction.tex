@@ -1,0 +1,132 @@
+%---------------------------------------------------------------------
+%
+%                          Capítulo 1
+%
+%---------------------------------------------------------------------
+
+\chapter{Introducción}
+\label{cap:intro}
+
+\begin{FraseCelebre}
+\begin{Frase}
+If you hear any noise,\\
+hit me
+\end{Frase}
+\begin{Fuente}
+Thomas \& Guy-Manuel, Daft Punk
+\end{Fuente}
+\end{FraseCelebre}
+
+\begin{resumen}
+En este capítulo se da una descripción general del proyecto, cubriendo desde la introducción al contexto, pasando por la necesidad del trabajo y una breve descripción del mismo. Asimismo, se definen metas y la organización del proyecto.  
+\end{resumen}
+
+
+%-------------------------------------------------------------------
+\section{Background}
+%-------------------------------------------------------------------
+\label{intro:sec:background}
+%-------------------------------------------------------------------
+
+\todo{Escribir...}
+
+
+%-------------------------------------------------------------------
+\section{Metas}
+%-------------------------------------------------------------------
+\label{intro:sec:metas}
+%-------------------------------------------------------------------
+
+La principal meta el proyecto es diseñar e implementar una Placa de Expansión que permita monitorizar el ambiente y responder a esas entradas, en un entorno \ac{CWSN}. La implementación de la misma deberá considerar parámetros como el bajo consumo, bajo coste y escalabilidad, entre otros. Finalmente, se tendrá que crear la capa de abstracción en el \ac{CNGD} para que la comunicación sea posible con esta nueva capa de expansión, así como una aplicación que muestre el funcionamiento del sistema en su conjunto.
+
+En este sentido, podemos fragmentar esta meta en varios objetivos más específicos:
+
+\begin{itemize}
+
+\item \emph{Documentación}. Consistirá en la lectura y estudio de los trabajos previos, así como la familiarización con las herramientas necesarias para la realización del módulo de expansión.
+
+\item \emph{Diseño, implementación y prueba de la placa de expansión}. Se decidirán los sensores y los actuadores que se utilizarán, se diseñará la placa de expansiín, se soldarán los componentes y se probará.
+
+\item \emph{Desarrollo de la interfaz nodo-shield}. Comprende la inclusión del código necesario para que el microcontrolador del nodo pueda comunicarse con la placa de expansión.
+
+\item \emph{Aplicación en red}, que iluestre utilidades prácticas del sistema en su conjunto: la placa sobre un nodo \ac{CNGD} en un entorno \ac{CWSN}.
+
+\end{itemize}
+
+%-------------------------------------------------------------------
+\section{Organización del proyecto}
+%-------------------------------------------------------------------
+\label{intro:sec:organizacion}
+%-------------------------------------------------------------------
+
+La organización del proyecto se describe a continuación:
+
+\begin{itemize}
+
+\item \emph{Estudio de la documentación}.
+
+En esta primera etapa, información acerca de \ac{CWSN}, sensores, actuadores y \ac{CNGD} es recopilada, así como el estudio de conocimientos específicos para desarrollar este proyecto. Metas:
+
+	\begin{itemize}
+	\item Estado del arte en materia de \ac{CWSN}. Comprensión y justificación de la necesidad de estas redes.
+	\item Revisión de clases de sensores y actuadores de utilidad en un \ac{AMI}.
+	\item Aprehensión de conocimientos acerca de las principales herramientas, tanto software como hardware, necesarias para la realización del proyecto.
+	\end{itemize}
+
+
+\item \emph{Diseño e implementación hardware}.
+
+Esta fase comprende desde la primera selección de elementos para la shield, hasta el montaje y la implementación. Metas:
+
+	\begin{itemize}
+	\item Decisión acerca de los sensores y actuadores: tipo, encapsulado, forma de comunicación, salidas, rangos, entre otros.
+	\item Diseño del hardware. Selección de componentes. Diseño del layout.
+	\item Implementación y soldadura. Pruebas funcionales.
+	\end{itemize}
+
+
+\item \emph{Diseño software}.
+
+En esta etapa se creará la interfaz que permita abstraer los recursos hardware añadidos en la anterior fase, de forma que puedan servir para cualquier aplicación futura. Metas:
+
+	\begin{itemize}
+	\item Implementación software de los recursos. Depuración del código.
+	\item Pruebas funcionales. Generación de la documentación acerca del software desarrollado.
+	\end{itemize}
+
+
+\item \emph{Aplicación de prueba}.
+
+En último lugar, se llevará a cabo el desarrollo, tanto software como del entorno, del sistema funcional. Metas:
+
+	\begin{itemize}
+	\item Pruebas previas completas y exhaustivas acerca de la integración del software y el hardware.
+	\item Implementación software de la aplicación, que relacione actuaciones en un nodo ante entradas en otro.
+	\item Definición del entorno físico de pruebas.
+	\end{itemize}
+
+
+\item \emph{Generación de la documentación}.
+
+Esta fase, transversal a todas ellas, consiste en la escritura de todos los documentos (memoria, wiki, etc.) La memoria será escrita en \texis \cite{texis}, una plantilla de \LaTeX \cite{latex}.
+
+\end{itemize}
+
+%-------------------------------------------------------------------
+\section{Outline}
+%-------------------------------------------------------------------
+\label{intro:sec:outline}
+%-------------------------------------------------------------------
+
+\todo{Escribir...}
+
+
+
+
+% Variable local para emacs, para  que encuentre el fichero maestro de
+% compilación y funcionen mejor algunas teclas rápidas de AucTeX
+%%%
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../Tesis.tex"
+%%% End:

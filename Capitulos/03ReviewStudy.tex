@@ -1,0 +1,200 @@
+%---------------------------------------------------------------------
+%
+%                          Capítulo 3
+%
+%---------------------------------------------------------------------
+
+\chapter{Estudio Previo}
+\label{cap:previo}
+
+\begin{FraseCelebre}
+\begin{Frase}
+El hombre no se mide por lo que conoce, \\
+sino en cómo aplica lo que conoce
+\end{Frase}
+\begin{Fuente}
+Anónimo
+\end{Fuente}
+\end{FraseCelebre}
+
+\begin{resumen}
+En este capítulo encontramos una primera aproximación de las necesidades que requiere la Placa de Expansión, en cuanto a módulos y funcionalidades se refiere. Asimismo, se presentarán, para cada uno de ellos, una justificación de su uso, los puntos más destacables y una tabla comparativa de los modelos que solucionan el problema.
+\end{resumen}
+
+%-------------------------------------------------------------------
+\section{Sensores}
+%-------------------------------------------------------------------
+\label{previo:sec:sensores}
+%-------------------------------------------------------------------
+Comenzamos defininendo el sensor como el dispositivo capaz de detectar magnitudes físicas o químicas, llamadas variables de instrumentación, y transformarlas en variables que facilitan su medida. \comp{meter más.}. Las características que definen a un sensor son:
+
+\begin{itemize}
+
+\item \emph{Rango de medida}. Dominio, en la magnitud de medida, en el que puede aplicarse el sensor.
+\item \emph{Precisión}. Error en la medida esperado.
+\item \emph{Linealidad}. \comp{Completar.}
+\item \emph{Resolución}. Mínima variación de la variable de entrada que garantiza un cambio en la variable de salida.
+\item \emph{Sensibilidad}. Relaciona, para cada diferencial de entrada, un diferencial de salida. \comp{Mejorar.}
+\item \emph{Tiempo de respuesta}. Tiempo en el que la salida alcanza el régimen permanente.
+\item \emph{Repetitividad}. Error esperado al repetir varias veces la misma medida.
+\item \emph{Desviación de cero}. Valor de la variable de salida cuando la variable de entrada es nula.
+
+\end{itemize}
+
+Sin embargo, hay otras propiedades que serán imprescindibles para el diseño que vamos a realizar como las que se enuncian a continuación, ordenadas por orden de relevancia:
+
+\begin{enumerate}
+
+\item \emph{Precio}. Como se expone en el trabajo \cite{aguspfc}, en el que se detalla el \ac{CNGD}, el sistema debe cumplir el requisito de ser de bajo coste, con el objeto de que se puedan implementar varias unidades a un precio bajo.
+\item \emph{Rango de medida}. Puesto que estamos desarrollando una Placa de Expansión cuya aplicación a priori no es conocida, no podemos permitir que ésta se vea limitada por el rango del sensor.
+\item \emph{Consumo}. Igualmente, como el \ac{CNGD} será alimentado por baterías, el requisito del bajo consumo debe estar muy presente, ya que en determinadas aplicaciones puede no ser posible la sustitución de las mismas, por lo que este requisito puede ser determinante para su vida útil.
+
+\end{enumerate}
+
+Para la medición de parámetros en \ac{AMI}, y para su posterior tratamiento, usaremos sensores cuya variable de salida sea eléctrica, por lo que pueden ser denominados Transductores. Algunos de los que solucionan las necesidades expuestas en el capítulo \ref{cap:intro} son los que se exponen a continuación con más detalle.
+
+%-------------------------------------------------------------------
+\subsection{Temperatura}
+%-------------------------------------------------------------------
+\label{previo:sec:temperatura}
+%-------------------------------------------------------------------
+
+Un sensor que nos permita conocer la temperatura es muy habitual encontrarlo en \ac{SN}, ya que es un parámetro que es útil en todas las aplicaciones potenciales del sistema, ya sea conocer la temperatura de una estancia, con el objeto de actuar sobre ella, si nos encontramos en un entorno doméstico o de trabajo; o de conocer la temperatura del suelo, con el objeto de monitorizar su variación con el tiempo, si es usado en temas de investigación medioambiental.
+
+A continuación, hacemos un breve resumen de los tipos de sensores de temperatura que podemos encontrar, según \cite{iele}:
+
+\begin{itemize}
+
+\item \emph {Metálicos}. Se basan en que la resistencia eléctrica de un conductor metálico depende de la temperatura, de forma que, al aumentar ésta, las vibraciones de los átomos aumentan, por lo que se dispersan más eficazmente los electrones, lo que genera en última instancia un aumento de su resistencia. Algunas de las propiedades son:
+
+	\begin{itemize}
+
+	\item Variación de resitencia lineal con la temperatura.
+	\item Sensibilidad alta.
+	\item Rango de medida alto.
+	\item Precio alto.
+
+	\end{itemize}
+
+
+\item \emph {NTC}. Los materiales semiconductores presentan una resistencia eléctrica cuyo valor decrece con la temperatura. Por ello, son denominados \ac{NTC}. Las características que presentan se reúnen a continuación:
+
+	\begin{itemize}
+
+	\item Marcadamente no lineal.
+	\item Sensibilidad alta.
+	\item Rango de medida medio.
+	\item Precio medio.
+
+	\end{itemize}
+
+\item \emph {PTC}. Se realizan mediante compactación de materiales que presentan en una zona de su característica resistencia/temperatura una pendiente positiva, de ahí que se conozcan como \ac{PTC}. De ellos destacamos:
+
+	\begin{itemize}
+
+	\item Marcadamente no lineal.
+	\item Sensibilidad alta.
+	\item Rango de medida medio.
+	\item Precio medio.
+
+	\end{itemize}
+
+\end{itemize}
+
+La siguiente tabla muestra una comparativa entre estos tres.
+
+\begin{table}[h]
+\centering
+\scalebox{1}{
+\begin{tabular}{|c|c|c|c|}
+\hline
+Característica & Metálico & \ac{NTC} & \ac{PTC} \\ \hline \hline
+Estabilidad & Buena & Regular & Mala  \\ \hline
+Repetitividad & Buena & Regular & Mala \\ \hline
+Sensibiliad & Baja & Alta & Muy alta \\ \hline
+Linealidad & Alta & Baja & Baja \\ \hline
+Rango de medida & Alto & Bajo & Bajo \\ \hline
+Precio & Muy alto & Bajo & Bajo \\ \hline 
+\end{tabular}
+}
+\caption{Comparación de las características de los sensores resistivos de temperatura.
+	\label{tab:previo:temperatura}}
+\end{table}
+
+
+%-------------------------------------------------------------------
+\subsection{Acelerómetro}
+%-------------------------------------------------------------------
+\label{previo:sec:acelerometro}
+%-------------------------------------------------------------------
+
+%-------------------------------------------------------------------
+\subsection{Presencia}
+%-------------------------------------------------------------------
+\label{previo:sec:presencia}
+%-------------------------------------------------------------------
+
+%-------------------------------------------------------------------
+\subsection{Luminosidad}
+%-------------------------------------------------------------------
+\label{previo:sec:luminosidad}
+%-------------------------------------------------------------------
+
+%-------------------------------------------------------------------
+\section{Actuadores}
+%-------------------------------------------------------------------
+\label{previo:sec:actuadores}
+%--------------------------------------------------------------------
+
+%-------------------------------------------------------------------
+\subsection{Emisor Infrarrojo}
+%-------------------------------------------------------------------
+\label{previo:sec:ir}
+%-------------------------------------------------------------------
+
+%-------------------------------------------------------------------
+\section{LEDs}
+%-------------------------------------------------------------------
+\label{previo:sec:leds}
+%-------------------------------------------------------------------
+
+Los \ac{LED} que actúan...
+
+%-------------------------------------------------------------------
+\section{GPIOs}
+%-------------------------------------------------------------------
+\label{previo:sec:gpio}
+%-------------------------------------------------------------------
+
+Podemos encontrar diversos \ac{GPIO} como ...
+
+\todo{Escribir...}
+
+%-------------------------------------------------------------------
+%\section*{\NotasBibliograficas}
+%-------------------------------------------------------------------
+%\TocNotasBibliograficas
+%Citamos algo para que aparezca en la bibliografía\ldots
+%\citep{ldesc2e}
+
+%\medskip
+
+%Y también ponemos el acrónimo \ac{CVS} para que no cruja.
+
+%Ten en cuenta que si no quieres acrónimos (o no quieres que te falle la compilación en ``release'' mientras no tengas ninguno) basta con que no definas la constante \verb+\acronimosEnRelease+ (en \texttt{config.tex}).
+
+
+%-------------------------------------------------------------------
+%\section*{\ProximoCapitulo}
+%-------------------------------------------------------------------
+%\TocProximoCapitulo
+
+%...
+
+% Variable local para emacs, para  que encuentre el fichero maestro de
+% compilación y funcionen mejor algunas teclas rápidas de AucTeX
+%%%
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../Tesis.tex"
+%%% End:
