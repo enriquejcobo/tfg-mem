@@ -13,19 +13,23 @@
 \chapter{Resumen}
 \cabeceraEspecial{Resumen}
 
-Actualmente, las redes de sensores inalámbricas están sometidas a impedimentos que dificultan su desarrollo y despliegue. Un ejemplo de estas limitaciones es la creciente saturación del espectro radioeléctrico en las bandas de frecuencia libres.
+Una red de sensores es aquella formada por sensores distribuidos cuya misión es la de monitorizar diferentes parámetros del entorno, intercambiando información para conocer la parte del mismo que nos interese y actuar en consecuencia. Estas redes, por lo general, se conectan de forma inalámbrica, lo que les aporta mayor versatilidad y flexibilidad, si bien esto plantea retos de autonomía energética, al ser alimentadas por medio de baterías, y de fiabilidad en las comunicaciones.
 
 \vspace{.1cm}
 
-Las redes cognitivas, apoyándose en un modelo de comunicación cooperativo, representan un nuevo paradigma que tiene por objetivo un uso  más eficiente del espectro y la mejora de las comunicaciones inalámbricas. Las redes de sensores cognitivas aplican propiedades cognitivas en redes de sensores comunes, desarrollando así nuevas estrategias para mitigar la ineficiencia en las comunicaciones que sufren estas redes.
+Las aplicaciones abarcan ámbitos como el hogar (domótica, servicios de teleasistencia), la industria (gestión eficiente de edificios), la seguridad y el medio ambiente (medición de parámetros sobre terrenos incendiados, monitorización de terremotos), entre otros.
 
 \vspace{.1cm}
 
-Es importante investigar modelos cognitivos para explorar los beneficios que pueden aportar a nuestras redes de sensores, especialmente limitadas en energía y recursos. Sin embargo, pocas plataformas y con funcionalidades generalmente pobres o demasiado específicas permiten su estudio debido a un estado del arte aún inmaduro. La mayoría de las investigaciones se llevan a cabo sobre simuladores, los cuales muestran resultados parciales o incompletos.
+Para mejorar tanto la fiabilidad de las comunicaciones como el consumo energético de las redes de sensores inalámbricas, introducimos propiedades cognitivas, de forma que los nodos sean capaces de apreciar el estado del espectro  y, como resultado, modificar sus parámetros de comunicación de forma adaptativa. Estas redes se denominan CWSN (Cognitive Wireless Sensor Network).
 
 \vspace{.1cm}
 
-Este documento presenta el diseño y la implementación una plataforma versátil que integra propiedades cognitivas en las redes de sensores. Se han combinado módulos hardware y software en un instrumento que ayude a la investigación de las redes de sensores cognitivas. La plataforma permite comunicación sobre tres bandas distintas de radiofrecuencia, siendo la única plataforma para redes de sensores que lo permite, y el hardware se ajusta a exigencias de tamaño, coste y energía. Además, su diseño modular y escalable es ampliamente adaptable a cualquier aplicación para redes de sensores.
+En el contexto de la Universidad Politécnica, y más particularmente dentro del Laboratorio de Sistemas Integrados del Departamento de Ingeniería Electrónica, estas redes son uno de los principales objetos de investigación, con proyectos como la puesta en marcha de un banco de pruebas basado en el nodo desarrollado en el laboratorio, cNGD (Cognitive Next Generation Device).
+
+\vspace{.1cm}
+
+El trabajo se centrará en el diseño, implementación y prueba de una placa de expansión -también denominada shield- para el cNGD, en el que se incluirán tanto sensores, que permitan realizar medidas del medio, como actuadores, que, como consecuencia de dichas medidas, intervendrán sobre él. Asimismo, se realizará el desarrollo del software necesario para su funcionamiento dentro del nodo y se definirá una aplicación que muestre el funcionamiento del sistema en su conjunto. 
 
 \vspace{.5cm}
 
@@ -33,13 +37,15 @@ Este documento presenta el diseño y la implementación una plataforma versátil qu
 \Large
 \scalebox{0.8}{
 \begin{tabular}{ l l }
-\textbf{\emph{PALABRAS CLAVE}}:	& \emph{redes cognitivas}, \emph{radio cognitiva}, \emph{redes de sensores inalámbricas}, \\ 
- 				& \emph{plataforma}, \emph{banco de pruebas}, \emph{nodo}, \emph{dispositivo},\\
+\textbf{\emph{PALABRAS CLAVE}}:	& \emph{redes cognitivas}, \emph{redes de sensores inalámbricas}, \\ 
+ 				& \emph{actuadores}, \emph{placa de expansión}, \emph{dispositivo},\\
 				& \emph{redes de sensores inalámbricas cognitivas}.
 \end{tabular}}
 \end{table}
 
 \endinput
+
+
 % Variable local para emacs, para  que encuentre el fichero maestro de
 % compilación y funcionen mejor algunas teclas rápidas de AucTeX
 %%%

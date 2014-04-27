@@ -22,6 +22,8 @@
 
 @entry{CWSN, ,\emph{Cognitive Wireless Sensor Network}}
 
+@entry{WSN, ,\emph{Wireless Sensor Network}}
+
 @entry{WPAN, , \emph{Wireless Personal Area Network}}
 
 @entry{CR, , \emph{Cognitive Radio}}
@@ -48,10 +50,9 @@
 
 @entry{FP7, , \emph{7th Framework Programme for Research and Technological Development}}
 
-@entry{NTC, , \emph{Negative Temperature Coefficient}, Coeficiente de Temperatura Negativo}
+@entry{NTC, , \emph{Negative Temperature Coefficient}}
 
-@entry{PTC, , \emph{Positive Temperature Coefficient}, Coeficiente de Temperatura Positivo}
-
+@entry{PTC, , \emph{Positive Temperature Coefficient}}
 
 @entry{FFD, , \emph{Full Function Device}}
 
