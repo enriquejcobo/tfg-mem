@@ -26,6 +26,122 @@ En este capítulo encontramos una primera aproximación de las necesidades que req
 %-------------------------------------------------------------------
 \label{previo:sec:cngd}
 %-------------------------------------------------------------------
+Como vimos en el apartado \ref{intro:sec:antecedentes}, la placa de expansión se realizará para su anexión a la plataforma \ac{CNGD} \cite{aguspfc}, por lo que hacemos una breve introducción a ella. La figura \ref{previo:fig:cngd} muestra detalladamente dicha plataforma.
+
+\begin{figure}[!h]
+\centering 
+\subfloat[Vista superior.]{\includegraphics[width=\textwidth]{Imagenes/Bitmap/Capitulo3/cngdtop}}  
+\qquad
+\subfloat[Vista infertior.]{\includegraphics[width=0.8\textwidth]{Imagenes/Bitmap/Capitulo3/cngdbottom}}     
+\caption{Vista detallada del cNGD, obtenidas de \cite{aguspfc}.}
+\label{previo:fig:cngd}
+\end{figure}
+
+El \ac{CNGD} incluye un Microchip \ac{PIC} de 32 bits modelo PIC32MX675F256L \cite{pic32datasheet}, el cual es un microntrolador de 100 pines en el que se incluyen una memoria Flash de 256 KB y 64 KB de memoria \ac{RAM}, una velocidad máxima de 80 MHz, módulos para comunicación serie \ac{UART}, \ac{SPI} e \ac{I2C}; \ac{USB} 2.0 \ac{OTG}, 10/100 Ethernet MAC, interfaz para la programación y la depuración, temporizadores digitales, \ac{ADC} y \ac{GPIO}. Adicionalmente, y si los requerimientos de la aplicación lo exigieran, se podría sustituir por el modelo PIC32MX675F512L, el cual tiene todos sus pines compatibles con el anterior y amplía la memoria Flash a 512 KB.
+
+En cuanto a las \ac{RI}, se incluyen tres transceptores, por lo que es posible acceder a tres bandas del espectro: 434 MHz, 868 MHz y 2.4 GHz, todas ellas pertenecientes a la banda sin licencia, denominadas \ac{ISM}. Esto es relevante, puesto que, al ser bandas de acceso libre, pueden estar ocupadas por otras aplicaciones. El \ac{CNGD}, por medio de su capacidad cognitiva, es capaz de sensar el espectro en estas bandas y decidir dinámicamente cuál usar.
+
+Las dos primeras (434 y 868 MHz) fueron diseñadas para esta plataforma a partir del integrado MRF49XA \cite{mrf49xa}, y tienen como principales características 115.2 Kbps de tasa máxima, consumos típicos de transmisión y recepción de 24 mA y 12 mA, respectivamente; y modulación \ac{FSK} con \ac{FHSS}. Para la comunicación en 2.4 GHz, se emplea el MRF24J40MA \cite{mrf24j40}, el cual nos permite hasta 120 metros de alcance, velocidad de transmisión de hasta 250 Kbps y consumos de transmisión y recepción de 23 mA y 19 mA respectivamente.
+
+Una de las principales ventajas de este diseño es la cabecera de expansión, la cual permite ampliar el diseño de forma modular y totalmente escalable. Será en la misma donde introduciremos nuestra placa, por lo que le hacemos un estudio más exhaustivo. Se compone de 20 pines, cada uno multiplexado con diversas funciones, en el que se permite el acceso a los periféricos del microcontrolador. En la tabla \ref{previo:tab:headerspinout} encontramos una relación entre el pin del header, el pin del microcontrolador y las funciones que puede realizar.
+
+\begin{center}
+{\footnotesize
+\begin{longtable}{l l l l l l l}
+
+% aquí añadimos el encabezado de la primera hoja.
+\hline
+PIN & MCU PIN & 1a Func. & 2a Func. & 3a Func. & 4a Func. & 5a Func. \\
+\hline \hline
+\endfirsthead
+
+% aquí añadimos el encabezado del resto de hojas.
+\hline
+PIN & MCU PIN & 1a Func. & 2a Func. & 3a Func. & 4a Func. & 5a Func. \\
+\hline \hline
+\endhead
+
+% aquí añadimos el fondo de todas las hojas, excepto de la última.
+\multicolumn{5}{c}{Continúa en la siguiente página.}
+\endfoot
+
+% aquí añadimos el fondo de la última hoja.
+\endlastfoot
+
+% aquí añadimos el cuerpo de la tabla.
+00 & 19 & INT2 & RE9 & - & - & - \\ \hline
+01 & 20 & VBUSON & AN5 & C1IN+ & CN7 & RB5\\ \hline
+02 & 22 & AN3 & CN4 & RB3 & - & -\\ \hline
+03 & 35 & AN11 & ERXERR & RB11 & - & - \\ \hline
+04 & 41 & AN12 & ERXD0 & RB12 & - & - \\ \hline
+05 & 42 & AN13 & ERXD1 & RB13 & - & - \\ \hline
+06 & 51 & USBID & RF3 & - & - & - \\ \hline
+07 & 54 & VBUS & - & - & - & - \\ \hline
+08 & 13 & nMCLR & - & - & - & - \\ \hline
+09 & 68 & EMDIO & IC1 & RD8 & - & - \\ \hline
+10 & 59 & SDA2 & RA3 & - & - & - \\ \hline
+11 & 58 & SCL2 & RA2 & - & - & - \\ \hline
+12 & 57 & D+ & RG2 & - & - & - \\ \hline
+13 & 56 & D- & RG3 & - & - & - \\ \hline
+14 & - & VCC & - & - & - & - \\ \hline
+15 & - & GND & - & - & - & - \\ \hline
+16 & 44 & AN15 & CN12 & RB15 & - & -\\ \hline
+17 & 43 & AN14 & RB14 & - & - & - \\ \hline
+18 & 28 & VREF- & CVREF- & RA9 & - & - \\ \hline
+19 & 29 & VREF+ & CVREF+ & RA10 & - & - \\ \hline
+20 & 14 & REFCLK & U3nCTS & U6RX & CN11 & RG9 \\ \hline
+21 & 11 & SDA4 & SDI2 & U3RX & CN9 & RG7 \\ \hline
+22 & 5 & RE7 & - & - & - & -\\ \hline
+23 & 3 & RE5 & - & - & - & -\\ \hline
+24 & - & VCC & - & - & - & -\\ \hline
+25 & 88 & ETXD0 & RF1 & - & - & -\\ \hline
+26 & 87 & ETXD1 & RF0 & - & - & -\\ \hline
+27 & 71 & EMDC & IC4 & RD11 & -& - \\ \hline
+28 & - & VCC & - & - & - & -\\ \hline
+29 & - & BAT+ & - & - & - & -\\ \hline
+30 & - & BAT- & - & - & - & - \\ \hline
+31 & - & GND & - & - & - & -\\ \hline
+32 & 69 & IC2 & RD9 & - & - & - \\ \hline
+33 & 83 & ETXEN & CN15 & RD6 & - & -\\ \hline
+34 & - & GND & - & - & - & - \\ \hline
+35 & 4 & RE6 & - & - & - & - \\ \hline
+36 & 6 & RC1 & - & - & - & - \\ \hline
+37 & 10 & SCK2 & U6TX & U3nRTS &CN8 & RG6\\ \hline
+38 & 12 & ECRSDV & SCL4 & SDO2 & U3TX & CN10/RG8 \\ \hline
+39 & 21 & AN4 & C1IN- & CN6 & RB4 & - \\ \hline
+\\ % esta línea es importante para que deje un espacio entre la tabla y el nombre de la tabla.
+\caption{Descripción del uso de los pines, obtenido de \cite{aguspfc}.}
+\label{previo:tab:headerspinout}
+\end{longtable}}
+\end{center}
+
+Resaltamos las más relevantes para nuestro diseño:
+
+\begin{itemize}
+
+\item \emph{Fuentes de alimentación}. Para la alimentación de los componentes, son necesarios estos pines.
+
+	\begin{itemize}
+	\item VCC. Conectado al sistema de alimentación del \ac{CNGD}, accesible desde los pines 14, 24 y 28.
+	\item GND. Conectado a la masa del \ac{CNGD}, accesible desde los pines 15, 31 y 34.
+	\end{itemize}
+
+\item \emph{\ac{SPI}}. Para la conexión serie de dispositivos por medio de este estándar. Las tres señales que necesita, SDI, SDO y SCK son accesibles desde los pines 21, 38 y 37, respectivamente.
+
+\item \emph{\ac{I2C}}. Para la conexión serie de dispositivos por medio de este estándar. Encontramos disponibles dos canales del microcontrolador:
+
+	\begin{itemize}
+	\item \ac{I2C} 2. SCL en el pin 38 y SDA en el pin 21.
+	\item \ac{I2C} 4. SCL en el pin 11 y SDA en el pin 10.
+	\end{itemize}
+
+\item \emph{\ac{ADC}}. Son accesibles desde los pines nueve de los 16 \ac{ADC} del microcontrolador, referenciados en la tabla \ref{previo:tab:headerspinout} con el prefijo ANx. Adicionalmente, los pines VREF+ y VREF-, situados en el 19 y 18, proporcionan funciones auxiliares a este periférico.
+
+\item \emph{\ac{GPIO}}. Representan casi todos los pines del header, multiplexados en su mayoría con otra función. Son identificados en la tabla \ref{previo:tab:headerspinout} mediante el uso del prefijo Rxx.
+
+\end{itemize}
+
+Finalmente, el \ac{CNGD} dispone de un módulo de programación, denominado PGE. Este será de utilidad a la hora de programar el microcontrolador, por medio de su interfaz, del software que se desarrolle para el control de la placa de expansión, y permitiendo la depuración In-Circuit del mismo usando las herramientas de Microchip.
 
 %-------------------------------------------------------------------
 \section{Sensores}
