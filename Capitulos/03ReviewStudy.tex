@@ -148,99 +148,69 @@ Finalmente, el \ac{CNGD} dispone de un módulo de programación, denominado PGE. E
 %-------------------------------------------------------------------
 \label{previo:sec:sensores}
 %-------------------------------------------------------------------
-Comenzamos defininendo el sensor como el dispositivo capaz de detectar magnitudes físicas o químicas, llamadas variables de instrumentación, y transformarlas en variables que facilitan su medida. \comp{meter más.}. Las características que definen a un sensor son:
-
-\begin{itemize}
-
-\item \emph{Rango de medida}. Dominio, en la magnitud de medida, en el que puede aplicarse el sensor.
-\item \emph{Precisión}. Error en la medida esperado.
-\item \emph{Linealidad}. \comp{Completar.}
-\item \emph{Resolución}. Mínima variación de la variable de entrada que garantiza un cambio en la variable de salida.
-\item \emph{Sensibilidad}. Relaciona, para cada diferencial de entrada, un diferencial de salida. \comp{Mejorar.}
-\item \emph{Tiempo de respuesta}. Tiempo en el que la salida alcanza el régimen permanente.
-\item \emph{Repetitividad}. Error esperado al repetir varias veces la misma medida.
-\item \emph{Desviación de cero}. Valor de la variable de salida cuando la variable de entrada es nula.
-
-\end{itemize}
-
-Sin embargo, hay otras propiedades que serán imprescindibles para el diseño que vamos a realizar como las que se enuncian a continuación, ordenadas por orden de relevancia:
+Los sensores van a ser la entrada de información a nuestro sistema, ya que por medio de sus mediciones conoceremos los parámetros del entorno, para poder actuar sobre él. Es por ello que debemos escogerlos adecuadamente, siguiendo el procedimiento que detallamos a continuación:
 
 \begin{enumerate}
 
-\item \emph{Precio}. Como se expone en el trabajo \cite{aguspfc}, en el que se detalla el \ac{CNGD}, el sistema debe cumplir el requisito de ser de bajo coste, con el objeto de que se puedan implementar varias unidades a un precio bajo.
-\item \emph{Rango de medida}. Puesto que estamos desarrollando una Placa de Expansión cuya aplicación a priori no es conocida, no podemos permitir que ésta se vea limitada por el rango del sensor.
-\item \emph{Consumo}. Igualmente, como el \ac{CNGD} será alimentado por baterías, el requisito del bajo consumo debe estar muy presente, ya que en determinadas aplicaciones puede no ser posible la sustitución de las mismas, por lo que este requisito puede ser determinante para su vida útil.
+\item \emph{Definir los parámetros y valorarlos}. En esta fase seleccionamos los parámetros más destacables que nuestro sensor debe cumplir, y un margen de tolerancia para los mismos. Además, como restricción adicional, tendremos que cumplir los requisitos impuestos por la plataforma expuestos en \ref{previo:sec:cngd} y con el menor precio posible.
+\item \emph{Buscar sensores comerciales}. Tomando como base los resultados de la fase anterior, y usando las páginas webs de los principales proveedores (como Farnell \cite{farnell}, RS \cite{rs} o Digikey \cite{digikey}), buscamos sensores que se adecúen.
+\item \emph{Evaluar las \ac{DS}}. Las \ac{DS} son las hojas de características que proporcionan los fabricantes en las que se detallan todas las propiedades que conciernen a su producto. De esta evaluación obtenemos la verificación de que cumplen las constantes definidas.
 
 \end{enumerate}
 
-Para la medición de parámetros en \ac{AMI}, y para su posterior tratamiento, usaremos sensores cuya variable de salida sea eléctrica, por lo que pueden ser denominados Transductores. Algunos de los que solucionan las necesidades expuestas en el capítulo \ref{cap:intro} son los que se exponen a continuación con más detalle.
+La gama comercial de clases de sensores es muy amplia, por lo que centraremos nuestra búsqueda en base a la aplicación. Como nuestro propósito es el de crear una placa con un propósito genérico dentro de un \ac{AMI}, escogeremos los sensores que consideramos más polivalentes para la mayoría de aplicaciones. Se presentan a continuación.
 
 %-------------------------------------------------------------------
 \subsection{Temperatura}
 %-------------------------------------------------------------------
 \label{previo:sec:temperatura}
 %-------------------------------------------------------------------
+Un sensor de temperatura es basado en la variación con la temperatura de alguno de los materiales que lo conforman, y ofrecen este dato como resultado. Según \cite{iele}, los sensores de temperatura se pueden clasificar en:
+
+\begin{itemize}
+\item \emph{Metálicos resistivos}, en los que la dependencia con la temperatura viene relacionada por la presencia de un elemento metálico, como puede ser el platino, el cobre o el níquel; y la variación de la temperatura se transforma en una variación en su resistencia eléctrica.
+\item \emph{Resistivos semiconductores}, conocidos como termistores, presentan en su seno materiales semicondictures. Encontramos dos subtipos, el \ac{NTC}, formados a partir de óxidos de materiales pesados; y el \ac{PTC}, que incluye materiales como el $BaTiO_3$ o el $SrTiO_3$.
+\item \emph{Semiconductores activos}, basados en la relación de la tensión base-emisor de un transisitor con la temperatura.
+\item \emph{Termopares}, basados en efectos termoeléctricos, como pueden ser el de Seebeck, el de Peltier y el de Thompson.
+\end{itemize}
 
 Un sensor que nos permita conocer la temperatura es muy habitual encontrarlo en \ac{SN}, ya que es un parámetro que es útil en todas las aplicaciones potenciales del sistema, ya sea conocer la temperatura de una estancia, con el objeto de actuar sobre ella, si nos encontramos en un entorno doméstico o de trabajo; o de conocer la temperatura del suelo, con el objeto de monitorizar su variación con el tiempo, si es usado en temas de investigación medioambiental.
 
-A continuación, hacemos un breve resumen de los tipos de sensores de temperatura que podemos encontrar, según \cite{iele}:
+Los principales parámetros que los definen son:
 
 \begin{itemize}
 
-\item \emph {Metálicos}. Se basan en que la resistencia eléctrica de un conductor metálico depende de la temperatura, de forma que, al aumentar ésta, las vibraciones de los átomos aumentan, por lo que se dispersan más eficazmente los electrones, lo que genera en última instancia un aumento de su resistencia. Algunas de las propiedades son:
-
+\item \emph{Rango de medida}. Define las temperaturas máximas y mínimas en las que se puede medir. Normalmente va asociado con el margen de funcionamiento del mismo, de forma que si trabajamos fuera de este margen el dispositivo se deteriorará. \newline
+En nuestra aplicación, puede ser tam amplio como se pueda, pero fijando como mínimo un rango de medida entre -20 ºC y 100 ºC.
+\item \emph{Precisión}. Es una forma de expresar la calidad de la medida, entendiendo ésta como la fiabilidad entre el dato medido y el dato real. En ocasiones también aparece nombrado como \emph{error}. Como es fácil de entender, es un parámetro que varía mucho el precio del mismo.\newline
+Puesto que lo usaremos en una aplicación genérica, debemos encontrar un compromiso entre precio y precisión, por lo que centraremos nuestra búsqueda en valores de entre $\pm$0.2 ºC y $\pm$2 ºC.
+\item \emph{Sensibilidad}. Se define como el impacto que genera una variación de la temperatura a la salida, de forma que un valor alto implica que una leve variación de la temperatura ocasiona una gran variación a la salida.
+\item \emph{Salida}. La podemos clasificar en dos tipos: 
 	\begin{itemize}
-
-	\item Variación de resitencia lineal con la temperatura.
-	\item Sensibilidad alta.
-	\item Rango de medida alto.
-	\item Precio alto.
-
+	\item Analógica, en el cual la tensión de salida sigue una relación matemática del tipo $v_{temp}[V] = f(t)[ºC]$, y requiere, por tanto, del empleo de un \ac{ADC} para su inclusión en el microcontrolador.
+	\item Digital, en el cual la temperatura se representa por una palabra binaria, y que se conecta al microcontrolador, generalmente, por buses serie, como pueden ser \ac{SPI} o \ac{I2C}.
 	\end{itemize}
-
-
-\item \emph {NTC}. Los materiales semiconductores presentan una resistencia eléctrica cuyo valor decrece con la temperatura. Por ello, son denominados \ac{NTC}. Las características que presentan se reúnen a continuación:
-
-	\begin{itemize}
-
-	\item Marcadamente no lineal.
-	\item Sensibilidad alta.
-	\item Rango de medida medio.
-	\item Precio medio.
-
-	\end{itemize}
-
-\item \emph {PTC}. Se realizan mediante compactación de materiales que presentan en una zona de su característica resistencia/temperatura una pendiente positiva, de ahí que se conozcan como \ac{PTC}. De ellos destacamos:
-
-	\begin{itemize}
-
-	\item Marcadamente no lineal.
-	\item Sensibilidad alta.
-	\item Rango de medida medio.
-	\item Precio medio.
-
-	\end{itemize}
-
+No imponemos ningún filtro a priori, puesto que el \ac{CNGD} dispone de entradas tanto digitales como analógicas. No obstante, es un dato que se debe conocer.
 \end{itemize}
 
-La siguiente tabla muestra una comparativa entre estos tres.
+Los sensores de temperatura comerciales suelen ser, en su mayoría, termistores, a los que se les añade un circuito de acondicionamiento, de forma que en la salida únicamente encontramos variaciones en tensión o, directamente, una secuencia de '1' y '0', como hemos visto en sus características. Los que han sido evaluados, siguiendo estos requisitos, aparecen resumidos en la Tabla \ref{previo:tab:temp}
 
 \begin{table}[h]
 \centering
 \scalebox{1}{
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
-Característica & Metálico & \ac{NTC} & \ac{PTC} \\ \hline \hline
-Estabilidad & Buena & Regular & Mala  \\ \hline
-Repetitividad & Buena & Regular & Mala \\ \hline
-Sensibiliad & Baja & Alta & Muy alta \\ \hline
-Linealidad & Alta & Baja & Baja \\ \hline
-Rango de medida & Alto & Bajo & Bajo \\ \hline
-Precio & Muy alto & Bajo & Bajo \\ \hline 
+Nombre & Rango de Medida & Precisión & Salida & Consumo & Precio & \ac{DS} \\ \hline \hline
+TMP36 & [-50 ºC, 125 ºC] & $\pm$2 ºC & Analógica & 9 $\mu$A & \$ 0.45 & \cite{tmp36} \\ \hline
+MPC9701A & [-50 ºC, 125 ºC] & $\pm$2 ºC & Analógica & 9 $\mu$A & 0.20 \euro & \cite{mcp9701} \\ \hline
+LM20 & [-50 ºC, 125 ºC] & $\pm$2 ºC & Analógica & 9 $\mu$A & 0.20 \euro & \cite{mcp9701} \\ \hline
+TMP101 & [-50 ºC, 125 ºC] & $\pm$2 ºC & Digital & 9 $\mu$A & 0.20 \euro & \cite{mcp9701} \\ \hline
+AD7814 & [-50 ºC, 125 ºC] & $\pm$2 ºC & Digital & 9 $\mu$A & 0.20 \euro & \cite{mcp9701} \\ \hline
+MCP9800 & [-50 ºC, 125 ºC] & $\pm$2 ºC & Digital & 9 $\mu$A & 0.20 \euro & \cite{mcp9701} \\ \hline
 \end{tabular}
 }
-\caption{Comparación de las características de los sensores resistivos de temperatura.
-	\label{tab:previo:temperatura}}
+\caption{Comparación de sensores de temperatura comerciales.
+\label{previo:tab:temp}}
 \end{table}
 
 
@@ -249,6 +219,10 @@ Precio & Muy alto & Bajo & Bajo \\ \hline
 %-------------------------------------------------------------------
 \label{previo:sec:acelerometro}
 %-------------------------------------------------------------------
+A priori, puede parecer que introducir un sensor de este tipo es extraño para la obtención de parámetros de un entorno. No obstante, el uso de este tipo de sensores está creciendo con multitud de aplicaciones, por la versatilidad que le caracteriza. Tanto es así que puede ser usado, por ejemplo, para detectar la posición de la placa en el plano tridimensional, o para detectar vibraciones, bien generadas por la acción humana (como pisadas en el suelo o vehículos pasando por un puente) o por la naturaleza (como los terremotos).
+
+
+
 
 %-------------------------------------------------------------------
 \subsection{Presencia}
