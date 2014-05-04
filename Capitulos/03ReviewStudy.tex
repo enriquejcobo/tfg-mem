@@ -184,7 +184,6 @@ Los principales parámetros que los definen son:
 En nuestra aplicación, puede ser tam amplio como se pueda, pero fijando como mínimo un rango de medida entre -20 ºC y 100 ºC.
 \item \emph{Precisión}. Es una forma de expresar la calidad de la medida, entendiendo ésta como la fiabilidad entre el dato medido y el dato real. En ocasiones también aparece nombrado como \emph{error}. Como es fácil de entender, es un parámetro que varía mucho el precio del mismo.\newline
 Puesto que lo usaremos en una aplicación genérica, debemos encontrar un compromiso entre precio y precisión, por lo que centraremos nuestra búsqueda en valores de entre $\pm$0.2 ºC y $\pm$2 ºC.
-\item \emph{Sensibilidad}. Se define como el impacto que genera una variación de la temperatura a la salida, de forma que un valor alto implica que una leve variación de la temperatura ocasiona una gran variación a la salida.
 \item \emph{Salida}. La podemos clasificar en dos tipos: 
 	\begin{itemize}
 	\item Analógica, en el cual la tensión de salida sigue una relación matemática del tipo $v_{temp}[V] = f(t)[ºC]$, y requiere, por tanto, del empleo de un \ac{ADC} para su inclusión en el microcontrolador.
@@ -193,25 +192,27 @@ Puesto que lo usaremos en una aplicación genérica, debemos encontrar un compromi
 No imponemos ningún filtro a priori, puesto que el \ac{CNGD} dispone de entradas tanto digitales como analógicas. No obstante, es un dato que se debe conocer.
 \end{itemize}
 
-Los sensores de temperatura comerciales suelen ser, en su mayoría, termistores, a los que se les añade un circuito de acondicionamiento, de forma que en la salida únicamente encontramos variaciones en tensión o, directamente, una secuencia de '1' y '0', como hemos visto en sus características. Los que han sido evaluados, siguiendo estos requisitos, aparecen resumidos en la Tabla \ref{previo:tab:temp}
+Los sensores de temperatura comerciales suelen ser, en su mayoría, termistores, a los que se les añade un circuito de acondicionamiento, de forma que en la salida únicamente encontramos variaciones en tensión o, directamente, una secuencia de `1' y `0', como hemos visto en sus características. Los que han sido evaluados, siguiendo estos requisitos, aparecen resumidos en la Tabla \ref{previo:tab:temp}
 
+\begin{savenotes}
 \begin{table}[h]
 \centering
 \scalebox{1}{
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
-Nombre & Rango de Medida & Precisión & Salida & Consumo & Precio & \ac{DS} \\ \hline \hline
-TMP36 & [-50 ºC, 125 ºC] & $\pm$2 ºC & Analógica & 9 $\mu$A & \$ 0.45 & \cite{tmp36} \\ \hline
-MPC9701A & [-50 ºC, 125 ºC] & $\pm$2 ºC & Analógica & 9 $\mu$A & 0.20 \euro & \cite{mcp9701} \\ \hline
-LM20 & [-50 ºC, 125 ºC] & $\pm$2 ºC & Analógica & 9 $\mu$A & 0.20 \euro & \cite{mcp9701} \\ \hline
-TMP101 & [-50 ºC, 125 ºC] & $\pm$2 ºC & Digital & 9 $\mu$A & 0.20 \euro & \cite{mcp9701} \\ \hline
-AD7814 & [-50 ºC, 125 ºC] & $\pm$2 ºC & Digital & 9 $\mu$A & 0.20 \euro & \cite{mcp9701} \\ \hline
-MCP9800 & [-50 ºC, 125 ºC] & $\pm$2 ºC & Digital & 9 $\mu$A & 0.20 \euro & \cite{mcp9701} \\ \hline
+Nombre & Rango de Medida & Precisión\footnote{Típica en el margen que incluye a 25 ºC.} & Salida & Consumo & Precio & \ac{DS} \\ \hline \hline
+TMP36 & [-40 ºC, 125 ºC] & $\pm$1 ºC & Analógica & 50 $\mu$A & 1.61 \euro & \cite{tmp36} \\ \hline
+MCP9701A & [-40 ºC, 125 ºC] & $\pm$2 ºC & Analógica & 12 $\mu$A & 0.24 \euro & \cite{mcp9701} \\ \hline
+LM20B & [-55 ºC, 130 ºC] & $\pm$2 ºC & Analógica & 10 $\mu$A & 1.07 \euro & \cite{lm20} \\ \hline
+TMP101 & [-55 ºC, 125 ºC] & $\pm$2 ºC & Digital & 70 $\mu$A & 2.56 \euro & \cite{tmp101} \\ \hline
+AD7814 & [-55 ºC, 125 ºC] & $\pm$2 ºC & Digital & 250 $\mu$A & 2.71 \euro & \cite{ad7814} \\ \hline
+MCP9800 & [-55 ºC, 125 ºC] & $\pm$0.5 ºC & Digital & 200 $\mu$A & 0.98 \euro & \cite{mcp9701} \\ \hline
 \end{tabular}
 }
 \caption{Comparación de sensores de temperatura comerciales.
 \label{previo:tab:temp}}
 \end{table}
+\end{savenotes}
 
 
 %-------------------------------------------------------------------
@@ -219,9 +220,44 @@ MCP9800 & [-50 ºC, 125 ºC] & $\pm$2 ºC & Digital & 9 $\mu$A & 0.20 \euro & \cite
 %-------------------------------------------------------------------
 \label{previo:sec:acelerometro}
 %-------------------------------------------------------------------
+Definimos un acelerómetro como un sensor que nos permite medir aceleraciones, generalmente las asociadas con el fenómeno de peso experimentado por una masa de prueba que se encuentra en el mismo. Podemos encontrar varios tipos, a saber:
+
+\begin{itemize}
+\item \emph{Mecánico}. Basado en la Segunda Ley de Newton, se fabrica mediante la unión de la masa de prueba a un dinamómetro cuyo eje se encuentra en la dirección en la que se quiere medir.
+\item \emph{Piezoeléctrico}. Tiene su fundamento físico en el hecho que, cuando se comprime un cristal con propiedades piezoeléctricas, se crea una carga eléctrica que es directamente proporcional a la fuerza que se aplica, la cual a su vez es proporcional a la aceleración.
+\item \emph{Efecto Hall}. Se usa una masa sísmica, de forma que, al combinarla con un imán y un sensor de efecto Hall podemos detectar cambios en el campo magnético producidos por la variación de la masa sometida a una aceleración.
+\item \emph{Condensador}. Se mide el cambio de la capacidad eléctrica de un condensador, al que se le ha añadido una masa sísmica entre sus placas, de forma que al moverse debido a una aceleración se modifica la corriente que circula por el condensador.
+\item \emph{Tecnología \ac{MEMS}}. Están basados en el traspaso por convección de calor, cuya variación es causada por la aceleración.
+\end{itemize}
+
 A priori, puede parecer que introducir un sensor de este tipo es extraño para la obtención de parámetros de un entorno. No obstante, el uso de este tipo de sensores está creciendo con multitud de aplicaciones, por la versatilidad que le caracteriza. Tanto es así que puede ser usado, por ejemplo, para detectar la posición de la placa en el plano tridimensional, o para detectar vibraciones, bien generadas por la acción humana (como pisadas en el suelo o vehículos pasando por un puente) o por la naturaleza (como los terremotos).
 
+Las principales características que los definen se resumen a continuación:
 
+\begin{itemize}
+\item \emph{Fondo de escala}. Es la máxima aceleración que se puede detectar. Viene referenciada como una proporción de la aceleración provocada por la gravedad terrestre, de forma que un valor de 2g implica una medida máxima de aceleración de 2 veces la gravedad. Como consecuencia de estar desarrollando una placa para una aplicación genérica, pondremos como requisito que sea capaz de detectar, al menos, una aceleración de 8g.
+\item \emph{Sensibilidad}. Se define como el impacto que genera una variación de la temperatura a la salida, de forma que un valor alto implica que una leve variación de la temperatura ocasiona una gran variación a la salida. En los acelerómetros, este parámetro es dual al fondo de escala, de forma que cuanto más bajo sea el fondo de escala más alta será la sensibilidad.
+\item \emph{Ejes de medida}. Número de ejes en los que se podrán detectar las variaciones en la aceleración. Estos se corresponden con los ejes de coordenadas: $\hat{x}$, $\hat{y}$ y $\hat{z}$.\newline En este aspecto, no admitiremos considerar acelerómetros que no midan en los tres ejes, ya que entendemos que no podemos despreciar ninguno.
+\end{itemize}
+
+En la actualidad, los acelerómetros comerciales que se encuentran a nivel de electrónica de consumo están basados en tecnología \ac{MEMS}, construidos e integrados en un chip de silicio, y que permiten fabricar acelerómetros de tres ejes. La tabla \ref{previo:tab:acc} muestra los acelerómetros comerciales que han sido estudiados.
+
+\begin{savenotes}
+\begin{table}[h]
+\centering
+\scalebox{1}{
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+Nombre & Fondo de escala & Ejes de medida & Salida & Consumo & Precio & \ac{DS} \\ \hline \hline
+MMA8453Q & 2g, 4g, 8g & $\hat{x}$, $\hat{y}$, $\hat{z}$ & Digital & 50 $\mu$A & 1.61 \euro & \cite{tmp36} \\ \hline
+ADXL345 & 2g, 4g, 8g, 16 & $\hat{x}$, $\hat{y}$, $\hat{z}$ & Digital & 12 $\mu$A & 0.24 \euro & \cite{mcp9701} \\ \hline
+LIS3DH & 2g, 4g, 8g & $\hat{x}$, $\hat{y}$, $\hat{z}$ & Digital & 10 $\mu$A & 1.07 \euro & \cite{lm20} \\ \hline
+\end{tabular}
+}
+\caption{Comparación de acelerómetros comerciales.
+\label{previo:tab:acc}}
+\end{table}
+\end{savenotes}
 
 
 %-------------------------------------------------------------------

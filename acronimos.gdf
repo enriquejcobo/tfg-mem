@@ -52,6 +52,8 @@
 
 @entry{NTC, , \emph{Negative Temperature Coefficient}}
 
+@entry{MEMS, , \emph{Micro-electro-mechanical System}}
+
 @entry{PTC, , \emph{Positive Temperature Coefficient}}
 
 @entry{FFD, , \emph{Full Function Device}}
