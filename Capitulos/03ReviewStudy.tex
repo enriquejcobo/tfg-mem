@@ -338,31 +338,48 @@ Osram & SFH5711 & 630 $\mu$m & 100 nA & Logarítmica & 1.21 \euro & \cite{tmp36} 
 %-------------------------------------------------------------------
 \label{previo:sec:actuadores}
 %--------------------------------------------------------------------
-Los actuadores 
+Los actuadores constituyen la forma de modificación del entorno como consecuencia de la medición por parte de los sensores y como respuesta a la programación de la aplicación. Estos pueden ejercer la función de actuar directamente, como podría ser el caso de un relé, o bien de hacer de nexo entre el sistema y el controlador responsable de la actuación, como puede ser emular el mando a distancia.
+
+En esta placa, dado su propósito general, se tenderá hacia la fabricación de este segundo tipo, de forma que se buscarán actuadores que se caracticen por su versatilidad y su generalidad, si bien teniendo siempre presente la funcionalidad. Los actuadores que desarrollan esta función los encontramos resumidos a continuación
 
 %-------------------------------------------------------------------
 \subsection{Emisor Infrarrojo}
 %-------------------------------------------------------------------
 \label{previo:sec:ir}
 %-------------------------------------------------------------------
+Un emisor \ac{IR} no es más que un \ac{LED} cuyo espectro de emisión de luz se centra en estas longitudes de ondas. Para control, esta señal, centrada en la longitud de onda de 630 nm, es modulada para la transmisión digital de comandos, propios para cada dispositivo.
+
+La inserción de este actuador en esta placa está más que justificada, ya que son incontables los dispositivos que pueden controlarse hoy en dia mediante un mando a distancia por \ac{IR}, como pueden ser la televisión, equipos de música, o, en relación con los actuadores expuestos en \ref{previo:sec:sensores}, la climatización, las persianas, entre otros.
+
+Las características que deberá reunir este actuador serán las de potencia media de transmisión, para que su uso no se vea limitado en exceso con la distancia, y un tiempo de respuesta que permita la modulación de las señales a transmitir.
+
+%-------------------------------------------------------------------
+\subsection{Buzzer}
+%-------------------------------------------------------------------
+\label{previo:sec:buzzer}
+%-------------------------------------------------------------------
+Un buzzer es un dispositivo que, mediante la vibración de un elemento piezoeléctrico, produce una onda acústica a unas determinadas frecuencias, la cual depende de la forma de excitación del dispositivo y del propio material.
+
+Este actuador podría ser enmarcado dentro de un subgrupo de actuadores en humanos, puesto que su propósito no es otro que el de avisar a los humanos acerca de las condiciones ambientales, generalmente cuando suponen la existencia de un peligro potencial, para que sean éstos los que, en último término, lleven a cabo la actuación.
 
 %-------------------------------------------------------------------
 \subsection{LEDs}
 %-------------------------------------------------------------------
 \label{previo:sec:leds}
 %-------------------------------------------------------------------
+Un \ac{LED} consiste en un material semiconductor en el cual el proceso de generación da lugar a un fotón, procedente de un electrón. El color de emisión dependerá directamente del material que lo constituya.
 
-Los \ac{LED} que actúan...
+Al igual que en el caso anterior (\ref{previo:sec:buzzer}), este únicamente tiene como propósito actuar sobre el humano, siendo la principal diferencia que este modo de actuación se centra en dar información sobre el entorno o sobre el estado del sistema.
 
 %-------------------------------------------------------------------
 \subsection{GPIOs}
 %-------------------------------------------------------------------
 \label{previo:sec:gpio}
 %-------------------------------------------------------------------
+Un \ac{GPIO} es un puerto, generalmente de un microcontrolador, que puede actuar como entrada o salida digital, y que se puede usar cualquier tipo de aplicación, de ahí su nombre de propósito genérico.
 
-Podemos encontrar diversos \ac{GPIO} como ...
+Como vimos en \ref{previo:sec:cngd}, nuestra plataforma, por medio de sus headers, tiene accesible varios puertos \ac{GPIO}, por lo que es posible, a partir de ellos, controlar cualquier dispositivo externo cuya señal de control sea digital, como puede ser un relé.
 
-\todo{Escribir...}
 
 %-------------------------------------------------------------------
 %\section*{\NotasBibliograficas}

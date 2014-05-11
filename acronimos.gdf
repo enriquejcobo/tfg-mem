@@ -192,6 +192,8 @@
 
 @entry{PIR, ,\emph{Passive Infrared}}
 
+@entry{IR, Ir,\emph{Infrarrojo}}
+
 @entry{LDR, ,\emph{Light Dependent Resistor}}
 
 @entry{SPST, ,\emph{Single Pole, Single Throw}}
