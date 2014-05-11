@@ -200,13 +200,13 @@ Los sensores de temperatura comerciales suelen ser, en su mayoría, termistores, 
 \scalebox{1}{
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
-Nombre & Rango de Medida & Precisión\footnote{Típica en el margen que incluye a 25 ºC.} & Salida & Consumo & Precio & \ac{DS} \\ \hline \hline
-TMP36 & [-40 ºC, 125 ºC] & $\pm$1 ºC & Analógica & 50 $\mu$A & 1.61 \euro & \cite{tmp36} \\ \hline
-MCP9701A & [-40 ºC, 125 ºC] & $\pm$2 ºC & Analógica & 12 $\mu$A & 0.24 \euro & \cite{mcp9701} \\ \hline
-LM20B & [-55 ºC, 130 ºC] & $\pm$2 ºC & Analógica & 10 $\mu$A & 1.07 \euro & \cite{lm20} \\ \hline
-TMP101 & [-55 ºC, 125 ºC] & $\pm$2 ºC & Digital & 70 $\mu$A & 2.56 \euro & \cite{tmp101} \\ \hline
-AD7814 & [-55 ºC, 125 ºC] & $\pm$2 ºC & Digital & 250 $\mu$A & 2.71 \euro & \cite{ad7814} \\ \hline
-MCP9800 & [-55 ºC, 125 ºC] & $\pm$0.5 ºC & Digital & 200 $\mu$A & 0.98 \euro & \cite{mcp9701} \\ \hline
+Fabricante & Modelo & Rango de Medida & Precisión\footnote{Típica en el margen que incluye a 25 ºC.} & Salida & Precio & \ac{DS} \\ \hline \hline
+Analog Devices & TMP36 & [-40 ºC, 125 ºC] & $\pm$1 ºC & Analógica & 1.61 \euro & \cite{tmp36} \\ \hline
+Microchip & MCP9701A & [-40 ºC, 125 ºC] & $\pm$2 ºC & Analógica & 0.24 \euro & \cite{mcp9701} \\ \hline
+Texas Instr. & LM20B & [-55 ºC, 130 ºC] & $\pm$2 ºC & Analógica & 1.07 \euro & \cite{lm20} \\ \hline
+Analog Devices & TMP101 & [-55 ºC, 125 ºC] & $\pm$2 ºC & Digital & 2.56 \euro & \cite{tmp101} \\ \hline
+Analog Devices & AD7814 & [-55 ºC, 125 ºC] & $\pm$2 ºC & Digital & 2.71 \euro & \cite{ad7814} \\ \hline
+Microchip & MCP9800 & [-55 ºC, 125 ºC] & $\pm$0.5 ºC & Digital & 0.98 \euro & \cite{mcp9701} \\ \hline
 \end{tabular}
 }
 \caption{Comparación de sensores de temperatura comerciales.
@@ -235,8 +235,8 @@ A priori, puede parecer que introducir un sensor de este tipo es extraño para la
 Las principales características que los definen se resumen a continuación:
 
 \begin{itemize}
-\item \emph{Fondo de escala}. Es la máxima aceleración que se puede detectar. Viene referenciada como una proporción de la aceleración provocada por la gravedad terrestre, de forma que un valor de 2g implica una medida máxima de aceleración de 2 veces la gravedad. Como consecuencia de estar desarrollando una placa para una aplicación genérica, pondremos como requisito que sea capaz de detectar, al menos, una aceleración de 8g.
-\item \emph{Sensibilidad}. Se define como el impacto que genera una variación de la temperatura a la salida, de forma que un valor alto implica que una leve variación de la temperatura ocasiona una gran variación a la salida. En los acelerómetros, este parámetro es dual al fondo de escala, de forma que cuanto más bajo sea el fondo de escala más alta será la sensibilidad.
+\item \emph{Fondo de escala}. Es la máxima aceleración que se puede detectar. Viene referenciada como una proporción de la aceleración provocada por la gravedad terrestre, de forma que un valor de 2g implica una medida máxima de aceleración de 2 veces la gravedad.\newline Como consecuencia de estar desarrollando una placa para una aplicación genérica, pondremos como requisito que sea capaz de detectar, al menos, una aceleración de 8g.
+\item \emph{Sensibilidad}. Se define como el impacto que genera una variación de la temperatura a la salida, de forma que un valor alto implica que una leve variación de la temperatura ocasiona una gran variación a la salida.\newline En los acelerómetros, este parámetro es dual al fondo de escala, de forma que cuanto más bajo sea el fondo de escala más alta será la sensibilidad.
 \item \emph{Ejes de medida}. Número de ejes en los que se podrán detectar las variaciones en la aceleración. Estos se corresponden con los ejes de coordenadas: $\hat{x}$, $\hat{y}$ y $\hat{z}$.\newline En este aspecto, no admitiremos considerar acelerómetros que no midan en los tres ejes, ya que entendemos que no podemos despreciar ninguno.
 \end{itemize}
 
@@ -248,10 +248,10 @@ En la actualidad, los acelerómetros comerciales que se encuentran a nivel de ele
 \scalebox{1}{
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
-Nombre & Fondo de escala & Ejes de medida & Salida & Consumo & Precio & \ac{DS} \\ \hline \hline
-MMA8453Q & 2g, 4g, 8g & $\hat{x}$, $\hat{y}$, $\hat{z}$ & Digital & 50 $\mu$A & 1.61 \euro & \cite{tmp36} \\ \hline
-ADXL345 & 2g, 4g, 8g, 16 & $\hat{x}$, $\hat{y}$, $\hat{z}$ & Digital & 12 $\mu$A & 0.24 \euro & \cite{mcp9701} \\ \hline
-LIS3DH & 2g, 4g, 8g & $\hat{x}$, $\hat{y}$, $\hat{z}$ & Digital & 10 $\mu$A & 1.07 \euro & \cite{lm20} \\ \hline
+Fabricante & Modelo & Fondo de escala & Ejes & Salida & Precio & \ac{DS} \\ \hline \hline
+Freescale & MMA8453Q & 2g, 4g, 8g & $\hat{x}$, $\hat{y}$, $\hat{z}$ & Digital & 1.61 \euro & \cite{tmp36} \\ \hline
+Analog Devices & ADXL345 & 2g, 4g, 8g, 16g & $\hat{x}$, $\hat{y}$, $\hat{z}$ & Digital & 0.24 \euro & \cite{mcp9701} \\ \hline
+ST & LIS3DH & 2g, 4g, 8g & $\hat{x}$, $\hat{y}$, $\hat{z}$ & Digital & 1.07 \euro & \cite{lm20} \\ \hline
 \end{tabular}
 }
 \caption{Comparación de acelerómetros comerciales.
@@ -265,18 +265,80 @@ LIS3DH & 2g, 4g, 8g & $\hat{x}$, $\hat{y}$, $\hat{z}$ & Digital & 10 $\mu$A & 1.
 %-------------------------------------------------------------------
 \label{previo:sec:presencia}
 %-------------------------------------------------------------------
+Un sensor de presencia nos permite determinar el paso o la ocupación de personas del área geográfica que cubre el mismo. Estos se denominan sensores \ac{PIR}, debido a que se basan en el efecto de que la persona emite radiación infrarroja por consecuencia de tener una temperatura distinta del cero absoluto. El sensor es capaz de determinar la presencia por comparación entre la radiaciones recibidas, de forma que se activa si detecta un cambio.
+
+Este tipo de sensores son muy comunes en \ac{AMI} en los que es necesario el control de personas. Así, este sensor puede emplearse, en función del contexto, en temas de seguridad (si se detecta presencia en momentos en los que no se debería detectar puede generarse una alarma), eficiencia energética (regulando parámetos ambientales como la temperatura o la luminosidad en función de la ocupación del espacio), entre otros.
+
+Las características más destacables que podemos encontrar en un sensor de presencia serían:
+
+\begin{itemize}
+\item \emph{Lente de Fresnel}. Es la responsable de concentrar las radiaciones en el foco del sensor, para que sean detectadas. Este parámetro es muy importante, puesto que un \ac{PIR} sin este tipo de lente únicamente detectaría presencia en una zona muy limitada del espacio.\newline Como consecuencia, para nuestro diseño exigiremos la existencia de esta lente, bien sea integrada en el propio sensor o añadida a parte.
+\item \emph{Área cubierta}. Guarda relación directa con la lente de Fresnel, como hemos visto, siendo ésta la que determine la máxima distancia a la que se podrá detectar la presencia.\newline En el contexto de una aplicación genérica, pondremos como requisito una distancia de detección mínima de 3 metros.
+\item \emph{Tamaño}. De todos los sensores evaluados es el más grande, ya que el conjunto sensor y lente hace que sea así. Esto nos puede generar problema a la hora de planear su posición en la \ac{PCB}.\newline Aunque no podamos poner ninguna restricción a priori, sí que será un parámetro a comparar entre todos los candidatos que encontremos.
+\end{itemize}
+
+La tabla \ref{previo:tab:pir} muestra los sensores de presencia bajo estudio, en los que han sido evaluadas todas las características enunciadas anteriormente.
+
+\begin{savenotes}
+\begin{table}[h]
+\centering
+\scalebox{1}{
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+Fabricante & Modelo & Lente & Distancia & Tamaño\footnote{Medidas ANCHOxALTOxPROFUNDO, en mm.} & Salida & Precio\footnote{Incluye el precio por sensor y lente, en caso de que la última sea externa.} & \ac{DS} \\ \hline \hline
+Murata & E710ST0 & Externa & [3 m, 6 m] & 8x8x8 & Analógica & 1.61 \euro & \cite{tmp36} \\ \hline
+Panasonic & EKMC1601111 & Integrada & 3 m & 8x8x8 & Digital & 15.61 \euro & \cite{tmp36} \\ \hline
+Panasonic & AMN33112J & Integrada & 3 m & 8x8x8 & Digital & 11.61 \euro & \cite{tmp36} \\ \hline
+\end{tabular}
+}
+\caption{Comparación de sensores de presencia comerciales.
+\label{previo:tab:pir}}
+\end{table}
+\end{savenotes}
+
 
 %-------------------------------------------------------------------
 \subsection{Luminosidad}
 %-------------------------------------------------------------------
 \label{previo:sec:luminosidad}
 %-------------------------------------------------------------------
+Un sensor de luminosidad es aquel que permite determinar la cantidad de luz que se encuentra en el espacio de medida del mismo. Podemos encontrar principalmente dos tipos: las fotorresistencias, conocidas por sus siglas inglesas \ac{LDR}, las cuales son unas resistencias cuyo valor depende fuertemente de la luz, y los fotodiodos, que ofrecen a la salida una corriente que es proporcional al nivel de iluminación que encuentren. Serán estos últimos sobre los que centraremos nuestra búsqueda.
+
+La elección de este sensor viene motivada por las múltiples aplicaciones que puede desempeñar en el contexto de los \ac{AMI}, como puede ser la de eficiencia energética, regulando la luz artificial en función de la luz solar, o la de confort, adaptando los niveles de luminosidad en función de la situación en la que nos encontramos, puesto que no es la misma en un ambiente de trabajo que en un ambiente de relajación.
+
+Un sensor de luminosidad se define principalmente en base a los siguientes parámetros:
+
+\begin{itemize}
+\item \emph{Pico de longitud de onda}. Determina la longitud de onda a la que se tiene la máxima detección de fotones. A partir de ésta, se dibuja la curva de respuesta del sensor frente a otras longitudes.\newline Impondremos que esta curva de respuesta sea lo más similar posible a la del ojo humano, puesto que esto hará que el sensor responda con la misma información que recibe una persona.
+\item \emph{Corriente de oscuridad}. Parámetro que determina la corriente que ofrece a la salida en condiciones de iluminación nula. Supone un offset a la medida.\newline Al ser un dato parásito, exigiremos que sea tan pequeño como sea posible.
+\item \emph{Salida}. Todos ellos ofrecen una salida analógica en corriente, al estar buscando fotodiodos. No obstante, algunos modelos presentan algún circuito que modifica su curva de salida, pasando de ser lineal con la luminosidad a hacerlo de forma logarítmica.\newline No podremos ninguna limitación a priori, aunque sea un dato relevante a la hora de hacer la comparativa.
+\end{itemize}
+
+La tabla \ref{previo:tab:lum} muestra los sensores de presencia bajo estudio, en los que han sido evaluadas todas las características enunciadas anteriormente.
+
+\begin{savenotes}
+\begin{table}[h]
+\centering
+\scalebox{1}{
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+Fabricante & Modelo & Pico en $\lambda$ & Oscuridad & Salida & Precio & \ac{DS} \\ \hline \hline
+Everlight & ALS PT19 & 630 $\mu$m & 100 nA & Lineal & 0.76 \euro & \cite{tmp36} \\ \hline
+Avago & APDS 9005 & 630 $\mu$m & 160 nA & Lineal & 0.44 \euro & \cite{tmp36} \\ \hline
+Osram & SFH5711 & 630 $\mu$m & 100 nA & Logarítmica & 1.21 \euro & \cite{tmp36} \\ \hline
+\end{tabular}
+}
+\caption{Comparación de sensores de luminosidad comerciales.
+\label{previo:tab:lum}}
+\end{table}
+\end{savenotes}
 
 %-------------------------------------------------------------------
 \section{Actuadores}
 %-------------------------------------------------------------------
 \label{previo:sec:actuadores}
 %--------------------------------------------------------------------
+Los actuadores 
 
 %-------------------------------------------------------------------
 \subsection{Emisor Infrarrojo}

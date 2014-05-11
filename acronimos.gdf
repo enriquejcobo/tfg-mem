@@ -190,6 +190,10 @@
 
 @entry{ED, ,\emph{Energy Detect}}
 
+@entry{PIR, ,\emph{Passive Infrared}}
+
+@entry{LDR, ,\emph{Light Dependent Resistor}}
+
 @entry{SPST, ,\emph{Single Pole, Single Throw}}
 
 @entry{CMOS, ,\emph{Complementary Metal Oxide Semiconductor}}
@@ -204,7 +208,7 @@
 
 @entry{IRDA, IrDA, \emph{Infrared Data Association}}
 
-@entry{AMI, AmI, \emph{Ambiance Intelligence}}
+@entry{AMI, AmI, \emph{Ambient Intelligence}}
 
 @entry{OTG, , \emph{On-The-Go}}
 
