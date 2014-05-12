@@ -32,18 +32,18 @@ Como vimos en el apartado \ref{intro:sec:antecedentes}, la placa de expansión se
 \centering 
 \subfloat[Vista superior.]{\includegraphics[width=\textwidth]{Imagenes/Bitmap/Capitulo3/cngdtop}}  
 \qquad
-\subfloat[Vista infertior.]{\includegraphics[width=0.8\textwidth]{Imagenes/Bitmap/Capitulo3/cngdbottom}}     
+\subfloat[Vista inferior.]{\includegraphics[width=0.8\textwidth]{Imagenes/Bitmap/Capitulo3/cngdbottom}}     
 \caption{Vista detallada del cNGD, obtenidas de \cite{aguspfc}.}
 \label{previo:fig:cngd}
 \end{figure}
 
-El \ac{CNGD} incluye un Microchip \ac{PIC} de 32 bits modelo PIC32MX675F256L \cite{pic32datasheet}, el cual es un microntrolador de 100 pines en el que se incluyen una memoria Flash de 256 KB y 64 KB de memoria \ac{RAM}, una velocidad máxima de 80 MHz, módulos para comunicación serie \ac{UART}, \ac{SPI} e \ac{I2C}; \ac{USB} 2.0 \ac{OTG}, 10/100 Ethernet MAC, interfaz para la programación y la depuración, temporizadores digitales, \ac{ADC} y \ac{GPIO}. Adicionalmente, y si los requerimientos de la aplicación lo exigieran, se podría sustituir por el modelo PIC32MX675F512L, el cual tiene todos sus pines compatibles con el anterior y amplía la memoria Flash a 512 KB.
+El \ac{CNGD} incluye un Microchip \ac{PIC} de 32 bits modelo PIC32MX675F256L \cite{pic32datasheet}, el cual es un microcontrolador de 100 pines en el que se incluyen una memoria Flash de 256 KB y 64 KB de memoria \ac{RAM}, una velocidad máxima de 80 MHz, módulos para comunicación serie \ac{UART}, \ac{SPI} e \ac{I2C}; \ac{USB} 2.0 \ac{OTG}, 10/100 Ethernet MAC, interfaz para la programación y la depuración, temporizadores digitales, \ac{ADC} y \ac{GPIO}. Adicionalmente, y si los requerimientos de la aplicación lo exigieran, se podría sustituir por el modelo PIC32MX675F512L, el cual tiene todos sus pines compatibles con el anterior y amplía la memoria Flash a 512 KB.
 
-En cuanto a las \ac{RI}, se incluyen tres transceptores, por lo que es posible acceder a tres bandas del espectro: 434 MHz, 868 MHz y 2.4 GHz, todas ellas pertenecientes a la banda sin licencia, denominadas \ac{ISM}. Esto es relevante, puesto que, al ser bandas de acceso libre, pueden estar ocupadas por otras aplicaciones. El \ac{CNGD}, por medio de su capacidad cognitiva, es capaz de sensar el espectro en estas bandas y decidir dinámicamente cuál usar.
+En cuanto a las \ac{RI}, se incluyen tres transceptores, por lo que es posible acceder a tres bandas del espectro: 434 MHz, 868 MHz y 2.4 GHz, todas ellas pertenecientes a las bandas sin licencia, denominadas \ac{ISM}. Esto es relevante, puesto que, al ser bandas de acceso libre, pueden estar ocupadas por otras aplicaciones. El \ac{CNGD}, por medio de su capacidad cognitiva, es capaz de sensar el espectro en estas bandas y decidir dinámicamente cuál usar.
 
 Las dos primeras (434 y 868 MHz) fueron diseñadas para esta plataforma a partir del integrado MRF49XA \cite{mrf49xa}, y tienen como principales características 115.2 Kbps de tasa máxima, consumos típicos de transmisión y recepción de 24 mA y 12 mA, respectivamente; y modulación \ac{FSK} con \ac{FHSS}. Para la comunicación en 2.4 GHz, se emplea el MRF24J40MA \cite{mrf24j40}, el cual nos permite hasta 120 metros de alcance, velocidad de transmisión de hasta 250 Kbps y consumos de transmisión y recepción de 23 mA y 19 mA respectivamente.
 
-Una de las principales ventajas de este diseño es la cabecera de expansión, la cual permite ampliar el diseño de forma modular y totalmente escalable. Será en la misma donde introduciremos nuestra placa, por lo que le hacemos un estudio más exhaustivo. Se compone de 20 pines, cada uno multiplexado con diversas funciones, en el que se permite el acceso a los periféricos del microcontrolador. En la tabla \ref{previo:tab:headerspinout} encontramos una relación entre el pin del header, el pin del microcontrolador y las funciones que puede realizar.
+Una de las principales ventajas de este diseño es la cabecera de expansión, la cual permite ampliar el diseño de forma modular y totalmente escalable. Será en la misma donde introduciremos nuestra placa, por lo que le hacemos un estudio más exhaustivo. Se compone de 40 pines, cada uno multiplexado con diversas funciones, en el que se permite el acceso a los periféricos del microcontrolador. En la tabla \ref{previo:tab:headerspinout} encontramos una relación entre el pin del header, el pin del microcontrolador y las funciones que puede realizar.
 
 \begin{center}
 {\footnotesize
@@ -153,10 +153,25 @@ Los sensores van a ser la entrada de información a nuestro sistema, ya que por m
 \begin{enumerate}
 
 \item \emph{Definir los parámetros y valorarlos}. En esta fase seleccionamos los parámetros más destacables que nuestro sensor debe cumplir, y un margen de tolerancia para los mismos. Además, como restricción adicional, tendremos que cumplir los requisitos impuestos por la plataforma expuestos en \ref{previo:sec:cngd} y con el menor precio posible.
-\item \emph{Buscar sensores comerciales}. Tomando como base los resultados de la fase anterior, y usando las páginas webs de los principales proveedores (como Farnell \cite{farnell}, RS \cite{rs} o Digikey \cite{digikey}), buscamos sensores que se adecúen.
+\item \emph{Buscar sensores comerciales}. Tomando como base los resultados de la fase anterior, y usando las páginas webs de los principales proveedores (como Farnell \cite{farnell}, RS \cite{rs}, Digikey \cite{digikey} o SparkFun \cite{sparkfun}), buscamos sensores que se adecúen.
 \item \emph{Evaluar las \ac{DS}}. Las \ac{DS} son las hojas de características que proporcionan los fabricantes en las que se detallan todas las propiedades que conciernen a su producto. De esta evaluación obtenemos la verificación de que cumplen las constantes definidas.
 
 \end{enumerate}
+
+Como requisitos genéricos de nuestro sistema, y que por tanto deberán ser motivo de evaluación, definimos:
+
+\begin{itemize}
+
+\item \emph{Salida}. La podemos clasificar en dos tipos: 
+	\begin{itemize}
+	\item Analógica, en el cual la tensión de salida es dependiente de la magnitud a medir y requiere, por tanto, del empleo de un \ac{ADC} para su tratamiento en el microcontrolador.
+	\item Digital, en el cual la temperatura se representa por una palabra binaria, y que se conecta al microcontrolador, generalmente, por buses serie, como pueden ser \ac{SPI} o \ac{I2C}.
+	\end{itemize}
+No imponemos ningún filtro a priori, puesto que el \ac{CNGD} dispone de entradas tanto digitales como analógicas. No obstante, es un dato que se debe conocer.
+\item \emph{Consumo}. No debemos olvidar que el sistema, al estar alimentado con baterías, requiere un estricto control sobre el gasto energético. Este requisito fue considerado a la hora del diseño del \ac{CNGD}, permitiendo la desconexión o el sueño de los dispositivos que no se encuentran en uso, y por tanto será tambien objeto de evaluación.\newline Se buscará, de entre toda la gama de sensores, aquellos cuyas especificaciones de consumo sean menores, o bien que puedan ser sometidos a estados de bajo consumo.
+\item \emph{Precio}. Al igual que en el caso anterior, el bajo precio es uno de los pilares fundamentales para el diseño. Esto es muy comprensible, puesto que a la hora de fabricar lotes de unidades una pequeña diferencia en coste puede causar grandes ahorros económicos.\newline Tendremos que encontrar una solución de compromiso entre especificaciones del sensor y el coste, de forma que no se incluyan sensores de bajas prestaciones baratos o sensores caros con características sobredimensionadas.
+
+\end{itemize}
 
 La gama comercial de clases de sensores es muy amplia, por lo que centraremos nuestra búsqueda en base a la aplicación. Como nuestro propósito es el de crear una placa con un propósito genérico dentro de un \ac{AMI}, escogeremos los sensores que consideramos más polivalentes para la mayoría de aplicaciones. Se presentan a continuación.
 
@@ -184,15 +199,9 @@ Los principales parámetros que los definen son:
 En nuestra aplicación, puede ser tam amplio como se pueda, pero fijando como mínimo un rango de medida entre -20 ºC y 100 ºC.
 \item \emph{Precisión}. Es una forma de expresar la calidad de la medida, entendiendo ésta como la fiabilidad entre el dato medido y el dato real. En ocasiones también aparece nombrado como \emph{error}. Como es fácil de entender, es un parámetro que varía mucho el precio del mismo.\newline
 Puesto que lo usaremos en una aplicación genérica, debemos encontrar un compromiso entre precio y precisión, por lo que centraremos nuestra búsqueda en valores de entre $\pm$0.2 ºC y $\pm$2 ºC.
-\item \emph{Salida}. La podemos clasificar en dos tipos: 
-	\begin{itemize}
-	\item Analógica, en el cual la tensión de salida sigue una relación matemática del tipo $v_{temp}[V] = f(t)[ºC]$, y requiere, por tanto, del empleo de un \ac{ADC} para su inclusión en el microcontrolador.
-	\item Digital, en el cual la temperatura se representa por una palabra binaria, y que se conecta al microcontrolador, generalmente, por buses serie, como pueden ser \ac{SPI} o \ac{I2C}.
-	\end{itemize}
-No imponemos ningún filtro a priori, puesto que el \ac{CNGD} dispone de entradas tanto digitales como analógicas. No obstante, es un dato que se debe conocer.
 \end{itemize}
 
-Los sensores de temperatura comerciales suelen ser, en su mayoría, termistores, a los que se les añade un circuito de acondicionamiento, de forma que en la salida únicamente encontramos variaciones en tensión o, directamente, una secuencia de `1' y `0', como hemos visto en sus características. Los que han sido evaluados, siguiendo estos requisitos, aparecen resumidos en la Tabla \ref{previo:tab:temp}
+Los sensores de temperatura comerciales suelen ser, en su mayoría, termistores, a los que se les añade un circuito de acondicionamiento, de forma que en la salida únicamente encontramos variaciones en tensión o, directamente, una secuencia de bits. Los que han sido evaluados, siguiendo estos requisitos, aparecen resumidos en la Tabla \ref{previo:tab:temp}.
 
 \begin{savenotes}
 \begin{table}[h]
@@ -249,9 +258,9 @@ En la actualidad, los acelerómetros comerciales que se encuentran a nivel de ele
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
 Fabricante & Modelo & Fondo de escala & Ejes & Salida & Precio & \ac{DS} \\ \hline \hline
-Freescale & MMA8453Q & 2g, 4g, 8g & $\hat{x}$, $\hat{y}$, $\hat{z}$ & Digital & 1.61 \euro & \cite{tmp36} \\ \hline
-Analog Devices & ADXL345 & 2g, 4g, 8g, 16g & $\hat{x}$, $\hat{y}$, $\hat{z}$ & Digital & 0.24 \euro & \cite{mcp9701} \\ \hline
-ST & LIS3DH & 2g, 4g, 8g & $\hat{x}$, $\hat{y}$, $\hat{z}$ & Digital & 1.07 \euro & \cite{lm20} \\ \hline
+Freescale & MMA8453Q & 2g, 4g, 8g & $\hat{x}$, $\hat{y}$, $\hat{z}$ & Digital & 1.05 \euro & \cite{mma8453q} \\ \hline
+Analog Devices & ADXL345 & 2g, 4g, 8g, 16g & $\hat{x}$, $\hat{y}$, $\hat{z}$ & Digital & 5.09 \euro & \cite{adxl345} \\ \hline
+ST & LIS3DH & 2g, 4g, 8g, 16g & $\hat{x}$, $\hat{y}$, $\hat{z}$ & Digital & 3.72 \euro & \cite{lis3dh} \\ \hline
 \end{tabular}
 }
 \caption{Comparación de acelerómetros comerciales.
@@ -286,9 +295,9 @@ La tabla \ref{previo:tab:pir} muestra los sensores de presencia bajo estudio, en
 \begin{tabular}{|c|c|c|c|c|c|c|c|}
 \hline
 Fabricante & Modelo & Lente & Distancia & Tamaño\footnote{Medidas ANCHOxALTOxPROFUNDO, en mm.} & Salida & Precio\footnote{Incluye el precio por sensor y lente, en caso de que la última sea externa.} & \ac{DS} \\ \hline \hline
-Murata & E710ST0 & Externa & [3 m, 6 m] & 8x8x8 & Analógica & 1.61 \euro & \cite{tmp36} \\ \hline
-Panasonic & EKMC1601111 & Integrada & 3 m & 8x8x8 & Digital & 15.61 \euro & \cite{tmp36} \\ \hline
-Panasonic & AMN33112J & Integrada & 3 m & 8x8x8 & Digital & 11.61 \euro & \cite{tmp36} \\ \hline
+Murata & E710ST0 & Externa & [3 m, 6 m] & 8x8x8 & Analógica & 5.61 \euro & \cite{e710st0} \\ \hline
+Panasonic & EKMC1601111 & Integrada & 5 m & 8x8x8 & Digital & 15.49 \euro & \cite{ekmc} \\ \hline
+Panasonic & AMN33112J & Integrada & 3 m & 8x8x8 & Digital & 11.91 \euro & \cite{amn} \\ \hline
 \end{tabular}
 }
 \caption{Comparación de sensores de presencia comerciales.
@@ -323,9 +332,9 @@ La tabla \ref{previo:tab:lum} muestra los sensores de presencia bajo estudio, en
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
 Fabricante & Modelo & Pico en $\lambda$ & Oscuridad & Salida & Precio & \ac{DS} \\ \hline \hline
-Everlight & ALS PT19 & 630 $\mu$m & 100 nA & Lineal & 0.76 \euro & \cite{tmp36} \\ \hline
-Avago & APDS 9005 & 630 $\mu$m & 160 nA & Lineal & 0.44 \euro & \cite{tmp36} \\ \hline
-Osram & SFH5711 & 630 $\mu$m & 100 nA & Logarítmica & 1.21 \euro & \cite{tmp36} \\ \hline
+Everlight & ALS PT19 & 630 $\mu$m & 100 nA & Lineal & 0.76 \euro\footnote{De venta en SparkFun.} & \cite{alspt19} \\ \hline
+Avago & APDS 9005 & 500 $\mu$m & 300 nA & Lineal & 0.74 \euro & \cite{apds9005} \\ \hline
+Osram & SFH5711 & 550 $\mu$m & <10 nA & Logarítmica & 2.27 \euro & \cite{sfh5711} \\ \hline
 \end{tabular}
 }
 \caption{Comparación de sensores de luminosidad comerciales.
@@ -369,7 +378,7 @@ Este actuador podría ser enmarcado dentro de un subgrupo de actuadores en humano
 %-------------------------------------------------------------------
 Un \ac{LED} consiste en un material semiconductor en el cual el proceso de generación da lugar a un fotón, procedente de un electrón. El color de emisión dependerá directamente del material que lo constituya.
 
-Al igual que en el caso anterior (\ref{previo:sec:buzzer}), este únicamente tiene como propósito actuar sobre el humano, siendo la principal diferencia que este modo de actuación se centra en dar información sobre el entorno o sobre el estado del sistema.
+Al igual que en el caso anterior, este únicamente tiene como propósito actuar sobre el humano, siendo la principal diferencia que este modo de actuación se centra en dar información sobre el entorno o sobre el estado del sistema.
 
 %-------------------------------------------------------------------
 \subsection{GPIOs}

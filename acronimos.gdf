@@ -88,7 +88,7 @@
 
 @entry{MAC, , \emph{Medium Access Control}}
 
-@entry{I2C,$I^{2}$C, \emph{Inter-Integrated Circuit}}
+@entry{I2C,I$^{2}$C, \emph{Inter-Integrated Circuit}}
 
 @entry{SPI, , \emph{Serial Peripheral Interface}}
 
