@@ -18,7 +18,7 @@ Anónimo
 \end{FraseCelebre}
 
 \begin{resumen}
-En este capítulo encontramos una primera aproximación de las necesidades que requiere la Placa de Expansión, en cuanto a módulos y funcionalidades se refiere. Asimismo, se presentarán, para cada uno de ellos, una justificación de su uso, los puntos más destacables y una tabla comparativa de los modelos que solucionan el problema.
+En este capítulo encontramos una primera aproximación de las necesidades que requiere la placa de expansión, en cuanto a módulos y funcionalidades se refiere. Asimismo, se presentarán, para cada uno de estos módulos, una justificación de su uso y sus puntos más destacables.
 \end{resumen}
 
 %-------------------------------------------------------------------
@@ -26,7 +26,7 @@ En este capítulo encontramos una primera aproximación de las necesidades que req
 %-------------------------------------------------------------------
 \label{previo:sec:cngd}
 %-------------------------------------------------------------------
-Como vimos en el apartado \ref{intro:sec:antecedentes}, la placa de expansión se realizará para su anexión a la plataforma \ac{CNGD} \cite{aguspfc}, por lo que hacemos una breve introducción a ella. La figura \ref{previo:fig:cngd} muestra detalladamente dicha plataforma.
+Como vimos en el apartado \ref{intro:sec:antecedentes}, la placa de expansión se realizará para su anexión a la plataforma \ac{CNGD} \cite{aguspfc}, por lo que hacemos una breve introducción a ella. La figura \ref{previo:fig:cngd} muestra detalladamente este nodo.
 
 \begin{figure}[!h]
 \centering 
@@ -37,13 +37,29 @@ Como vimos en el apartado \ref{intro:sec:antecedentes}, la placa de expansión se
 \label{previo:fig:cngd}
 \end{figure}
 
-El \ac{CNGD} incluye un Microchip \ac{PIC} de 32 bits modelo PIC32MX675F256L \cite{pic32datasheet}, el cual es un microcontrolador de 100 pines en el que se incluyen una memoria Flash de 256 KB y 64 KB de memoria \ac{RAM}, una velocidad máxima de 80 MHz, módulos para comunicación serie \ac{UART}, \ac{SPI} e \ac{I2C}; \ac{USB} 2.0 \ac{OTG}, 10/100 Ethernet MAC, interfaz para la programación y la depuración, temporizadores digitales, \ac{ADC} y \ac{GPIO}. Adicionalmente, y si los requerimientos de la aplicación lo exigieran, se podría sustituir por el modelo PIC32MX675F512L, el cual tiene todos sus pines compatibles con el anterior y amplía la memoria Flash a 512 KB.
+El \ac{CNGD} incluye un \ac{MCU} PIC32MX675F256L, fabricado por Microchip \cite{pic32datasheet}, cuyas características técnicas se resumen a continuación.
 
-En cuanto a las \ac{RI}, se incluyen tres transceptores, por lo que es posible acceder a tres bandas del espectro: 434 MHz, 868 MHz y 2.4 GHz, todas ellas pertenecientes a las bandas sin licencia, denominadas \ac{ISM}. Esto es relevante, puesto que, al ser bandas de acceso libre, pueden estar ocupadas por otras aplicaciones. El \ac{CNGD}, por medio de su capacidad cognitiva, es capaz de sensar el espectro en estas bandas y decidir dinámicamente cuál usar.
+\begin{multicols}{2}
+\begin{itemize}
+\item \ac{MCU} de 32 bits.
+\item Memoria Flash de 256 KB.
+\item Memoria \ac{RAM} de 64KB.
+\item Velocidad máxima de funcionamiento de 80 MHz.
+\item Módulos para comunicación serie \ac{UART}, \ac{SPI} e \ac{I2C}.
+\item Conectividad por medio de \ac{USB} 2.0 \ac{OTG} y 10/100 Ethernet MAC.
+\item Interfaz para la programación y la depuración.
+\item Temporizadores digitales, \ac{ADC} y \ac{GPIO}
+\item Encapsulado de 100 pines.
+\end{itemize}
+\end{multicols}
+
+Adicionalmente, y si los requerimientos de la aplicación lo exigieran, se podría sustituir por el modelo PIC32MX675F512L, el cual tiene todos sus pines compatibles con el anterior y amplía la memoria Flash a 512 KB.
+
+En cuanto a las \ac{RI}, se incluyen tres transceptores, por lo que es posible acceder a tres bandas del espectro: 434 MHz, 868 MHz y 2.4 GHz, todas ellas pertenecientes a las bandas sin licencia, denominadas \ac{ISM}. Esto es relevante, puesto que, al ser bandas de acceso libre, pueden estar ocupadas por otras aplicaciones. El \ac{CNGD}, por medio de su capacidad cognitiva, es capaz de sensar el espectro en estas bandas y decidir dinámicamente cuál usar en función de la ocupación y el ruido de los canales. La comunicación se realiza bajo el protocolo MiWi \cite{miwi}, estándar inalámbrico propiedad de Microchip.
 
 Las dos primeras (434 y 868 MHz) fueron diseñadas para esta plataforma a partir del integrado MRF49XA \cite{mrf49xa}, y tienen como principales características 115.2 Kbps de tasa máxima, consumos típicos de transmisión y recepción de 24 mA y 12 mA, respectivamente; y modulación \ac{FSK} con \ac{FHSS}. Para la comunicación en 2.4 GHz, se emplea el MRF24J40MA \cite{mrf24j40}, el cual nos permite hasta 120 metros de alcance, velocidad de transmisión de hasta 250 Kbps y consumos de transmisión y recepción de 23 mA y 19 mA respectivamente.
 
-Una de las principales ventajas de este diseño es la cabecera de expansión, la cual permite ampliar el diseño de forma modular y totalmente escalable. Será en la misma donde introduciremos nuestra placa, por lo que le hacemos un estudio más exhaustivo. Se compone de 40 pines, cada uno multiplexado con diversas funciones, en el que se permite el acceso a los periféricos del microcontrolador. En la tabla \ref{previo:tab:headerspinout} encontramos una relación entre el pin del header, el pin del microcontrolador y las funciones que puede realizar.
+Una de las principales ventajas de este diseño es la cabecera de expansión, la cual permite ampliar el diseño de forma modular y totalmente escalable. Será en la misma donde introduciremos nuestra placa, por lo que le hacemos un estudio más exhaustivo. Se compone de 40 pines, cada uno pudiendo estar multiplexado con diversas funciones, en el que se permite el acceso a los periféricos del microcontrolador. En la tabla \ref{previo:tab:headerspinout} encontramos una relación entre el pin del header, el pin del microcontrolador y las funciones que puede realizar.
 
 \begin{center}
 {\footnotesize
@@ -141,20 +157,20 @@ Resaltamos las más relevantes para nuestro diseño:
 
 \end{itemize}
 
-Finalmente, el \ac{CNGD} dispone de un módulo de programación, denominado PGE. Este será de utilidad a la hora de programar el microcontrolador, por medio de su interfaz, del software que se desarrolle para el control de la placa de expansión, y permitiendo la depuración In-Circuit del mismo usando las herramientas de Microchip.
+Finalmente, el \ac{CNGD} es programado por medio del módulo de programación PGE. Esta misma interfaz es usada para la depuración In-Circuit del sistema. Esto será util para comprobar la ejecución correcta del código desarrollado, por lo que se ampliará en el capítulo \ref{cap:software}.
 
 %-------------------------------------------------------------------
 \section{Sensores}
 %-------------------------------------------------------------------
 \label{previo:sec:sensores}
 %-------------------------------------------------------------------
-Los sensores van a ser la entrada de información a nuestro sistema, ya que por medio de sus mediciones conoceremos los parámetros del entorno, para poder actuar sobre él. Es por ello que debemos escogerlos adecuadamente, siguiendo el procedimiento que detallamos a continuación:
+Los sensores van a ser la entrada de información a nuestro sistema, ya que por medio de sus mediciones conoceremos los parámetros del entorno, de forma que podamos actuar sobre él. Es por ello que debemos escogerlos adecuadamente, por lo que definimos el procedimiento que detallamos a continuación:
 
 \begin{enumerate}
 
-\item \emph{Definir los parámetros y valorarlos}. En esta fase seleccionamos los parámetros más destacables que nuestro sensor debe cumplir, y un margen de tolerancia para los mismos. Además, como restricción adicional, tendremos que cumplir los requisitos impuestos por la plataforma expuestos en \ref{previo:sec:cngd} y con el menor precio posible.
+\item \emph{Definir los parámetros y valorarlos}. En esta fase seleccionamos los parámetros más destacables que nuestro sensor debe cumplir, y un margen de tolerancia para los mismos. Además, como restricción adicional, tendremos que cumplir los requisitos impuestos por la plataforma expuestos en \ref{previo:sec:cngd}.
 \item \emph{Buscar sensores comerciales}. Tomando como base los resultados de la fase anterior, y usando las páginas webs de los principales proveedores (como Farnell \cite{farnell}, RS \cite{rs}, Digikey \cite{digikey} o SparkFun \cite{sparkfun}), buscamos sensores que se adecúen.
-\item \emph{Evaluar las \ac{DS}}. Las \ac{DS} son las hojas de características que proporcionan los fabricantes en las que se detallan todas las propiedades que conciernen a su producto. De esta evaluación obtenemos la verificación de que cumplen las constantes definidas.
+\item \emph{Evaluar las \ac{DS}}. Las \ac{DS} son las hojas de características que proporcionan los fabricantes en las que se detallan todas las propiedades que definen su producto. De esta evaluación obtenemos la verificación de que cumplen las constantes definidas.
 
 \end{enumerate}
 
@@ -165,11 +181,11 @@ Como requisitos genéricos de nuestro sistema, y que por tanto deberán ser motivo
 \item \emph{Salida}. La podemos clasificar en dos tipos: 
 	\begin{itemize}
 	\item Analógica, en el cual la tensión de salida es dependiente de la magnitud a medir y requiere, por tanto, del empleo de un \ac{ADC} para su tratamiento en el microcontrolador.
-	\item Digital, en el cual la temperatura se representa por una palabra binaria, y que se conecta al microcontrolador, generalmente, por buses serie, como pueden ser \ac{SPI} o \ac{I2C}.
+	\item Digital, en el cual la medición se representa por una palabra binaria, y que se conecta al microcontrolador, generalmente, por buses serie, como pueden ser \ac{SPI} o \ac{I2C}.
 	\end{itemize}
-No imponemos ningún filtro a priori, puesto que el \ac{CNGD} dispone de entradas tanto digitales como analógicas. No obstante, es un dato que se debe conocer.
-\item \emph{Consumo}. No debemos olvidar que el sistema, al estar alimentado con baterías, requiere un estricto control sobre el gasto energético. Este requisito fue considerado a la hora del diseño del \ac{CNGD}, permitiendo la desconexión o el sueño de los dispositivos que no se encuentran en uso, y por tanto será tambien objeto de evaluación.\newline Se buscará, de entre toda la gama de sensores, aquellos cuyas especificaciones de consumo sean menores, o bien que puedan ser sometidos a estados de bajo consumo.
-\item \emph{Precio}. Al igual que en el caso anterior, el bajo precio es uno de los pilares fundamentales para el diseño. Esto es muy comprensible, puesto que a la hora de fabricar lotes de unidades una pequeña diferencia en coste puede causar grandes ahorros económicos.\newline Tendremos que encontrar una solución de compromiso entre especificaciones del sensor y el coste, de forma que no se incluyan sensores de bajas prestaciones baratos o sensores caros con características sobredimensionadas.
+No imponemos ningún filtro a priori, puesto que el \ac{CNGD} dispone de entradas tanto digitales como analógicas.
+\item \emph{Consumo}. No debemos olvidar que el sistema, al estar alimentado con baterías, requiere un estricto control sobre el gasto energético. Este requisito fue considerado a la hora del diseño del \ac{CNGD}, permitiendo la desconexión o la suspensión de los dispositivos que no se encuentran en uso, y por tanto será también objeto de evaluación.\newline Se buscará, de entre toda la gama de sensores, aquellos cuyas especificaciones de consumo sean menores, o bien que puedan ser sometidos a estados de bajo consumo.
+\item \emph{Precio}. Al igual que en el caso anterior, el bajo precio es uno de los pilares fundamentales para el diseño. Esto es muy comprensible, puesto que a la hora de fabricar lotes de unidades una pequeña diferencia en coste puede llevar a grandes ahorros económicos.\newline Tendremos que encontrar una solución de compromiso entre especificaciones del sensor y el coste, de forma que no se incluyan sensores de bajas prestaciones baratos o sensores caros con características sobredimensionadas.
 
 \end{itemize}
 
@@ -180,12 +196,12 @@ La gama comercial de clases de sensores es muy amplia, por lo que centraremos nu
 %-------------------------------------------------------------------
 \label{previo:sec:temperatura}
 %-------------------------------------------------------------------
-Un sensor de temperatura es basado en la variación con la temperatura de alguno de los materiales que lo conforman, y ofrecen este dato como resultado. Según \cite{iele}, los sensores de temperatura se pueden clasificar en:
+Un sensor de temperatura se basa en la dependencia con la temperatura de alguno de los materiales que lo forman, y ofrecen este dato como resultado. Según \cite{iele}, los sensores de temperatura se pueden clasificar en:
 
 \begin{itemize}
 \item \emph{Metálicos resistivos}, en los que la dependencia con la temperatura viene relacionada por la presencia de un elemento metálico, como puede ser el platino, el cobre o el níquel; y la variación de la temperatura se transforma en una variación en su resistencia eléctrica.
-\item \emph{Resistivos semiconductores}, conocidos como termistores, presentan en su seno materiales semicondictures. Encontramos dos subtipos, el \ac{NTC}, formados a partir de óxidos de materiales pesados; y el \ac{PTC}, que incluye materiales como el $BaTiO_3$ o el $SrTiO_3$.
-\item \emph{Semiconductores activos}, basados en la relación de la tensión base-emisor de un transisitor con la temperatura.
+\item \emph{Resistivos semiconductores}, conocidos como termistores, presentan en su seno materiales semiconductores. Encontramos dos subtipos, el \ac{NTC}, formados a partir de óxidos de materiales pesados; y el \ac{PTC}, que incluye materiales como el $BaTiO_3$ o el $SrTiO_3$.
+\item \emph{Semiconductores activos}, basados en la relación de la tensión base-emisor de un transistor con la temperatura.
 \item \emph{Termopares}, basados en efectos termoeléctricos, como pueden ser el de Seebeck, el de Peltier y el de Thompson.
 \end{itemize}
 
@@ -196,8 +212,8 @@ Los principales parámetros que los definen son:
 \begin{itemize}
 
 \item \emph{Rango de medida}. Define las temperaturas máximas y mínimas en las que se puede medir. Normalmente va asociado con el margen de funcionamiento del mismo, de forma que si trabajamos fuera de este margen el dispositivo se deteriorará. \newline
-En nuestra aplicación, puede ser tam amplio como se pueda, pero fijando como mínimo un rango de medida entre -20 ºC y 100 ºC.
-\item \emph{Precisión}. Es una forma de expresar la calidad de la medida, entendiendo ésta como la fiabilidad entre el dato medido y el dato real. En ocasiones también aparece nombrado como \emph{error}. Como es fácil de entender, es un parámetro que varía mucho el precio del mismo.\newline
+En nuestra aplicación, puede ser tan amplio como se pueda, pero fijando como mínimo un rango de medida entre -20 ºC y 100 ºC.
+\item \emph{Precisión}. Es una forma de expresar la calidad de la medida, entendiendo ésta como la fiabilidad entre el dato medido y el dato real. En ocasiones también aparece nombrado como \emph{error}. Como es comprensible, es un parámetro que varía mucho el precio del mismo.\newline
 Puesto que lo usaremos en una aplicación genérica, debemos encontrar un compromiso entre precio y precisión, por lo que centraremos nuestra búsqueda en valores de entre $\pm$0.2 ºC y $\pm$2 ºC.
 \end{itemize}
 
@@ -213,9 +229,9 @@ Fabricante & Modelo & Rango de Medida & Precisión\footnote{Típica en el margen q
 Analog Devices & TMP36 & [-40 ºC, 125 ºC] & $\pm$1 ºC & Analógica & 1.61 \euro & \cite{tmp36} \\ \hline
 Microchip & MCP9701A & [-40 ºC, 125 ºC] & $\pm$2 ºC & Analógica & 0.24 \euro & \cite{mcp9701} \\ \hline
 Texas Instr. & LM20B & [-55 ºC, 130 ºC] & $\pm$2 ºC & Analógica & 1.07 \euro & \cite{lm20} \\ \hline
-Analog Devices & TMP101 & [-55 ºC, 125 ºC] & $\pm$2 ºC & Digital & 2.56 \euro & \cite{tmp101} \\ \hline
+Texas Instr. & TMP101 & [-55 ºC, 125 ºC] & $\pm$2 ºC & Digital & 2.56 \euro & \cite{tmp101} \\ \hline
 Analog Devices & AD7814 & [-55 ºC, 125 ºC] & $\pm$2 ºC & Digital & 2.71 \euro & \cite{ad7814} \\ \hline
-Microchip & MCP9800 & [-55 ºC, 125 ºC] & $\pm$0.5 ºC & Digital & 0.98 \euro & \cite{mcp9701} \\ \hline
+Microchip & MCP9800 & [-55 ºC, 125 ºC] & $\pm$0.5 ºC & Digital & 0.98 \euro & \cite{mcp9800} \\ \hline
 \end{tabular}
 }
 \caption{Comparación de sensores de temperatura comerciales.
@@ -229,24 +245,22 @@ Microchip & MCP9800 & [-55 ºC, 125 ºC] & $\pm$0.5 ºC & Digital & 0.98 \euro & \c
 %-------------------------------------------------------------------
 \label{previo:sec:acelerometro}
 %-------------------------------------------------------------------
-Definimos un acelerómetro como un sensor que nos permite medir aceleraciones, generalmente las asociadas con el fenómeno de peso experimentado por una masa de prueba que se encuentra en el mismo. Podemos encontrar varios tipos, a saber:
+Definimos un acelerómetro como un sensor que nos permite medir las aceleraciones asociadas con el fenómeno de peso experimentado por una masa de prueba. Podemos encontrar varios tipos, a saber:
 
 \begin{itemize}
 \item \emph{Mecánico}. Basado en la Segunda Ley de Newton, se fabrica mediante la unión de la masa de prueba a un dinamómetro cuyo eje se encuentra en la dirección en la que se quiere medir.
 \item \emph{Piezoeléctrico}. Tiene su fundamento físico en el hecho que, cuando se comprime un cristal con propiedades piezoeléctricas, se crea una carga eléctrica que es directamente proporcional a la fuerza que se aplica, la cual a su vez es proporcional a la aceleración.
-\item \emph{Efecto Hall}. Se usa una masa sísmica, de forma que, al combinarla con un imán y un sensor de efecto Hall podemos detectar cambios en el campo magnético producidos por la variación de la masa sometida a una aceleración.
-\item \emph{Condensador}. Se mide el cambio de la capacidad eléctrica de un condensador, al que se le ha añadido una masa sísmica entre sus placas, de forma que al moverse debido a una aceleración se modifica la corriente que circula por el condensador.
 \item \emph{Tecnología \ac{MEMS}}. Están basados en el traspaso por convección de calor, cuya variación es causada por la aceleración.
 \end{itemize}
 
-A priori, puede parecer que introducir un sensor de este tipo es extraño para la obtención de parámetros de un entorno. No obstante, el uso de este tipo de sensores está creciendo con multitud de aplicaciones, por la versatilidad que le caracteriza. Tanto es así que puede ser usado, por ejemplo, para detectar la posición de la placa en el plano tridimensional, o para detectar vibraciones, bien generadas por la acción humana (como pisadas en el suelo o vehículos pasando por un puente) o por la naturaleza (como los terremotos).
+A priori, puede parecer que introducir un sensor de este tipo es extraño para la obtención de parámetros de un entorno. No obstante, el uso de este tipo de sensores está creciendo en multitud de aplicaciones, por la versatilidad que le caracteriza. Tanto es así que puede ser usado, por ejemplo, para detectar la posición de la placa en el plano tridimensional, o para detectar vibraciones, bien generadas por la acción humana (como pisadas en el suelo o vehículos pasando por un puente) o por la naturaleza (como los terremotos).
 
 Las principales características que los definen se resumen a continuación:
 
 \begin{itemize}
-\item \emph{Fondo de escala}. Es la máxima aceleración que se puede detectar. Viene referenciada como una proporción de la aceleración provocada por la gravedad terrestre, de forma que un valor de 2g implica una medida máxima de aceleración de 2 veces la gravedad.\newline Como consecuencia de estar desarrollando una placa para una aplicación genérica, pondremos como requisito que sea capaz de detectar, al menos, una aceleración de 8g.
-\item \emph{Sensibilidad}. Se define como el impacto que genera una variación de la temperatura a la salida, de forma que un valor alto implica que una leve variación de la temperatura ocasiona una gran variación a la salida.\newline En los acelerómetros, este parámetro es dual al fondo de escala, de forma que cuanto más bajo sea el fondo de escala más alta será la sensibilidad.
-\item \emph{Ejes de medida}. Número de ejes en los que se podrán detectar las variaciones en la aceleración. Estos se corresponden con los ejes de coordenadas: $\hat{x}$, $\hat{y}$ y $\hat{z}$.\newline En este aspecto, no admitiremos considerar acelerómetros que no midan en los tres ejes, ya que entendemos que no podemos despreciar ninguno.
+\item \emph{Fondo de escala}. Es la máxima aceleración que se puede detectar. Se define como una proporción de la aceleración provocada por la gravedad terrestre, de forma que un valor de 2g implica una medida máxima de aceleración de 2 veces la de la gravedad.\newline Como consecuencia de estar desarrollando una placa para una aplicación genérica, pondremos como requisito que sea capaz de detectar, al menos, una aceleración de 8g.
+\item \emph{Sensibilidad}. Se define como el impacto que genera una variación de la variable de entrada a la salida, de forma que un valor alto de sensibilidad implica que una leve variación de la entrada ocasione una gran variación a la salida.\newline En los acelerómetros, este parámetro es dual al fondo de escala, de forma que cuanto más bajo sea el fondo de escala más alta será la sensibilidad.
+\item \emph{Ejes de medida}. Número de ejes en los que se podrán detectar las variaciones en la aceleración. Estos se corresponden con los ejes de coordenadas: $\hat{x}$, $\hat{y}$ y $\hat{z}$.\newline En este aspecto, no admitiremos considerar acelerómetros que no midan en los tres ejes, ya que entendemos que no podemos dejar de considerar ninguno.
 \end{itemize}
 
 En la actualidad, los acelerómetros comerciales que se encuentran a nivel de electrónica de consumo están basados en tecnología \ac{MEMS}, construidos e integrados en un chip de silicio, y que permiten fabricar acelerómetros de tres ejes. La tabla \ref{previo:tab:acc} muestra los acelerómetros comerciales que han sido estudiados.
@@ -276,14 +290,14 @@ ST & LIS3DH & 2g, 4g, 8g, 16g & $\hat{x}$, $\hat{y}$, $\hat{z}$ & Digital & 3.72
 %-------------------------------------------------------------------
 Un sensor de presencia nos permite determinar el paso o la ocupación de personas del área geográfica que cubre el mismo. Estos se denominan sensores \ac{PIR}, debido a que se basan en el efecto de que la persona emite radiación infrarroja por consecuencia de tener una temperatura distinta del cero absoluto. El sensor es capaz de determinar la presencia por comparación entre la radiaciones recibidas, de forma que se activa si detecta un cambio.
 
-Este tipo de sensores son muy comunes en \ac{AMI} en los que es necesario el control de personas. Así, este sensor puede emplearse, en función del contexto, en temas de seguridad (si se detecta presencia en momentos en los que no se debería detectar puede generarse una alarma), eficiencia energética (regulando parámetos ambientales como la temperatura o la luminosidad en función de la ocupación del espacio), entre otros.
+Este tipo de sensores son muy comunes en \ac{AMI} en los que es necesario el control de personas. Así, este sensor puede emplearse, en función del contexto, en temas de seguridad (si se detecta presencia en momentos en los que no se debería detectar puede generarse una alarma), eficiencia energética (regulando parámetros ambientales como la temperatura o la luminosidad en función de la ocupación del espacio), entre otros.
 
 Las características más destacables que podemos encontrar en un sensor de presencia serían:
 
 \begin{itemize}
-\item \emph{Lente de Fresnel}. Es la responsable de concentrar las radiaciones en el foco del sensor, para que sean detectadas. Este parámetro es muy importante, puesto que un \ac{PIR} sin este tipo de lente únicamente detectaría presencia en una zona muy limitada del espacio.\newline Como consecuencia, para nuestro diseño exigiremos la existencia de esta lente, bien sea integrada en el propio sensor o añadida a parte.
+\item \emph{Lente de Fresnel}. Es la responsable de concentrar las radiaciones en el foco del sensor, para que puedan ser detectadas. Este parámetro es muy importante, puesto que un \ac{PIR} sin este tipo de lente únicamente detectaría presencia en una zona muy limitada del espacio.\newline Como consecuencia, para nuestro diseño exigiremos la existencia de esta lente, bien sea integrada en el propio sensor o añadida a parte.
 \item \emph{Área cubierta}. Guarda relación directa con la lente de Fresnel, como hemos visto, siendo ésta la que determine la máxima distancia a la que se podrá detectar la presencia.\newline En el contexto de una aplicación genérica, pondremos como requisito una distancia de detección mínima de 3 metros.
-\item \emph{Tamaño}. De todos los sensores evaluados es el más grande, ya que el conjunto sensor y lente hace que sea así. Esto nos puede generar problema a la hora de planear su posición en la \ac{PCB}.\newline Aunque no podamos poner ninguna restricción a priori, sí que será un parámetro a comparar entre todos los candidatos que encontremos.
+\item \emph{Encapsulado}. De todos los sensores evaluados es el más grande, ya que el conjunto sensor y lente hace que sea así. Esto nos puede generar problema a la hora de decidir su posición en la \ac{PCB}.\newline Aunque no podamos poner ninguna restricción a priori, sí que será un parámetro a comparar entre todos los candidatos que encontremos, por lo que consideraremos si es \ac{SMD} o \ac{TH}.
 \end{itemize}
 
 La tabla \ref{previo:tab:pir} muestra los sensores de presencia bajo estudio, en los que han sido evaluadas todas las características enunciadas anteriormente.
@@ -294,10 +308,10 @@ La tabla \ref{previo:tab:pir} muestra los sensores de presencia bajo estudio, en
 \scalebox{1}{
 \begin{tabular}{|c|c|c|c|c|c|c|c|}
 \hline
-Fabricante & Modelo & Lente & Distancia & Tamaño\footnote{Medidas ANCHOxALTOxPROFUNDO, en mm.} & Salida & Precio\footnote{Incluye el precio por sensor y lente, en caso de que la última sea externa.} & \ac{DS} \\ \hline \hline
-Murata & E710ST0 & Externa & [3 m, 6 m] & 8x8x8 & Analógica & 5.61 \euro & \cite{e710st0} \\ \hline
-Panasonic & EKMC1601111 & Integrada & 5 m & 8x8x8 & Digital & 15.49 \euro & \cite{ekmc} \\ \hline
-Panasonic & AMN33112J & Integrada & 3 m & 8x8x8 & Digital & 11.91 \euro & \cite{amn} \\ \hline
+Fabricante & Modelo & Lente & Distancia & Encap. & Salida & Precio\footnote{Incluye el precio por sensor y lente, en caso de que la última sea externa.} & \ac{DS} \\ \hline \hline
+Murata & E710ST0 & Externa & [3 m, 6 m] & SMD & Analógica & 5.61 \euro & \cite{e710st0} \\ \hline
+Panasonic & EKMC160 & Integrada & 5 m & TH & Digital & 15.49 \euro & \cite{ekmc} \\ \hline
+Panasonic & AMN33112J & Integrada & 3 m & TH & Digital & 11.91 \euro & \cite{amn} \\ \hline
 \end{tabular}
 }
 \caption{Comparación de sensores de presencia comerciales.
@@ -313,12 +327,12 @@ Panasonic & AMN33112J & Integrada & 3 m & 8x8x8 & Digital & 11.91 \euro & \cite{
 %-------------------------------------------------------------------
 Un sensor de luminosidad es aquel que permite determinar la cantidad de luz que se encuentra en el espacio de medida del mismo. Podemos encontrar principalmente dos tipos: las fotorresistencias, conocidas por sus siglas inglesas \ac{LDR}, las cuales son unas resistencias cuyo valor depende fuertemente de la luz, y los fotodiodos, que ofrecen a la salida una corriente que es proporcional al nivel de iluminación que encuentren. Serán estos últimos sobre los que centraremos nuestra búsqueda.
 
-La elección de este sensor viene motivada por las múltiples aplicaciones que puede desempeñar en el contexto de los \ac{AMI}, como puede ser la de eficiencia energética, regulando la luz artificial en función de la luz solar, o la de confort, adaptando los niveles de luminosidad en función de la situación en la que nos encontramos, puesto que no es la misma en un ambiente de trabajo que en un ambiente de relajación.
+La elección de este sensor viene motivada por las múltiples aplicaciones que puede desempeñar en el contexto de los \ac{AMI}, como puede ser la de eficiencia energética, regulando la luz artificial en función de la luz solar, o la de confort, adaptando los niveles de luminosidad en función de nuestra preferencia o de la situación en la que nos encontramos.
 
 Un sensor de luminosidad se define principalmente en base a los siguientes parámetros:
 
 \begin{itemize}
-\item \emph{Pico de longitud de onda}. Determina la longitud de onda a la que se tiene la máxima detección de fotones. A partir de ésta, se dibuja la curva de respuesta del sensor frente a otras longitudes.\newline Impondremos que esta curva de respuesta sea lo más similar posible a la del ojo humano, puesto que esto hará que el sensor responda con la misma información que recibe una persona.
+\item \emph{Pico de longitud de onda}. Determina la longitud de onda del fotón cuya respuesta mejor se percibe. A partir de ésta, se dibuja la curva de respuesta del sensor frente a otras longitudes.\newline Impondremos que esta curva de respuesta sea lo más similar posible a la del ojo humano, puesto que esto hará que el sensor responda con la misma información que recibe una persona.
 \item \emph{Corriente de oscuridad}. Parámetro que determina la corriente que ofrece a la salida en condiciones de iluminación nula. Supone un offset a la medida.\newline Al ser un dato parásito, exigiremos que sea tan pequeño como sea posible.
 \item \emph{Salida}. Todos ellos ofrecen una salida analógica en corriente, al estar buscando fotodiodos. No obstante, algunos modelos presentan algún circuito que modifica su curva de salida, pasando de ser lineal con la luminosidad a hacerlo de forma logarítmica.\newline No podremos ninguna limitación a priori, aunque sea un dato relevante a la hora de hacer la comparativa.
 \end{itemize}
@@ -349,7 +363,7 @@ Osram & SFH5711 & 550 $\mu$m & <10 nA & Logarítmica & 2.27 \euro & \cite{sfh5711
 %--------------------------------------------------------------------
 Los actuadores constituyen la forma de modificación del entorno como consecuencia de la medición por parte de los sensores y como respuesta a la programación de la aplicación. Estos pueden ejercer la función de actuar directamente, como podría ser el caso de un relé, o bien de hacer de nexo entre el sistema y el controlador responsable de la actuación, como puede ser emular el mando a distancia.
 
-En esta placa, dado su propósito general, se tenderá hacia la fabricación de este segundo tipo, de forma que se buscarán actuadores que se caracticen por su versatilidad y su generalidad, si bien teniendo siempre presente la funcionalidad. Los actuadores que desarrollan esta función los encontramos resumidos a continuación
+En esta placa, dado su propósito general, se tenderá hacia la fabricación de este segundo tipo, de forma que se buscarán actuadores que se caractericen por su versatilidad y su generalidad, aunque teniendo siempre presente la funcionalidad. Los actuadores que desarrollan esta función los encontramos resumidos a continuación.
 
 %-------------------------------------------------------------------
 \subsection{Emisor Infrarrojo}
@@ -358,7 +372,7 @@ En esta placa, dado su propósito general, se tenderá hacia la fabricación de est
 %-------------------------------------------------------------------
 Un emisor \ac{IR} no es más que un \ac{LED} cuyo espectro de emisión de luz se centra en estas longitudes de ondas. Para control, esta señal, centrada en la longitud de onda de 630 nm, es modulada para la transmisión digital de comandos, propios para cada dispositivo.
 
-La inserción de este actuador en esta placa está más que justificada, ya que son incontables los dispositivos que pueden controlarse hoy en dia mediante un mando a distancia por \ac{IR}, como pueden ser la televisión, equipos de música, o, en relación con los actuadores expuestos en \ref{previo:sec:sensores}, la climatización, las persianas, entre otros.
+La inserción de este actuador en esta placa está más que justificada, ya que son incontables los dispositivos que pueden controlarse hoy en día mediante un mando a distancia por \ac{IR}, como pueden ser la televisión, equipos de música, o, en relación con los actuadores expuestos en \ref{previo:sec:sensores}, la climatización y las persianas, entre otros.
 
 Las características que deberá reunir este actuador serán las de potencia media de transmisión, para que su uso no se vea limitado en exceso con la distancia, y un tiempo de respuesta que permita la modulación de las señales a transmitir.
 
@@ -367,7 +381,7 @@ Las características que deberá reunir este actuador serán las de potencia media 
 %-------------------------------------------------------------------
 \label{previo:sec:buzzer}
 %-------------------------------------------------------------------
-Un buzzer es un dispositivo que, mediante la vibración de un elemento piezoeléctrico, produce una onda acústica a unas determinadas frecuencias, la cual depende de la forma de excitación del dispositivo y del propio material.
+Un buzzer es un dispositivo que, mediante la vibración de un elemento piezoeléctrico, produce una onda acústica a unas determinadas frecuencias, las cuales dependen de la forma de excitación del dispositivo y del propio material.
 
 Este actuador podría ser enmarcado dentro de un subgrupo de actuadores en humanos, puesto que su propósito no es otro que el de avisar a los humanos acerca de las condiciones ambientales, generalmente cuando suponen la existencia de un peligro potencial, para que sean éstos los que, en último término, lleven a cabo la actuación.
 
@@ -376,7 +390,7 @@ Este actuador podría ser enmarcado dentro de un subgrupo de actuadores en humano
 %-------------------------------------------------------------------
 \label{previo:sec:leds}
 %-------------------------------------------------------------------
-Un \ac{LED} consiste en un material semiconductor en el cual el proceso de generación da lugar a un fotón, procedente de un electrón. El color de emisión dependerá directamente del material que lo constituya.
+Un \ac{LED} es un material semiconductor en el cual se crean fotones a partir de electrones, en un proceso denominado generación. El color de emisión, determinado por la longitud de onda, dependerá directamente del material que lo constituya.
 
 Al igual que en el caso anterior, este únicamente tiene como propósito actuar sobre el humano, siendo la principal diferencia que este modo de actuación se centra en dar información sobre el entorno o sobre el estado del sistema.
 
@@ -385,7 +399,7 @@ Al igual que en el caso anterior, este únicamente tiene como propósito actuar so
 %-------------------------------------------------------------------
 \label{previo:sec:gpio}
 %-------------------------------------------------------------------
-Un \ac{GPIO} es un puerto, generalmente de un microcontrolador, que puede actuar como entrada o salida digital, y que se puede usar cualquier tipo de aplicación, de ahí su nombre de propósito genérico.
+Un \ac{GPIO} es un puerto, generalmente de un microcontrolador, que puede actuar como entrada o salida digital, y que se puede usar cualquier tipo de aplicación.
 
 Como vimos en \ref{previo:sec:cngd}, nuestra plataforma, por medio de sus headers, tiene accesible varios puertos \ac{GPIO}, por lo que es posible, a partir de ellos, controlar cualquier dispositivo externo cuya señal de control sea digital, como puede ser un relé.
 

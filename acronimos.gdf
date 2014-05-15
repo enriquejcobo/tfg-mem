@@ -108,7 +108,7 @@
 
 @entry{PIC, , \emph{Peripheral Interface Controller}}
 
-@entry{MCU, , \emph{Microcontroller}}
+@entry{MCU, , \emph{Micro-controller Unit}}
 
 @entry{MIPS, , \emph{Microprocessor without Interlocked Pipeline Stages}}
 
@@ -227,6 +227,8 @@
 @entry{LED, ,\emph{Light-Emitting Diode}}
 
 @entry{SMD, ,\emph{Surface-Mount Devices}}
+
+@entry{TH, ,\emph{Through Hole}}
 
 @entry{PCB, ,\emph{Printed Circuit Board}}
 
