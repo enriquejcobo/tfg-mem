@@ -1,10 +1,10 @@
 %---------------------------------------------------------------------
 %
-%                          Cap�tulo 4
+%                          Capítulo 4
 %
 %---------------------------------------------------------------------
 
-\chapter{Estudio del Dise�o y de la Implementaci�n}
+\chapter{Estudio del Diseño y de la Implementación}
 \label{cap:diseno}
 
 \begin{FraseCelebre}
@@ -29,7 +29,15 @@ The detailed characteristics of any chosen component, (including microcontroller
 \label{diseno:sec:sensores}
 %-------------------------------------------------------------------
 
-abd
+En este apartado, se decidirán finalmente los sensores comerciales de los cuatro tipos expuestos en la sección \ref{previo:sec:sensores} que se incluirán y la forma en la que se colocarán, así como de la circuitería adicional que necesitan para funcionar. La estructura que se seguirá en los siguientes apartados se presenta a continuación.
+
+\begin{enumerate}
+
+\item Partiendo de lo expuesto en el capítulo \ref{cap:previo} procederemos, de manera justificada, a la elección del sensor comercial que se ajuste mejor a las necesidades del problema a resolver.
+\item Se presentará un diagrama de bloques que ilustre el modo de operación interno del sensor, así como un diagrama de pines y las señales de entrada y salida del mismo.
+\item Finalmente, se detallarán y se justificarán los componentes adicionales que se han de incluir al mismo.
+
+\end{enumerate}
 
 %-------------------------------------------------------------------
 \subsection{Temperatura}
@@ -37,10 +45,29 @@ abd
 \label{diseno:sec:temperatura}
 %-------------------------------------------------------------------
 
-asd
+De los modelos presentados en la tabla \ref{previo:tab:temp}, decidimos escoger el { \bf Microchip MCP9800} \cite{mcp9800}, principalmente por ser el de mayor precisión con un precio asequible. Sus características detalladas se exponen a continuación.
+
+\begin{multicols}{2}
+\begin{itemize}
+\item Precisión típica de $\pm$0.5ºC a 25ºC.
+\item Error máximo de $\pm$1ºC entre -10ºC y 85ºC.
+\item Resolución seleccionable de 9-12 bits.
+\item Conexión I$^2$C.
+\item Corriente de operación típica de 200 $\mu$A.
+\item Corriente de apagado máxima de 1 $\mu$A.
+\item Salida independiente configurable (ALERTA).
+\end{itemize}
+\end{multicols}
+
+El diagrama de bloques interno del sensor de temperatura se presenta en la figura \ref{diseno:fig:temp_bloques}. Como podemos ver, se trata de un conversor \ac{ADC} de tipo sigma-delta al que luego se conecta todo el sistema de registros, el cual se encargará de transmitir la medida y de generar las alarmas.
+
+\figuraEx{Bitmap/Capitulo4/temp_bloques}{width=.3\textwidth}{diseno:fig:temp_bloques}%
+{Diagrama de bloques del MCP9800, obtenido de \cite{mcp9800}.}{Diagrama de bloques del MCP9800.}
+
+
 
 %-------------------------------------------------------------------
-\subsection{Aceler�metro}
+\subsection{Acelerómetro}
 %-------------------------------------------------------------------
 \label{diseno:sec:acelerometro}
 %-------------------------------------------------------------------
@@ -103,7 +130,7 @@ XDSDFS
 SDFSDF
 
 %-------------------------------------------------------------------
-\section{Esquem�tico}
+\section{Esquemático}
 %-------------------------------------------------------------------
 \label{diseno:sec:esquematico}
 %-------------------------------------------------------------------
@@ -120,7 +147,7 @@ SADFQW
 
 
 %-------------------------------------------------------------------
-\subsection{Implementaci�n en PCB}
+\subsection{Implementación en PCB}
 %-------------------------------------------------------------------
 
 SDFS 
@@ -136,7 +163,7 @@ SDFSDFS
 \subsection{Layout}
 %-------------------------------------------------------------------
 
-�OUIO�UI
+ÑOUIOÑUI
 
 
 %-------------------------------------------------------------------
@@ -156,7 +183,7 @@ UYKJRTFRU7JRFU
 SDJGKFAH U
 
 %-------------------------------------------------------------------
-\subsubsection{Librer�a de componentes}
+\subsubsection{Librería de componentes}
 %-------------------------------------------------------------------
 
 
