@@ -1,10 +1,10 @@
 %---------------------------------------------------------------------
 %
-%                          CapÃ­tulo 4
+%                          Capítulo 4
 %
 %---------------------------------------------------------------------
 
-\chapter{Estudio del DiseÃ±o y de la ImplementaciÃ³n}
+\chapter{Estudio del Diseño y de la Implementación}
 \label{cap:diseno}
 
 \begin{FraseCelebre}
@@ -29,13 +29,13 @@ The detailed characteristics of any chosen component, (including microcontroller
 \label{diseno:sec:sensores}
 %-------------------------------------------------------------------
 
-En este apartado, se decidirÃ¡n finalmente los sensores comerciales de los cuatro tipos expuestos en la secciÃ³n \ref{previo:sec:sensores} que se incluirÃ¡n y la forma en la que se colocarÃ¡n, asÃ­ como de la circuiterÃ­a adicional que necesitan para funcionar. La estructura que se seguirÃ¡ en los siguientes apartados se presenta a continuaciÃ³n.
+En este apartado, se decidirán finalmente los sensores comerciales de los cuatro tipos expuestos en la sección \ref{previo:sec:sensores} que se incluirán y la forma en la que se colocarán, así como de la circuitería adicional que necesitan para funcionar. La estructura que se seguirá en los siguientes apartados se presenta a continuación.
 
 \begin{enumerate}
 
-\item Partiendo de lo expuesto en el capÃ­tulo \ref{cap:previo} procederemos, de manera justificada, a la elecciÃ³n del sensor comercial que se ajuste mejor a las necesidades del problema a resolver.
-\item Se presentarÃ¡ un diagrama de bloques que ilustre el modo de operaciÃ³n interno del sensor, asÃ­ como un diagrama de pines y las seÃ±ales de entrada y salida del mismo.
-\item Finalmente, se detallarÃ¡n y se justificarÃ¡n los componentes adicionales que se han de incluir al mismo.
+\item Partiendo de lo expuesto en el capítulo \ref{cap:previo} procederemos, de manera justificada, a la elección del sensor comercial que se ajuste mejor a las necesidades del problema a resolver.
+\item Se presentará un diagrama de bloques que ilustre el modo de operación interno del sensor, así como un diagrama de pines y las señales de entrada y salida del mismo.
+\item Finalmente, se detallarán y se justificarán los componentes adicionales que se han de incluir al mismo.
 
 \end{enumerate}
 
@@ -45,34 +45,65 @@ En este apartado, se decidirÃ¡n finalmente los sensores comerciales de los cuatr
 \label{diseno:sec:temperatura}
 %-------------------------------------------------------------------
 
-De los modelos presentados en la tabla \ref{previo:tab:temp}, decidimos escoger el { \bf Microchip MCP9800} \cite{mcp9800}, principalmente por ser el de mayor precisiÃ³n con un precio asequible. Sus caracterÃ­sticas detalladas se exponen a continuaciÃ³n.
+De los modelos presentados en la tabla \ref{previo:tab:temp}, decidimos escoger el \textbf{Microchip MCP9800} \cite{mcp9800}, principalmente por ser el de mayor precisión con un precio asequible. Sus características detalladas se exponen a continuación.
 
 \begin{multicols}{2}
 \begin{itemize}
-\item PrecisiÃ³n tÃ­pica de $\pm$0.5ÂºC a 25ÂºC.
-\item Error mÃ¡ximo de $\pm$1ÂºC entre -10ÂºC y 85ÂºC.
-\item ResoluciÃ³n seleccionable de 9-12 bits.
-\item ConexiÃ³n I$^2$C.
-\item Corriente de operaciÃ³n tÃ­pica de 200 $\mu$A.
-\item Corriente de apagado mÃ¡xima de 1 $\mu$A.
+\item Precisión típica de $\pm$0.5ºC a 25ºC.
+\item Error máximo de $\pm$1ºC entre -10ºC y 85ºC.
+\item Resolución seleccionable de 9-12 bits.
+\item Conexión I$^2$C.
+\item Corriente de operación típica de 200 $\mu$A.
+\item Corriente de apagado máxima de 1 $\mu$A.
 \item Salida independiente configurable (ALERTA).
 \end{itemize}
 \end{multicols}
 
-El diagrama de bloques interno del sensor de temperatura se presenta en la figura \ref{diseno:fig:temp_bloques}. Como podemos ver, se trata de un conversor \ac{ADC} de tipo sigma-delta al que luego se conecta todo el sistema de registros, el cual se encargarÃ¡ de transmitir la medida y de generar las alarmas.
+La figura \ref{diseno:fig:temp} muestra las entradas y salidas del sensor por medio de su diagrama de pines, así como el circuito que precisa para funcionar. 
 
-\figuraEx{Bitmap/Capitulo4/temp_bloques}{width=.3\textwidth}{diseno:fig:temp_bloques}%
-{Diagrama de bloques del MCP9800, obtenido de \cite{mcp9800}.}{Diagrama de bloques del MCP9800.}
+\figuraEx{Bitmap/Capitulo4/temp}{width=.5\textwidth}{diseno:fig:temp}%
+{Sensor de Temperatura Microchip MCP9800.}{Sensor de Temperatura Microchip MCP9800.}
+
+Comentamos brevemente la adición de los componentes añadidos. En la etapa de entrada encontramos R12 y C5, cuya función es de actuar a modo de filtro paso bajo ante el posible ruido procedente de la alimentación. R11 es una resistencia de \textit{pull-up}, necesaria ya que la salida es de colector abierto. Además de esta resistencia, y con este mismo propósito, se incluyen dos resistencias R1 y R2 de \textit{pull-up} para la conexión por I$^2$C.
 
 
 
 %-------------------------------------------------------------------
-\subsection{AcelerÃ³metro}
+\subsection{Acelerómetro}
 %-------------------------------------------------------------------
 \label{diseno:sec:acelerometro}
 %-------------------------------------------------------------------
 
-asd
+En base al análisis realizado en la sección \ref{previo:sec:acelerometro}, en el que se presentaban los distintos sensores comerciales estudiados, seleccionamos el \textbf{Freescale MMA8453Q} \cite{mma8453q} por ser el más económico que cumple las especificaciones. A continuación detallamos todas sus características:
+
+\begin{itemize}
+\item Fondos de escala seleccionables $\pm$2g, $\pm$4g y $\pm$8g.
+\item Resolución seleccionable de 8-10 bits.
+\item Conexión I$^2$C.
+\item Modos de bajo consumo.
+\item Consumo de corriente de entre 6$\mu$A y 165$\mu$A.
+\item Dos salidas programables para seis fuentes de interrupción.
+	\begin{multicols}{2}
+	\begin{itemize}
+	\item Dato disponible.
+	\item Pulso (\textit{tap}).
+	\item Movimiento.
+	\item Caída libre.
+	\item Orientación.
+	\item \textit{Auto-SLEEP}.
+	\end{itemize}
+	\end{multicols}
+\end{itemize}
+
+A continuación encontramos, en la figura \ref{diseno:fig:acc}, el diagrama de pines junto con el circuito requerido para su operación
+
+\figuraEx{Bitmap/Capitulo4/acc}{width=.5\textwidth}{diseno:fig:acc}%
+{Acelerómetro Freescale MMA8453Q.}{Acelerómetro Freescale MMA8453Q.}
+
+En primer lugar, resaltar que el pin 3 no se encuentra en la figura. Esto es así puesto que el fabricante nos indica que no debe ir conectado. Además, hemos conectado a masa el pin 7 (SA0), que hace que el bit menos significativo de la dirección para el I$^2$C sea 0.
+
+Comentamos a continuación los componentes del circuito. C1 y C2 son condensadores de desacoplo para las dos entradas de alimentación (principal e interfaz), mientras que el condensador C3 es denominado de \textit{bypass}. Al igual que como hemos comentado en el sensor de temperatura, son necesarias dos resistencias de \textit{pull-up} para la interfaz I$^2$C y que no aparecen en este esquema.
+
 
 %-------------------------------------------------------------------
 \subsection{Presencia}
@@ -80,7 +111,22 @@ asd
 \label{diseno:sec:presencia}
 %-------------------------------------------------------------------
 
-asd
+Siguiendo la misma línea que con los sensores anteriores, y en base a lo expuesto en la tabla \ref{previo:tab:pir}, seleccionamos como sensor de presencia el \textbf{Panasonic AMN33112J} \cite{amn} por ser el que mejor verificó una relación fiabilidad-precio. Sus características son:
+
+\begin{itemize}
+\item Salida binaria.
+\item Detección de personas en hasta 3 metros.
+\item Detección de movimientos de 30 centímetros.
+\item Modos de bajo consumo.
+\item Consumo en espera de 170 $\mu$A.
+\item Consumo en detección de 270 $\mu$A.
+\end{itemize}
+
+El diagrama de pines se presenta en la figura \ref{diseno:fig:pir}. Como podemos ver, no es necesario un circuito adicional, se puede conectar directamente al microcontrolador.
+
+\figuraEx{Bitmap/Capitulo4/pir}{width=.5\textwidth}{diseno:fig:pir}%
+{Sensor de Presencia Panasonic AMN33112J.}{Sensor de Presencia Panasonic AMN33112J.}
+
 
 %-------------------------------------------------------------------
 \subsection{Luminosidad}
@@ -88,7 +134,22 @@ asd
 \label{diseno:sec:presencia}
 %-------------------------------------------------------------------
 
-AsdfH VQU
+Para finalizar, exponemos y justificamos la elección del sensor de luminosidad. Se trata, de los estudiados en la sección \ref{previo:sec:luminosidad}, del \textbf{Avago APDS 9005} \cite{apds9005}, por su bajo precio y responsividad similar a la del ojo humano. Sus características ampliadas serían:
+
+\begin{itemize}
+\item Salida analógica.
+\item Fotocorriente con 10 lux de 19$\mu$A.
+\item Fotocorriente con 100 lux de 230$\mu$A.
+\item Corriente de oscuridad de 50 nA.
+\item Tensión de saturación de $2.32$ V.
+\end{itemize}
+
+El diagrama de entradas y salidas del sensor lo encontramos en la figura \ref{diseno:fig:lum}. AL igual que en casos anteriores, los pines 2-5 no figuran al indicarse que no deben ser conectados a ningún punto.
+
+\figuraEx{Bitmap/Capitulo4/lum}{width=.5\textwidth}{diseno:fig:lum}%
+{Sensor de Luminosidad Avago APDS 9005.}{Sensor de Luminosidad Avago APDS 9005.}
+
+De los compontentes que encontramos a la salida del sensor, justificamos la presencia de la resistencia R3 con el objeto de convertir la fotocorriente a tensión, de forma que puede ser introducida al \ac{ADC}. El valor de 10 K$\Omega$ hace que la tensión con 10 luxes sea de 1.9 V. El condensador C4 se pone con motivo de filtrar el rizado producido por fuentes de iluminación fluorescentes.
 
 %-------------------------------------------------------------------
 \section{Actuadores}
@@ -130,7 +191,7 @@ XDSDFS
 SDFSDF
 
 %-------------------------------------------------------------------
-\section{EsquemÃ¡tico}
+\section{Esquemático}
 %-------------------------------------------------------------------
 \label{diseno:sec:esquematico}
 %-------------------------------------------------------------------
@@ -147,7 +208,7 @@ SADFQW
 
 
 %-------------------------------------------------------------------
-\subsection{ImplementaciÃ³n en PCB}
+\subsection{Implementación en PCB}
 %-------------------------------------------------------------------
 
 SDFS 
@@ -163,7 +224,7 @@ SDFSDFS
 \subsection{Layout}
 %-------------------------------------------------------------------
 
-Ã‘OUIOÃ‘UI
+ÑOUIOÑUI
 
 
 %-------------------------------------------------------------------
@@ -183,7 +244,7 @@ UYKJRTFRU7JRFU
 SDJGKFAH U
 
 %-------------------------------------------------------------------
-\subsubsection{LibrerÃ­a de componentes}
+\subsubsection{Librería de componentes}
 %-------------------------------------------------------------------
 
 
