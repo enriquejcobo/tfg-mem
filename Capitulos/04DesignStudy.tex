@@ -157,7 +157,7 @@ De los compontentes que encontramos a la salida del sensor, justificamos la pres
 \label{diseno:sec:actuadores}
 %-------------------------------------------------------------------
 
-ASDASDA
+De forma similar a como procedimos con los sensores presentamos los actuadores que formarán nuestro sistema, partiendo de los requisitos analizados en la sección \ref{previo:sec:actuadores}.
 
 %-------------------------------------------------------------------
 \subsection{Emisor Infrarrojo}
@@ -165,7 +165,28 @@ ASDASDA
 \label{diseno:sec:ir}
 %-------------------------------------------------------------------
 
-JSHDFJAD..
+El \ac{IR} escogido fue el \textbf{Vishay TSUS5202} \cite{tsus}, el cual se caracteriza por los siguientes parámetros.
+
+\begin{multicols}{2}
+\begin{itemize}
+\item Componente \ac{TH}.
+\item Longitud de onda $\lambda_p=950$ nm.
+\item Tiempo de respuesta $t_r=800$ ns.
+\item Corriente máxima de 0.1 A.
+\end{itemize}
+\end{multicols}
+
+De forma análoga a los casos anteriores, presentamos el circuito necesario correspondiente a este actuador en la figura \ref{diseno:fig:ir}.
+
+\figuraEx{Bitmap/Capitulo4/ir}{width=.3\textwidth}{diseno:fig:ir}%
+{Emisor Infrarrojo Vishay TSUS5202.}{Emisor Infrarrojo Vishay TSUS5202.}
+
+El único componente que encontramos es una resistencia, cuya función es la de limitar la corriente que circula por el diodo, puesto que si excede de la máxima especificada el \ac{IR} podría dejar de funcionar. Para no disminuir la potencia de emisión, que es directamente proporcional a la corriente de excitación, impondremos que dicha corriente sea tan similar a la máxima como sea posible. La calculamos como:
+
+$$R_8 \geq {\frac {3.3V-0.7V}{0.1A}}=26\Omega$$
+
+Para asegurar, escogemos un valor de resistencia de $33\Omega$, de forma que se tendrá una corriente de 87 mA.
+
 
 %-------------------------------------------------------------------
 \subsection{Buzzer}
@@ -173,6 +194,12 @@ JSHDFJAD..
 \label{diseno:sec:buzzer}
 %-------------------------------------------------------------------
 
+Para el zumbador elegimos el modelo comercial de \textbf{TDK PS1720} \cite{buzzer}, el cual fue diseñado para aplicaciones de alarma, como corresponde en nuestro caso, y que tiene un precio de 0.75 \euro. La figura \ref{diseno:fig:buzz} muestra el circuito pasa su correcto funcionamiento.
+
+\figuraEx{Bitmap/Capitulo4/buzz}{width=.5\textwidth}{diseno:fig:buzz}%
+{Buzzer TDK PS1720.}{Buzzer TDK PS1720.}
+
+Podemos observar varios componentes en este diseño. En primer lugar remarcamos la presencia del transistor NPN Q1, cuya función es la de hacer de amplificador de corriente a la entrada del zumbador. Además, en paralelo con el buzzer se introduce la resistencia R9 con el propósito de realizar la carga y la descarga del elemento piezoeléctrico. Finalmente, la resistencia R10 se introduce con propósitos de seguridad.
 
 %-------------------------------------------------------------------
 \subsection{LEDs}
@@ -180,15 +207,12 @@ JSHDFJAD..
 \label{diseno:sec:leds}
 %-------------------------------------------------------------------
 
-XDSDFS
+Con el objeto de poder hacer depuración en etapas siguientes del proceso, y como salida visual de diferentes parámetros, añadimos dos \ac{LED}, verde y rojo, al diseño de la placa. Su circuito, similar al visto en la sección \ref{diseno:sec:ir} se presenta en la figura \ref{diseno:fig:led}.
 
-%-------------------------------------------------------------------
-\subsection{GPIOs}
-%-------------------------------------------------------------------
-\label{diseno:sec:gpio}
-%-------------------------------------------------------------------
+\figuraEx{Bitmap/Capitulo4/led}{width=.3\textwidth}{diseno:fig:led}%
+{LED de información y depuración.}{LED de información y depuración.}
 
-SDFSDF
+En este caso, los valores de las resistencias han aumentado con respecto a lo visto en el caso del \ac{LED} \ac{IR}, puesto que en este caso nos basta con que el mismo tenga un nivel de iluminación en el que se permita discernir si está encendido o apagado, por lo que no es necesaria tanta corriente. En este sentido, hemos considerado que un valor de 330$\Omega$ es suficiente.
 
 %-------------------------------------------------------------------
 \section{Esquemático}
