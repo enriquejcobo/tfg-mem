@@ -297,16 +297,9 @@ Como peculiaridad, resaltar que las resistencias R1 y R2 son las responsables de
 \label{diseno:sec:pcb}
 %-------------------------------------------------------------------
 
-SADFQW 
+Como resultado de todo lo anterior, procedemos a realizar el circuito en \ac{PCB}. Esta hará las funciones de interconexión eléctrica entre los distintos componentes y de sustento mecánico a los mismos. 
 
-
-%-------------------------------------------------------------------
-\subsection{Lista de Materiales}
-%-------------------------------------------------------------------
-\label{diseno:sec:bom}
-%-------------------------------------------------------------------
-
-SDFSDFS
+Detallamos a continuación los subapartados que encontraremos. En primer lugar, se presenta el \textit{layout} de la placa, en el que se presenta el diseño de la \ac{PCB}. Para el mismo, se detalla seguidamente la lista de materiales, que relaciona cada huella detallada con su componente. Finalmente, la \textit{shield} final es expuesta.
 
 %-------------------------------------------------------------------
 \subsection{Layout}
@@ -314,7 +307,68 @@ SDFSDFS
 \label{diseno:sec:layout}
 %-------------------------------------------------------------------
 
-ÑOUIOÑUI
+A continuación, en la figura () se presentan los \textit{layouts} de nuestro diseño.
+
+
+
+Para realizar el diseño de la \ac{PCB}, se han tenido en cuenta diversas consideraciones. En primer lugar, y como se puede apreciar, se ha construído bajo dos capas, suficiente para la colocación de los componentes, por lo que no ha sido necesario crear planos de alimentación, lo que hubiera aumentado, además, el coste de producción.
+
+En segundo lugar, durante el rutado, se buscó un compromiso entre anchura de pista (que disminuye las pérdidas por resistividad) y tamaño de la placa. En base a esto, las pistas correspondientes a alimentación, con mayor paso de corriente, se diseñaron más anchas que las usadas para transmitir información.
+
+Adicionalmente, remarcamos la existencia de un plano de masa sobre ambas caras de la \ac{PCB}. Con esto conseguimos una reducción del ruido y de la influencia de emisiones electromagnéticas parásitas, puesto que este plano ofrece un camino de baja impedancia para estas corrientes.
+
+%-------------------------------------------------------------------
+\subsection{Lista de Materiales}
+%-------------------------------------------------------------------
+\label{diseno:sec:bom}
+%-------------------------------------------------------------------
+
+La tabla \ref{diseno:tab:bom} muestra todos los componentes que son necesarios para la fabricación de la \textit{shield}.
+
+\begin{savenotes}
+\begin{table}[h]
+\centering
+\scalebox{1}{
+\begin{tabular}{|l|r l|c|c|c|}
+\hline
+Símbolo & \multicolumn{2}{c|}{Valor} & Descripción & Encapsulado & Cantidad \\ \hline \hline
+TEMP & \multicolumn{2}{c|}{-} & Microchip MCP9800 & SOT 23-5 & 1 \\ \hline
+ACC & \multicolumn{2}{c|}{-} & Freescale MMA8453Q & QFN 16 & 1 \\ \hline
+PIR & \multicolumn{2}{c|}{-} & Panasonic AMN33112J & Radial & 1 \\ \hline
+LUM & \multicolumn{2}{c|}{-} & Avago APDS 9005 & SMD & 1 \\ \hline \hline
+IR & \multicolumn{2}{c|}{-} & Vishay TSUS 5202 & Radial & 1 \\ \hline
+BUZZ & \multicolumn{2}{c|}{-} & TDK PS1720 & Radial & 1 \\ \hline
+RED & \multicolumn{2}{c|}{-} & LED Rojo & 0805 & 1 \\ \hline
+GREEN & \multicolumn{2}{c|}{-} & LED Verde & 0805 & 1 \\ \hline \hline
+R1,2,11 & 4.7 & K$\Omega$ & Resistencia & 0805 & 3 \\ \hline
+R3,13 & 10 & K$\Omega$ & Resistencia & 0805 & 2 \\ \hline
+R6,7 & 330 & $\Omega$ & Resistencia & 0805 & 2 \\ \hline
+R8 & 33 & $\Omega$ & Resistencia & 0805 & 1 \\ \hline
+R9,10 & 1 & K$\Omega$ & Resistencia & 0805 & 2 \\ \hline
+R12 & 200 & $\Omega$ & Resistencia & 0805 & 1 \\ \hline \hline
+C1 & 4.7 & $\mu$F & Condensador cerámico & 0805 & 1 \\ \hline
+C2,3,5 & 0.1 & $\mu$F & Condensador cerámico & 0805 & 3 \\ \hline
+C4 & 10 & $\mu$F & Condensador cerámico & 0805 & 1 \\ \hline \hline
+Q1 & \multicolumn{2}{c|}{-} & Transistor NPN & Axial & 1 \\ \hline
+hd40 & \multicolumn{2}{c|}{-} & Header aplilable de 10 pines & Axial & 4 \\ \hline
+\end{tabular}
+}
+\caption{Lista de Materiales.
+\label{diseno:tab:bom}}
+\end{table}
+\end{savenotes}
+
+Como consideración de diseño, y siempre que ha sido posible, para los componentes pasivos hemos preferido usar encapsulado \ac{SMD}, y con tamaño 0805\footnote{2 mm x 1.3 mm (0.08 in x 0.05 in).}. Esto viene motivado debido al hecho de que ocupan un menor tamaño que sus homólogas en \ac{TH}, ofreciendo características similares, y permiten igualmente diseños de bajo consumo.
+
+
+%-------------------------------------------------------------------
+\subsection{Resultado final}
+%-------------------------------------------------------------------
+\label{diseno:sec:final}
+%-------------------------------------------------------------------
+
+La figura () muestra el resultado final de nuestra placa de sensores y actuadores. Como se aprecia, aparecen remarcados componentes más importantes que la conforman.
+
 
 
 %-------------------------------------------------------------------
