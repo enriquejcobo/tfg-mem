@@ -60,8 +60,8 @@ De los modelos presentados en la tabla \ref{previo:tab:temp}, decidimos escoger 
 \item Error máximo de $\pm$1ºC entre -10ºC y 85ºC.
 \item Resolución seleccionable de 9-12 bits.
 \item Conexión I$^2$C.
-\item Corriente de operación típica de 200 $\mu$A.
-\item Corriente de apagado máxima de 1 $\mu$A.
+\item Corriente de operación de 200 $\mu$A.
+\item Corriente de apagado de 1 $\mu$A.
 \item Salida independiente configurable (ALERTA).
 \end{itemize}
 \end{multicols}
@@ -237,7 +237,7 @@ En los siguientes subapartados se presenta la forma en la que los distintos comp
 
 En el diagrama de bloques de la figura \ref{diseno:fig:bloques} presentamos las interfaces del \ac{MCU} y su conexión con los sensores y actuadores de nuestra placa. Asimismo, se presenta el pin del \textit{header} al que se conecta.
 
-\figuraEx{Bitmap/Capitulo4/bloques}{width=.7\textwidth}{diseno:fig:bloques}%
+\figuraEx{Bitmap/Capitulo4/bloques}{width=0.85\textwidth}{diseno:fig:bloques}%
 {Diagrama de Bloques de la Placa de Expansión.}{Diagrama de Bloques de la Placa de Expansión.}
 
 En adición, y a modo de resumen, presentamos en la tabla \ref{diseno:tab:ifaz} una relación de los componentes, tanto sensores como actuadores, la forma de comunicación y los pines del \textit{header} que ocupa, así como el periférico del \ac{MCU} del que hacen uso en relación con lo visto en la tabla \ref{previo:tab:headerspinout}.
@@ -377,24 +377,32 @@ La figura () muestra el resultado final de nuestra placa de sensores y actuadore
 \label{diseno:sec:herramientas}
 %-------------------------------------------------------------------
 
-
-UYKJRTFRU7JRFU
-
+Para la realización de estos trabajos, ha sido necesario usar ciertas herramientas, tanto \textit{software} como \textit{hardware}. Las introducimos a continuación
 
 %-------------------------------------------------------------------
 \subsection{Altium Designer}
 %-------------------------------------------------------------------
 
-SDJGKFAH U
+Altium Designer ha sido el \textit{software} utilizado para los aspectos eléctricos de diseño, \ac{EDA}. Altium Designer es una aplicación diseñada para la creación de \ac{PCB}, FPGA, entre otras; desarrollada por Altium Limited.
 
-%-------------------------------------------------------------------
-\subsubsection{Librería de componentes}
-%-------------------------------------------------------------------
+Del conjunto de funciones que integran este \textit{software}, las principales usadas serán las concernientes al diseño del esquemático y de la \ac{PCB}. En este sentido, destacamos las siguientes:
+
+\begin{itemize}
+\item \emph{Gestión de librerías de componentes}, tanto de los esquemas como de sus huellas. En este sentido, se han usado:
+	\begin{itemize}
+	\item LSI. Librería colaborativa desarrollada en el \ac{LSI} en el que se encuentran los componentes ya utilizados.
+	\item SensoresActuadores. Librería propia en la que se diseñaron los componentes que no se encontraban en la anterior. Continuando con la filosofía, una vez testados se incorporaron a la misma.
+	\end{itemize}
+\item \emph{Posicionamiento y rutado de componentes}, que nos permite diseñar libremente nuestro \textit{layout}.
+\item \emph{Revisión de reglas de diseño}. Con los datos provenientes del fabricante de la \ac{PCB}, introducíamos una serie de requisitos, los cuales eran verificados automáticamente por Altium.
+\item \emph{Generación de ficheros para fabricación}, fundamental para la realización física de la \ac{PCB}.
+\end{itemize}
 
 
 %-------------------------------------------------------------------
 \subsection{Puesto de Soldadura}
 %-------------------------------------------------------------------
 
-FGHDG 
+Los componentes y la \ac{PCB} fueron adquiridos por separado, por lo que tuvieron que ser soldados \textit{a posteriori}. La estacíón de soldadura JBC AM6000 \cite{jbc} fue usada con este propósito, proporcionando puntas de soldadura de entre 1 y 4 mm de diámetro y otras herramientas prácticas, como pinzas calientes o soldadora por aire caliente.
 
+Debido a la presencia de compontentes de tamaño reducido, se hizo necesario el uso de un microscopio con el objeto de realizar soldaduras precisas. Es por ello que en el puesto de soldadura también contábamos con un microscopio Bausch \& Lomb StereoZoom 4, así como de unas mordazas que permitían mantener fija la placa y unas pinzas adecuadas para poder colocar los componentes \ac{SMD} en su posición a la hora de realizar la soldadura.
