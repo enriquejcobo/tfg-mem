@@ -9,38 +9,17 @@
 
 \begin{FraseCelebre}
 \begin{Frase}
-At last the long wait is over \\
-the weight is off my shoulders \\
-I'm taking all control, yeah
+La gente crítica con el software \\
+debería hacer su propio hardware.
 \end{Frase}
 \begin{Fuente}
-Thomas \& Guy-Manuel, Daft Punk
+Alan Kay
 \end{Fuente}
 \end{FraseCelebre}
 
 \begin{resumen}
 This chapter gives a vision about the main changes required for the firmware to be adapted to the platform, the new software implementations and the behavior of the final demo application.
 \end{resumen}
-
-%-------------------------------------------------------------------
-\section{Herramientas}
-%-------------------------------------------------------------------
-\label{software:sec:herramientas}
-%-------------------------------------------------------------------
-
-%-------------------------------------------------------------------
-\subsection{MPLAB X}
-%-------------------------------------------------------------------
-\label{software:sub:mplabx}
-%-------------------------------------------------------------------
-\todo{Escribir...}
-
-%-------------------------------------------------------------------
-\subsection{Programador: ICD 3}
-%-------------------------------------------------------------------
-\label{software:sub:icd3}
-%-------------------------------------------------------------------
-\todo{Escribir...}
 
 %-------------------------------------------------------------------
 \section{Interfaz Hardware-Software}
@@ -53,9 +32,42 @@ This chapter gives a vision about the main changes required for the firmware to 
 %-------------------------------------------------------------------
 \subsection{Demostración}
 %-------------------------------------------------------------------
-\label{software:subsec:demo}
+\label{software:sec:demo}
 %-------------------------------------------------------------------
 \todo{Escribir...}
+
+%-------------------------------------------------------------------
+\section{Herramientas}
+%-------------------------------------------------------------------
+\label{software:sec:herramientas}
+%-------------------------------------------------------------------
+
+Al igual que en casos anteriores, presentamos las herramientas utilizadas para la realización del \textit{software} de tanto la \ac{HAL} como de la demo.
+
+%-------------------------------------------------------------------
+\subsection{MPLAB X}
+%-------------------------------------------------------------------
+\label{software:sub:mplabx}
+%-------------------------------------------------------------------
+
+MPLAB X es la \ac{IDE} desarrollada por Microchip para la programación de sus microcontroladores. Está basado en el NetBeans \ac{IDE}, \textit{open-source} de Oracle, e incluye integrado el compilador de C para sus dispositivos. Entre algunas de las opciones que ofrece destacamos:
+
+\begin{itemize}
+\item Varias herramientas de depuración.
+\item \textit{Parsing} y control de sintaxis en tiempo real.
+\item Hipervínculos que permiten una navegación rápida para acceder a las declaraciones.
+\end{itemize}
+
+Más información puede ser consultada en el manual \cite{mplabx}.
+
+%-------------------------------------------------------------------
+\subsection{Programador: ICD 3}
+%-------------------------------------------------------------------
+\label{software:sub:icd3}
+%-------------------------------------------------------------------
+
+El \ac{ICD} es el dispositivo que permite programar el microcontrolador. En nuestro caso usaremos el \ac{ICD} 3 \cite{icd3}, el cual ha sido desarrollado para los productos de Microchip. Como característica adicional, ester dispositivo puede ser usado, en combinación con el MPLAB, para la depuración en tiempo real del \textit{software} corriendo en el \ac{MCU}, permitiendo hasta 6 puntos de parada. Este hecho resultará crucial en los siguientes apartados.
+
 
 %
 % Variable local para emacs, para  que encuentre el fichero maestro de
