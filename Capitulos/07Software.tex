@@ -27,10 +27,87 @@ This chapter gives a vision about the main changes required for the firmware to 
 \label{software:sec:interfaz}
 %-------------------------------------------------------------------
 
-\todo{Escribir...}
+La interfaz \textit{hardware}-\textit{software} no es más que una capa, dentro del sistema, que se encarga de abstraer los recursos \textit{hardware} por medio de funciones que pueden ser invocadas y que rigen su funcionamiento. Es por ello que esta interfaz también se la conoce por el nombre de \ac{HAL}.
+
+El lenguaje usado para la realización de la misma será C, puesto que se dispone de una amplia librería de funciones ya desarrolladas por el fabricante para el microcontrolador en este lenguaje, y puesto que fue el \textit{software} usado para escribir el \ac{CNGD}. El manual de referencia usado ha sido \cite{thec}. 
+
+Nuestro código será implementado básicamente en dos ficheros: \verb@SensorsHAL.c@, que será el fichero maestro en el que se encuentren detalladas las acciones llevadas a cabo por las funciones, y \verb@SensorsHAL.h@, en el cual se encuentran las cabeceras exportadas de las funciones, de forma que las mismas puedan ser accedidas desde otro punto del programa en el que se incluya este fichero.
+
+Todo el código desarrollado se encuentra accesible públicamente en Internet siguiendo el siguiente enlace o consultando el código QR de la figura \ref{software:fig:qrgithub}: \url{http://github.com/enriquejcobo/tfg-soft}
+
+\figuraEx{Bitmap/Capitulo7/qrgithub}{width=.3\textwidth}{software:fig:qrgithub}%
+{Repositorio público del \textit{software}.\\\url{http://github.com/enriquejcobo/tfg-soft}}{Repositorio público del \textit{software}.}
 
 %-------------------------------------------------------------------
-\subsection{Demostración}
+\subsection{Funciones generales y adaptación}
+%-------------------------------------------------------------------
+\label{software:sec:general}
+%-------------------------------------------------------------------
+
+En los siguientes subapartados iremos presentado las funciones que se han desarrollado para hacer la abstracción a nivel \textit{software} de nuestros sensores y actuadores. En primer lugar presentamos las funciones que son comunes al propio sistema, debido a que engloban varios dispositivos del mismo. Estas son:
+
+\begin{itemize}
+\item \verb@InitSensors@. Su misión es la de preparar los periféricos dentro del \ac{MCU}, de forma que se habiliten los necesarios y en los pines correctos.
+\item \verb@IntTmp@. Rutina de atención a la interrupción causada por el temporizador interno TMR5, necesaria tanto para definir tiempos de espera como señales moduladas.
+\item \verb@IntCN@. Rutina de atención a la interrupción motivada por el cambio en alguna señal rutada hacia un \ac{CN}, tomando las acciones necesarias.
+\end{itemize}
+
+%-------------------------------------------------------------------
+\subsection{Sensores}
+%-------------------------------------------------------------------
+\label{software:sec:sensores}
+%-------------------------------------------------------------------
+
+%-------------------------------------------------------------------
+\subsubsection{Temperatura}
+%-------------------------------------------------------------------
+\label{software:sec:temp}
+%-------------------------------------------------------------------
+
+%-------------------------------------------------------------------
+\subsubsection{Acelerómetro}
+%-------------------------------------------------------------------
+\label{software:sec:acc}
+%-------------------------------------------------------------------
+
+%-------------------------------------------------------------------
+\subsubsection{Presencia}
+%-------------------------------------------------------------------
+\label{software:sec:pir}
+%-------------------------------------------------------------------
+
+%-------------------------------------------------------------------
+\subsubsection{Luminosidad}
+%-------------------------------------------------------------------
+\label{software:sec:temp}
+%-------------------------------------------------------------------
+
+%-------------------------------------------------------------------
+\subsection{Actuadores}
+%-------------------------------------------------------------------
+\label{software:sec:actuadores}
+%-------------------------------------------------------------------
+
+%-------------------------------------------------------------------
+\subsubsection{Emisor infrarrojo}
+%-------------------------------------------------------------------
+\label{software:sec:ir}
+%-------------------------------------------------------------------
+
+%-------------------------------------------------------------------
+\subsubsection{Buzzer}
+%-------------------------------------------------------------------
+\label{software:sec:buzz}
+%-------------------------------------------------------------------
+
+%-------------------------------------------------------------------
+\subsubsection{LEDs}
+%-------------------------------------------------------------------
+\label{software:sec:leds}
+%-------------------------------------------------------------------
+
+%-------------------------------------------------------------------
+\section{Demostración}
 %-------------------------------------------------------------------
 \label{software:sec:demo}
 %-------------------------------------------------------------------
