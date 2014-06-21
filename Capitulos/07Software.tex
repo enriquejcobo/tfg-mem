@@ -31,7 +31,7 @@ La interfaz \textit{hardware}-\textit{software} no es más que una capa, dentro d
 
 El lenguaje usado para la realización de la misma será C, puesto que se dispone de una amplia librería de funciones ya desarrolladas por el fabricante para el microcontrolador en este lenguaje, y puesto que fue el \textit{software} usado para escribir el \ac{CNGD}. El manual de referencia usado ha sido \cite{thec}. 
 
-Nuestro código será implementado básicamente en dos ficheros: \verb@SensorsHAL.c@, que será el fichero maestro en el que se encuentren detalladas las acciones llevadas a cabo por las funciones, y \verb@SensorsHAL.h@, en el cual se encuentran las cabeceras exportadas de las funciones, de forma que las mismas puedan ser accedidas desde otro punto del programa en el que se incluya este fichero.
+Nuestro código será implementado básicamente en dos ficheros: \verb@SensorsHAL.c@, que será el fichero maestro en el que se encuentren detalladas las acciones llevadas a cabo por las funciones, y \verb@SensorsHAL.h@, en el cual se encuentran las cabeceras exportadas de las mismas, de forma que las mismas puedan ser accedidas desde otro punto del programa en el que se incluya este fichero.
 
 Todo el código desarrollado se encuentra accesible públicamente en Internet siguiendo el siguiente enlace o consultando el código QR de la figura \ref{software:fig:qrgithub}: \url{http://github.com/enriquejcobo/tfg-soft}
 
@@ -47,9 +47,18 @@ Todo el código desarrollado se encuentra accesible públicamente en Internet sigu
 En los siguientes subapartados iremos presentado las funciones que se han desarrollado para hacer la abstracción a nivel \textit{software} de nuestros sensores y actuadores. En primer lugar presentamos las funciones que son comunes al propio sistema, debido a que engloban varios dispositivos del mismo. Estas son:
 
 \begin{itemize}
-\item \verb@InitSensors@. Su misión es la de preparar los periféricos dentro del \ac{MCU}, de forma que se habiliten los necesarios y en los pines correctos.
-\item \verb@IntTmp@. Rutina de atención a la interrupción causada por el temporizador interno TMR5, necesaria tanto para definir tiempos de espera como señales moduladas.
-\item \verb@IntCN@. Rutina de atención a la interrupción motivada por el cambio en alguna señal rutada hacia un \ac{CN}, tomando las acciones necesarias.
+\item \verb@InitSensors ()@. Su misión es la de preparar los periféricos dentro del \ac{MCU}, de forma que se habiliten los necesarios y en los pines correctos.
+\item \verb@IntTmp ()@. Rutina de atención a la interrupción causada por el temporizador interno TMR5, necesaria tanto para definir tiempos de espera como señales moduladas.
+\item \verb@IntCN ()@. Rutina de atención a la interrupción motivada por el cambio en alguna señal rutada hacia un \ac{CN}, tomando las acciones necesarias.
+\end{itemize}
+
+Aparte de estas funciones, ha sido necesario modificar en parte los siguientes archivos, pertenencientes al \textit{firmware} del \ac{CNGD}, para que la integración de ambos cógidos sea posible. En este sentido, los archivos modificados han sido:
+
+\begin{itemize}
+\item \verb@HardwareConfig.h@. En este fichero se encuentran las definiciones de los periféricos usados por el nodo, de forma que el diseño es totalmente modular, comentando y descomentando en función de las necesidades particulares de cada unidad. \\
+En este sentido, se ha definido la placa y, dentro de ella, cada uno de los sensores y actuadores que pueden formar parte, de tal manera que si se obviara alguno de estos las funciones y los periféricos del \ac{MCU} asociados dejarían de ser usados con este propósito.
+\item \verb@HardwareProfile.h@. En este código se producen las asignaciones, en función del archivo anterior, de los pines a sus diferentes periféricos, de forma que un cambio en los mismos se simplifica únicamente modificando su etiqueta. \\
+Esto es muy relevante, puesto que se trata de un fichero en el que estas asignaciones se hacen a nivel de nodo, de forma que cualquier cambio puede ser realizado únicamente variando este fichero.
 \end{itemize}
 
 %-------------------------------------------------------------------
@@ -58,11 +67,28 @@ En los siguientes subapartados iremos presentado las funciones que se han desarr
 \label{software:sec:sensores}
 %-------------------------------------------------------------------
 
+De forma paralela a como se viene estructurando este documento, presentamos a continuación todo el código desarrollado para los sensores que figuran en nuestra placa. Detallamos únicamente las funciones exportadas y que, por tanto, serán las que pueden ser llamadas en otro punto del \textit{software}, dejando aquellas privadas únicamente accesibles desde este fichero y que únicamente cumplen propósitos de evitar duplicidades.
+
 %-------------------------------------------------------------------
 \subsubsection{Temperatura}
 %-------------------------------------------------------------------
 \label{software:sec:temp}
 %-------------------------------------------------------------------
+
+El sensor de temperatura dispone de una interfaz I$^2$C, por el que se realiza la lectura y configuración de los registros, y una salida GPIO, denominada ALERT. Sus funciones aparecen recogidas a continuación:
+
+\begin{itemize}
+\item \verb@getTemp ()@. Esta función devuelve la medida de la temperatura en forma de un entero, si bien este representa un número real de coma fija, en el que el primer byte representa la parte entera y el segundo la parte decimal. \\
+Un ejemplo sería el siguiente: Si recibimos la palabra, en hexadecimal, \verb@temp = 1C80@, esta debe interpretarse como \verb@1C@ la parte entera, igual a 28 en el sistema decimal, y \verb@80@ la fraccionaria, que por este motivo su representación en decimal es 0.5. Sumando ambos números, obtenemos un valor de temperatura de 28.5 ºC.
+\item \verb@setTempResolution (int res)@. Permite modificar el registro de configuración asignando un nuevo valor de resolución, en función del argumento, que es un número entre 0 y 3, ambos inclusive. \\
+Estos números implican una adición de un bit a la parte fraccionaria, de forma que un 0 conlleva ningún bit fraccionario (con una precisión, por tanto, de $\pm$0.5 ºC), mientras que un 3 nos ofrece como resultado 3 bits (con una precisión de $\pm$0.0625 ºC)
+\item \verb@setTempAlert (int reg, INT8 alert)@. Modifica los registros correspondientes a los umbrales superior (\verb@MAX_HIGH@) e inferior (\verb@MAX_LOW@), poniendo el valor de \verb@alert@ en los mismos. \verb@alert@ debe redondearse al entero más próximo. La figura \ref{software:fig:tempalert} muestra esta salida en función del valor de los registros.
+\item \verb@setTempLowPower ()@. Modifica el registro de configuración poniendo el sensor de temperatura en un estado de bajo consumo, en el que se detiene la conversión de temperatura pero permanece abierto la interfaz I$^2$C. La medida de temperatura, en este caso, necesita un tiempo de conversión, para lo que se hace uso del temporizador interno.
+\item \verb@getTempAlert ()@. Lee, del GPIO correspondiente, el valor de si hay alarma detectada o no. Como referimos en apartados anteriores, el valor de la alarma varía únicamente si el dispositivo se encuentra el estado despierto, o bien cuando en el estado dormido se le haga una petición de lectura de temperatura.
+\end{itemize}
+
+\figuraEx{Bitmap/Capitulo7/tempalert}{width=.6\textwidth}{software:fig:tempalert}%
+{Salida de ALERT en función de los valores de sus registros.}{Salida de ALERT en función de los valores de sus registros.}
 
 %-------------------------------------------------------------------
 \subsubsection{Acelerómetro}
@@ -70,17 +96,34 @@ En los siguientes subapartados iremos presentado las funciones que se han desarr
 \label{software:sec:acc}
 %-------------------------------------------------------------------
 
+Nuestro acelerómetro se conecta al sistema por medio de la interfaz I$^2$C y por medio de las señales INT1 e INT2, conectadas a sendos puertos \ac{CN}. Las funciones desarrolladas para manejarlo se describen a continuación.
+
+\begin{itemize}
+\item \verb@getAcc ()@. Función que consunta al acelerómetro las aceleraciones correspondientes a los tres ejes ($\hat{x}$, $\hat{y}$, $\hat{z}$) y las guarda en variables locales. Puesto que son tres valores distintos, tomamos la decisión de diseño de que esta función únicamente trajera los datos, siendo necesario invocar otra para acceder a ellos.
+\item \verb@getAccX ()@, \verb@getAccY ()@, \verb@getAccZ ()@. Acceden a las variables locales en las que previamente se han almacenado los valores de las aceleraciones en los ejes correspondientes.
+\item \verb@setAccInt (int interrupcion, int source)@. Permite modificar los parámetros correspondientes a la interrupción que se le pasa por parámetro modificando ciertos parámetros, como puede ser la fuente (\verb@source@) que la ocasiona.
+\item \verb@getAccInt1 ()@, \verb@getAccInt2 ()@. Devuelve \verb@TRUE@ o \verb@FALSE@ en función de si hay interrupción pendiente o no. En principio estas funciones no serían necesarias, puesto que al estar rutadas hacia \ac{CN}s, el vector de interrrupción correspondiente atendería la petición cuando se genere.
+\end{itemize}
+
 %-------------------------------------------------------------------
 \subsubsection{Presencia}
 %-------------------------------------------------------------------
 \label{software:sec:pir}
 %-------------------------------------------------------------------
 
+De forma similar a como ocurría en el caso anterior, la salida de este sensor se encuentra conectada a un \ac{CN}, por lo que será necesario atender a la rutina de interrrupción \verb@IntCN ()@ y, en base a esto, definir las acciones que sean necesarias.
+
+No obstante, puesto que este puerto también es accesible \textit{on-demand}, creamos la función \verb@getPIR ()@, la cual devuelve \verb@TRUE@ si halla presencia, o \verb@FALSE@, en caso contrario.
+
 %-------------------------------------------------------------------
 \subsubsection{Luminosidad}
 %-------------------------------------------------------------------
 \label{software:sec:temp}
 %-------------------------------------------------------------------
+
+Como ya conocemos, la salida del sensor de luminosidad es una tensión proporcional a la fotocorriente causada por la iluminación del dispositivo, por lo que se conecta a un puerto \ac{ADC} del microcontrolador, para que éste haga la conversión, a 10 bits y en el intervalo 0 V--3.3 V, de la tensión que le llega. Este puerto ha sido previamente inicializado en la rutina \verb@InitSensors ()@.
+
+Para consultar el valor de luminosidad, basta con llamar a \verb@getLum ()@, el cual solicita realizar la medida al \ac{ADC}. Para obtener una medida actual, desechando valores anteriores, esta petición se realiza 10 veces. Esta función devuelve un entero que representa la tensión.
 
 %-------------------------------------------------------------------
 \subsection{Actuadores}
