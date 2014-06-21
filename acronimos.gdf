@@ -30,8 +30,6 @@
 
 @entry{ISM, , \emph{Industrial, Scientific and Medical}}
 
-@entry{CN, , \emph{Cognitive Network}}
-
 @entry{SN, , \emph{Sensor Network}}
 
 @entry{WN, , \emph{Wireless Network}}
@@ -213,6 +211,8 @@
 @entry{AMI, AmI, \emph{Ambient Intelligence}}
 
 @entry{OTG, , \emph{On-The-Go}}
+
+@entry{P2P, , \emph{Peer-to-Peer}}
 
 @entry{ADC, ,\emph{Analog-to-Digital Converter}}
 

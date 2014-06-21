@@ -131,11 +131,24 @@ Para consultar el valor de luminosidad, basta con llamar a \verb@getLum ()@, el 
 \label{software:sec:actuadores}
 %-------------------------------------------------------------------
 
+Análogamente, procedemos a presentar las funciones que requieren los actuadores incorporados, bajo las mismas condiciones enunciadas en las subsecciones anteriores.
+
 %-------------------------------------------------------------------
 \subsubsection{Emisor infrarrojo}
 %-------------------------------------------------------------------
 \label{software:sec:ir}
 %-------------------------------------------------------------------
+
+La comunicación infrarroja se realiza bajo el paragüas de bajos estándares. Nosotros implementaremos el más extendido, y por tanto más polivalente, el NEC, el cual está basado en una modulación por distancia de pulsos sobre una portadora de 38 kHz \cite{nec}. La figura \ref{software:fig:tramanec} muestra un ejemplo de la trama resultante de la aplicación de este protocolo.
+
+\figuraEx{Bitmap/Capitulo7/tramanec}{width=.9\textwidth}{software:fig:tramanec}%
+{Ejemplo de trama del protocolo NEC, obtenida de \cite{nec}.}{Ejemplo de trama del protocolo NEC, usado en comunicación infrarroja.}
+
+La implementación llevada a cabo en esta \ac{HAL} ha sido la de usar un \textit{buffer}, puesto que previmos que en la implementación final del sistema se tendría la necesidad de enviar varios comandos seguidos. El tamaño del mismo puede contrarle por la constante \verb@BUFFER_MAX@. Además, con este método conseguimos que la transmisión por el puerto \ac{IR} no sea bloqueante del programa principal, puesto que la transmisíón entera dura 67.5 ms, y el encadenamiento de varias puede originar un paro significativo en la ejecución.
+
+Como resultado de requerir una modulación, será necesario emplear de nuevo el temporizador interno, con la frecuencia suficiente para ser capaz de obtener una señal pulsada de 38 kHz. Como consecuencia, la máquina de estados que gobierne la transmisión y el \textit{buffer} tendrá que llamarse desde la rutina de atención a la interrupción, si bien es muy ligera desde el punto de vista de tiempo de ejecución. Esto además posibilita el hecho de que se pueda seguir ejecutanto el programa principal entre activaciones de la interrupción.
+
+La función que permite añadir comandos a la cola de transmisión se denomina \verb@sendIR (int address, int command)@, en la que los argumentos indican tanto la dirección \ac{IR} de la máquina como el comando a transmitir. Sugerimos que, de cara a una implementación final, se añadan como constantes las direcciones y de los comandos, de forma que sean fácilmente referenciables.
 
 %-------------------------------------------------------------------
 \subsubsection{Buzzer}
@@ -143,18 +156,53 @@ Para consultar el valor de luminosidad, basta con llamar a \verb@getLum ()@, el 
 \label{software:sec:buzz}
 %-------------------------------------------------------------------
 
+El buzzer se activa mediante una señal rectangular periódica, cuya frecuencia determina además la frecuencia del tono acústico que percibimos. Hemos decidido implementar dos tonos que se alternan, con el motivo de tratar de imitar el sonido característico de una alarma. Las frecuencias de ambas serían $f_{High}=2$ kHz y $f_{Low}=1.5$ kHz.
+
+Para este actuador volveremos a requerir la interrupción periódica, la cual, como hemos visto en la sección \ref{software:sec:ir}, es capaz de soportar las frecuencias que se precisan.
+
+Se han desarrollado dos funciones que gobiernan el control del mismo: \verb@buzzerOn ()@, que hace que el buzzer empiece a sonar, y \verb@buzzerOff ()@, que lo detiene.
+
 %-------------------------------------------------------------------
 \subsubsection{LEDs}
 %-------------------------------------------------------------------
 \label{software:sec:leds}
 %-------------------------------------------------------------------
 
+Como se expuso en la sección \ref{diseno:sec:leds}, se han introducido dos \ac{LED} que permitan mostrar distintas señales, en función del contexto y del sistema final. Las funciones que producen su modificación son las que siguen:
+
+\begin{itemize}
+\item \verb@LedOn (sensorLed sl)@, que enciende el \ac{LED} \verb@sl@.
+\item \verb@LedOff (sensorLed sl)@, en el que se fuerza el apagado del \ac{LED} \verb@sl@.
+\item \verb@LedToggle (sensorLed sl)@, que conmuta el estado del \ac{LED} \verb@sl@.
+\end{itemize}
+
+\verb@sensorLed@ es un tipo definido que consta de los valores \verb@GREEN@, \verb@RED@ los cuales identifican al \ac{LED} por su color, y \verb@BOTH@, que refiere que se quiere actuar sobre ambos.
+
 %-------------------------------------------------------------------
-\section{Demostración}
+\section{Aplicación de prueba}
 %-------------------------------------------------------------------
 \label{software:sec:demo}
 %-------------------------------------------------------------------
-\todo{Escribir...}
+
+Como consecuencia de haber desarrollado una \ac{HAL}, se hace necesario el crear una aplicación demostrativa que ilustre el correcto funcionamiento de la placa creada e implementada en combinación con el \textit{software} que la gobierna.
+
+No cabe olvidar que la meta del trabajo reside en incluir nuestra \textit{shield} dentro de un nodo de una \ac{CWSN}, por lo también es necesario que las placas implantadas en distintos nodos sean capaces de comunicarse entre ellas.
+
+En este sentido, se desarrolla una aplicación que consta de los siguientes pasos:
+
+\begin{enumerate}
+\item Se llevan a cabo las rutinas de inicialización del sistema, tanto del \ac{CNGD} como de la placa de Sensores y Actuadores.
+\item Se establecen las comunicaciones, siguiendo el protocolo \ac{P2P} Unicast, y se deciden los canales por los que se realizará la comunicación.
+\item Se lleva a cabo la ejecución perpetua del programa principal, buscando variaciones en los sensores:
+	\begin{itemize}
+	\item Si la temperatura se ha incrementado en más de 3 ºC desde la última lectura, se mandan instrucciones al aire acondicionado por vía \ac{IR} para que se encienda.
+	\item Toda solicitud de interrupción por parte del acelerómetro disparará la alarma y la del nodo vecino, hasta que se restablezca.
+	\item En caso de presencia detectada, se ilumina el \ac{LED} rojo durante unos segundos.
+	\item Si la luz excede de un umbral determinado, se ilumina el \ac{LED} verde; y viceversa.
+	\end{itemize}
+\end{enumerate}
+
+Este programa se ha diseñado bajo la idea de que ilustre el funcionamiento de todos los sensores y actuadores que se incluyen en la placa, de forma que una variación de los mismos implique una modificación en algún parámetro.
 
 %-------------------------------------------------------------------
 \section{Herramientas}
