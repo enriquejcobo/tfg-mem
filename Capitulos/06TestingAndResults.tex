@@ -9,13 +9,11 @@
 
 \begin{FraseCelebre}
 \begin{Frase}
-She's up all night to the sun\\
-I'm up all night to get some\\
-she's up all night for good fun\\
-I'm up all night to get lucky 
+Hay una forma de hacerlo mejor \\
+--encuéntrala.
 \end{Frase}
 \begin{Fuente}
-Thomas \& Guy-Manuel, Daft Punk
+Thomas Alva Edison
 \end{Fuente}
 \end{FraseCelebre}
 
@@ -24,11 +22,119 @@ Some tests were applied to the main platform modules for the purpose of proving 
 \end{resumen}
 
 %-------------------------------------------------------------------
-\section{Resultados}
+\section{Hardware}
 %-------------------------------------------------------------------
-\label{pruebas:sec:resultados}
+\label{pruebas:sec:hardware}
+%-------------------------------------------------------------------
+
+A continuación se presentan las pruebas que se realizaron desde el punto de vista del comportamiento \textit{hardware} a tanto los dispositivos como a la placa en la que se enmarcan.
+
+%-------------------------------------------------------------------
+\subsection{Sensores y Actuadores}
+%-------------------------------------------------------------------
+\label{pruebas:sec:hardsensores}
+%-------------------------------------------------------------------
+
+Detallamos en primer lugar las pruebas realizadas a los sensores tomando la perspectiva \textit{hardware}, comenzando por el sensor de \textbf{Luminosidad}. Para verificar el correcto funcionamiento del mismo, se realizó el montaje detallado en la figura \ref{diseno:fig:lum}, y se comprobó que, para distintos niveles de iluminación (aplicándole una fuente lumínica externa o cubriendo el detector) obteníamos a la salida distintos niveles de tensión, medidos en el osciloscopio. 
+
+Asimismo, observamos que la adición del condensador reducía el ruido por rizado de alta frecuencia cuando la iluminación provenía de fuentes fluorescentes.
+
+\medskip
+
+A continuación procedemos a evaluar el sensor de \textbf{Presencia}. El circuito que implementamos es el de la figura \ref{diseno:fig:pir} y se alimentó con las mismas tensiones que tendría en la placa, haciendo uso de una fuente de alimentación. Conectando la sonda al pin de salida, observamos que la señal se ponía a nivel alto cuando pasábamos la mano sobre él, y que volvía a nivel bajo cuando la quitábamos, con unos tiempos de establecimiento.
+
+No obstante, nos percatamos de que la adición de la resistencia de \textit{pull-down} nos introducía un efecto de carga en el nivel alto, si bien la tensión resultante no era mucho menor de la que se debía obtener al ser la resistencia de valor alto, por lo que concluimos la prueba satisfactoriamente.
+
+\medskip
+
+No se pudieron aplicar pruebas similares a los sensores de \textbf{Temperatura} y \textbf{Acelerómetro}, puesto que, como se ha comentado en apartados anteriores, necesitan de la interfaz \ac{I2C} para la obtención de resultados o modificación de parámetros.
+
+\medskip
+
+En cuanto a los actuadores, comenzamos detallando el \textbf{Emisor Infrarrojo}. Para las pruebas con este dispositivo se hizo necesario un detector para la longitud de onda del mismo, por dos motivos. En primer lugar porque la luz que emite no es visible para el ojo humano y, en segundo lugar, aunque lo fuera, la modulación usada haría imposible la comprobación del buen funcionamiento. Es por ello que usamos el detector Vishay TSOP1138 \cite{detectorir}, siguiendo un montaje similar al que encontramos en la figura \ref{pruebas:fig:detectorir}.
+
+\figuraEx{Bitmap/Capitulo6/detectorir}{width=.5\textwidth}{pruebas:fig:detectorir}%
+{Detector infrarrojo Vishay TSOP1138, obtenido de \cite{detectorir}.}{Detector infrarrojo Vishay TSOP1138.}
+
+Conectamos la salida de este detector a la sonda del osciloscopio, y alimentamos el circuito del \ac{IR} como ilustra la figura \ref{diseno:fig:ir}. Observamos que la salida del detector está a nivel alto cuando no recibe nada, y pasa a nivel bajo durante un instante cuando recibe señal de forma continuada. Este comportamiento es el esperado, por lo que la prueba es satisfactoria.
+
+\medskip
+
+Con los \textbf{LEDs} de propósito general, realizamos una prueba similar, alimentando el circuito de la figura \ref{diseno:fig:led}. En este caso todo es más sencillo, puesto que la luz emitida por estos \ac{LED} sí pertenece al rango visible, por lo que observamos que lucen perfectamente.
+
+\medskip
+
+No fue necesario realizar una prueba similar con el \textbf{Buzzer}, puesto que cuando este componente fue recibido ya estaba desarrollado el \textit{software} para el mismo, así que se probó en combinación con este.
+
+%-------------------------------------------------------------------
+\subsection{PCB}
+%-------------------------------------------------------------------
+\label{pruebas:sec:pcb}
+%-------------------------------------------------------------------
+
+Las pruebas realizadas en el ámbito de la \ac{PCB} fueron generalmente test eléctricos para comprobar la soldadura, o las conexiones entre pistas. Para ello se hizo indispensable la ayuda de un multímetro, que será detallado más abajo, en la sección \ref{pruebas:sec:multimetro}. Las mismas se detallan a continuación.
+
+\begin{itemize}
+\item En primer lugar realizamos una inspección óptica, comprobando que el \textit{layout} de la placa es el esperado.
+\item Cuando conectámabos un dispositivo, como puede ser un sensor o un actuador, o un componente, realizábamos pruebas de corto, en las cuales comprobámos que las conexiones entre patas del componente eran nulas, y que había cortocircuitos entre el pad del mismo y el siguiente punto de conexión en el circuito.
+\item En caso de soldar resistencias, usábamos el multímetro en posición de medir esta magnitud, de forma que comprobamos que el valor que aparecía en el medidor era similar al que debíamos obtener, con lo que verificábamos tanto una buena conexión como la elección de la resistencia de valor adecuado.
+\item Acciones similares eran seguidas con los condensadores, buscando los mismos propósitos que en el caso anterior. Para ello, poníamos el multímetro en posición de medir condensadores.
+\end{itemize}
+
+Una vez satisfechas todas las pruebas, la \ac{PCB} final ya podría ser sometida a pruebas de comportamiento del sistema.
+
+%-------------------------------------------------------------------
+\section{Software}
+%-------------------------------------------------------------------
+\label{pruebas:sec:software}
+%-------------------------------------------------------------------
+
+En este subapartado se detallan las pruebas hechas sobre el \textit{software} desarrollado, que ha sido objeto de estudio en el capítulo \ref{cap:software}. Las hemos clasificado en dos subapartados, el de la \ac{HAL} \textit{per se}, y el que se encuentra en combinación con los sensores y los actuadores.
+
+%-------------------------------------------------------------------
+\subsection{HAL}
+%-------------------------------------------------------------------
+\label{pruebas:sec:hal}
+%-------------------------------------------------------------------
+
+Las pruebas realizadas sobre la \ac{HAL} consistieron en la medida de las distintas interfaces que iban a formar parte de nuestro sistema en desarrollo. Pasamos a detallarlas a continuación.
+
+En primer lugar encontramos el \textbf{\ac{ADC}}, cuya principal prueba fue crear un divisor de tensión por medio de resistencias conectadas a $V_{CC}$ y a GND, e introducir la tensión en distintos puntos y comprobar que la palabra binaria obtenida era la correspondida con la siguiente fórmula: $$ADC = v_{ADC} \cdot \frac{2^n-1}{V_{CC}} = v_{ADC} \cdot \frac{2^{10}-1}{3.3}$$
+
+En efecto, comprobamos que las palabras en hexadecimal obtenidas cuando $v_{ADC} = 3.3$ V, $v_{ADC} = 1.65$ V y $v_{ADC} = 0$ V son, respectivamente, \verb@3FF@, \verb@200@ y \verb@000@, por lo que el funcionamiento del mismo es correcto.
+
+\medskip
+
+Para los \textbf{\ac{GPIO}} de salida, la prueba realizada para cada uno de ellos fue la de mandar un nivel alto a la salida, comprobando por medio del osciloscopio que se obtenía el citado estado cuando la ejecución del programa llegaba a ese punto.
+
+%-------------------------------------------------------------------
+\subsection{Sensores y Actuadores}
+%-------------------------------------------------------------------
+\label{pruebas:sec:softsensores}
 %-------------------------------------------------------------------
 \todo{Escribir...}
+
+%-------------------------------------------------------------------
+\section{Herramientas}
+%-------------------------------------------------------------------
+\label{pruebas:sec:herramientas}
+%-------------------------------------------------------------------
+\todo{Escribir...}
+
+%-------------------------------------------------------------------
+\subsection{Osciloscopio}
+%-------------------------------------------------------------------
+\label{pruebas:sec:osciloscopio}
+%-------------------------------------------------------------------
+\todo{Escribir...}
+
+%-------------------------------------------------------------------
+\subsection{Multímetro}
+%-------------------------------------------------------------------
+\label{pruebas:sec:multimetro}
+%-------------------------------------------------------------------
+\todo{Escribir...}
+
 
 % Variable local para emacs, para  que encuentre el fichero maestro de
 % compilación y funcionen mejor algunas teclas rápidas de AucTeX
