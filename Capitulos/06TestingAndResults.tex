@@ -99,41 +99,93 @@ En este subapartado se detallan las pruebas hechas sobre el \textit{software} de
 
 Las pruebas realizadas sobre la \ac{HAL} consistieron en la medida de las distintas interfaces que iban a formar parte de nuestro sistema en desarrollo. Pasamos a detallarlas a continuación.
 
-En primer lugar encontramos el \textbf{\ac{ADC}}, cuya principal prueba fue crear un divisor de tensión por medio de resistencias conectadas a $V_{CC}$ y a GND, e introducir la tensión en distintos puntos y comprobar que la palabra binaria obtenida era la correspondida con la siguiente fórmula: $$ADC = v_{ADC} \cdot \frac{2^n-1}{V_{CC}} = v_{ADC} \cdot \frac{2^{10}-1}{3.3}$$
+En primer lugar encontramos el \textbf{\ac{ADC}}, cuya principal prueba fue crear un divisor de tensión por medio de resistencias conectadas a $V_{CC}$ y a GND, e introducir la tensión en distintos puntos y comprobar que la palabra binaria obtenida era la correspondida con la siguiente fórmula: $$ADC = \left \lfloor {v_{ADC} \cdot \frac{2^n-1}{V_{CC}}} \right \rfloor = \left \lfloor v_{ADC} \cdot \frac{2^{10}-1}{3.3} \right \rfloor$$
 
-En efecto, comprobamos que las palabras en hexadecimal obtenidas cuando $v_{ADC} = 3.3$ V, $v_{ADC} = 1.65$ V y $v_{ADC} = 0$ V son, respectivamente, \verb@3FF@, \verb@200@ y \verb@000@, por lo que el funcionamiento del mismo es correcto.
+En efecto, comprobamos que las palabras en hexadecimal obtenidas cuando $v_{ADC} = 3.3$ V, $v_{ADC} = 1.65$ V y $v_{ADC} = 0$ V son, respectivamente, \verb@3FF@, \verb@1FF@ y \verb@000@, por lo que el funcionamiento del mismo es correcto.
 
 \medskip
 
-Para los \textbf{\ac{GPIO}} de salida, la prueba realizada para cada uno de ellos fue la de mandar un nivel alto a la salida, comprobando por medio del osciloscopio que se obtenía el citado estado cuando la ejecución del programa llegaba a ese punto.
+Para los \textbf{\ac{GPIO}} de entrada, la prueba realizada para cada uno de ellos fue la de forzar un nivel alto, seguido de uno bajo a la misma, comprobando que el programa detectaba correctamente el nivel en el que se encontraba. 
+
+Análogamente para los de salida, se programó un nivel alto seguido de uno bajo, con puntos de parada, verificando por medio del osciloscopio que se obtenía el citado estado cuando la ejecución del programa llegaba a los puntos donde debían variar el estado.
+
+\medskip
+
+Los actuadores que requieren la intervención de un temporizador, como son el \textbf{Emisor Infrarrojo} o el \textbf{Buzzer}, fueron probados de la siguiente manera. Se simuló la salida modulada que debían presentar, una señal cuadrada periódica de frecuencia 38 kHz para el caso del \ac{IR} y 2 y 1.5 kHz para el caso del buzzer, y se introdujo esa señal en el osciloscopio, de forma que se midió la frecuencia.
+
+Las señales obtenidas en el osciloscopio pueden verse en las figuras ().
 
 %-------------------------------------------------------------------
 \subsection{Sensores y Actuadores}
 %-------------------------------------------------------------------
 \label{pruebas:sec:softsensores}
 %-------------------------------------------------------------------
-\todo{Escribir...}
+
+Por último, se presentan las pruebas realizadas a los sensores y actuadores de las funciones desarrolladas para las mismas. En este punto se procuró que los sensores y actuadores ya estuvieran soldados y la placa colocada encajada en el \ac{CNGD}, de forma que estos tests se llevaran a cabo bajo las mismas condiciones que tendrán en su entorno real.
+
+En primer lugar presentamos las pruebas realizadas al sensor de \textbf{Temperatura}. De la sección \ref{software:sec:temp} recordamos el conjunto de funciones que presenta:
+
+\begin{itemize}
+\item \verb@getTemp@. Comprobamos que el sensor respondía a esta instrucción, y que el valor de temperatura devuelto era coherente con la sensación térmica en el momento. Un aumento de temperatura fue forzado, y volvimos a repetir la medición, esta vez con un resultado superior.
+\item \verb@setTempResolution@. Tras enviar este comando, procedimos a solicitar de nuevo la temperatura actual, observando en dicha medida que su precisión había aumentado conforme se la había indicado.
+\item \verb@setTempAlert@ y \verb@getTempAlert@. Conocida la temperatura ambiente en el momento, modificamos el valor de los registros de forma tal que ese valor pasara a estar en la zona de alarma. Con la segunda función, comprobamos efectivamente que este cambio originaba dicha alarma.
+\item \verb@setTempLowPower@. La estrategia seguida fue la de comprobar que, puesto que estaba en este modo, la temperatura no se estaba continuamente recalculando, de forma que tuvimos que modificar la función \verb@getTemp@. para que no solicitara este cálculo cuando estaba en este estado. Comprobamos efectivamente que, bajo estas condiciones, la lectura del sensor permanecía invariante ante cambios de temperatura. \\Una vez hecha la comprobación, se restauró la función, comprobando que de nuevo las lecturas volvían a ser coherentes, incluso en este estado de bajo consumo.
+\end{itemize}
+
+Seguidamente procedemos a evaluar el sensor de \textbf{Presencia}. Como se dijo en su sección del capítulo \ref{cap:software}, el estado de este sensor puede ser evaluado bien mediante \textit{polling}, preguntando periódicamente, o bien mediante la interrupción del puerto \ac{CN}.
+
+En el primer caso, vimos que la función \verb@getPIR@. devolvía valores correctos en función de si detectaba presencia o no. Valor que, a su vez, estaba comprobándose paralelamente en el osciloscopio.
+
+En el caso de la interrupción, dejamos corriendo el programa y situamos un punto de parada en la rutina de atención a la interrupción. Cuando el sensor detectó presencia, el programa entró en la misma, por lo que verificamos el funcionamiento correcto.
+
+\medskip
+
+Siguiendo con el sensor de \textbf{Luminosidad}, seguimos un proceso similar al visto en la sección \ref{pruebas:sec:hal}, comprobando que la tensión que se obtiene a la salida del sensor (medida por el osciloscopio) y la palabra binaria resultante de la llamada a la función \verb@getLum@ son concordantes; siendo así en efecto.
+
+\medskip
+
+No se han podido comprobar las funciones del \textbf{Acelerómetro}, puesto que, como se puso de manifiesto en el capítulo \ref{cap:diseno} no llegó la versión definitiva de la placa al cierre de esta memoria. No obstante, confiamos que las mismas funciones, puesto que la interfaz \ac{I2C} ha sido testada con éxito con el sensor de temperatura, mientras que los \ac{CN} también han mostrado un comportamiento positivo en las pruebas desarrolladas con el \ac{PIR}.
+
+\medskip
+
+En cuando a los actuadores, comenzamos evaluando el \textbf{Emisor Infrarrojo}, mediante el envío de los comandos ``Enciende Aire Acondicionado'' y ``Apaga Aire Acondicionado''. Estas tramas fueron reconocidas correctamente por el receptor de infrarrojos descrito en el apartado \ref{pruebas:sec:hardsensores}, y dieron lugar al encendido (y posterior apagado) de la máquina de aire acondicionado presente en el laboratorio.
+
+Los campos \verb@address@ y \verb@command@ fueron decodificados por medio de la inspección de la trama recibida, usando el receptor y presentando dicha trama en el osciloscopio.
+
+\medskip
+
+Por último, las pruebas realizadas al \textbf{Buzzer} y \textbf{LEDs} fueron el mandar el encendido y el apagado de los mismos, con las funciones ya descritas. En el caso del Buzzer, se obtienen, como era de esperar, dos pitidos que se alternan de forma aproximada cada segundo; y, para los LEDs, comprobando que \verb@ledOn@ mantiene encendido el LED, \verb@ledOff@ lo apaga incondicionalmente, y \verb@ledToggle@ lo conmuta, apagándolo o encendiéndolo según el caso.
 
 %-------------------------------------------------------------------
 \section{Herramientas}
 %-------------------------------------------------------------------
 \label{pruebas:sec:herramientas}
 %-------------------------------------------------------------------
-\todo{Escribir...}
+
+Para la realización de estas pruebas ha sido necesario usar una serie de equipos que permitan obtener las medidas, como ha sido visto a lo largo del capítulo, por lo que se ahondará en ellas en los siguientes apartados.
+
+Además, ha sido necesario usar las herramientas expuestas en la sección \ref{software:sec:herramientas}, dado que hemos hecho igualmente pruebas al \textit{software}. 
 
 %-------------------------------------------------------------------
 \subsection{Osciloscopio}
 %-------------------------------------------------------------------
 \label{pruebas:sec:osciloscopio}
 %-------------------------------------------------------------------
-\todo{Escribir...}
+
+El osciloscopio nos permite ver la forma de onda de las señales temporales que se introducen en él. En nuestro laboratorio encontramos el \textbf{Tektronix TDS5054B}, el cual nos permite, además, las siguientes funciones, útiles en nuestro trabajo.
+
+\begin{itemize}
+\item \emph{Medidas de parámetros de señal}, como pueden ser la frecuencia en señales periódicas, la amplitud, entre otras.
+\item \emph{Disparo}, que permite que las señales periódicas permanecen congeladas en la pantalla.
+\end{itemize}
 
 %-------------------------------------------------------------------
 \subsection{Multímetro}
 %-------------------------------------------------------------------
 \label{pruebas:sec:multimetro}
 %-------------------------------------------------------------------
-\todo{Escribir...}
+
+El multímetro es un dispositivo que permite medir las principales magnitudes eléctricas, como son la tensión, la corriente, la resistencia o la capacidad. Especialmente de utilidad han sido las dos últimas, como ha sido detallado. 
 
 
 % Variable local para emacs, para  que encuentre el fichero maestro de
