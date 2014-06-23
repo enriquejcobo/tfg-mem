@@ -256,6 +256,10 @@
 
 @entry{GSM,,\emph{Global System for Mobile}}
 
+@entry{GPS, , \emph{Global Posicionament System}}
+
+@entry{RFID, , \emph{Radio Frequency Identification}}
+
 @entry{GPRS,,\emph{General Packet Radio Service}}
 
 @entry{QR, , \emph{Quick Response}}
