@@ -18,7 +18,7 @@ Thomas Alva Edison
 \end{FraseCelebre}
 
 \begin{resumen}
-Some tests were applied to the main platform modules for the purpose of proving their proper functionality. The main capabilities that make the platform valuable such as power consumption or spectrum sensing features have been tested. The descriptions of the carried out tests and corresponding results are exposed in this chapter.  
+En este capítulo se presentan las pruebas que fueron realizadas a los diferentes elementos que conforman nuestro sistema, desde el doble punto de vista del \textit{hardware} y del \textit{software}. Los resultados de las mismas, así como las particularidades encontradas, son igualmente detalladas. Finalmente se resumen las principales herramientas usadas con este propósito. 
 \end{resumen}
 
 %-------------------------------------------------------------------
@@ -35,13 +35,13 @@ A continuación se presentan las pruebas que se realizaron desde el punto de vist
 \label{pruebas:sec:hardsensores}
 %-------------------------------------------------------------------
 
-Detallamos en primer lugar las pruebas realizadas a los sensores tomando la perspectiva \textit{hardware}, comenzando por el sensor de \textbf{Luminosidad}. Para verificar el correcto funcionamiento del mismo, se realizó el montaje detallado en la figura \ref{diseno:fig:lum}, y se comprobó que, para distintos niveles de iluminación (aplicándole una fuente lumínica externa o cubriendo el detector) obteníamos a la salida distintos niveles de tensión, medidos en el osciloscopio. 
+Detallamos en primer lugar las pruebas realizadas a los sensores en su perspectiva \textit{hardware}, comenzando por el sensor de \textbf{Luminosidad}. Para verificar el correcto funcionamiento del mismo, se realizó el montaje detallado en la figura \ref{diseno:fig:lum}, y se comprobó que, para distintos niveles de iluminación (aplicándole una fuente lumínica externa o cubriendo el detector) obteníamos a la salida distintos niveles de tensión, medidos en el osciloscopio. 
 
 Asimismo, observamos que la adición del condensador reducía el ruido por rizado de alta frecuencia cuando la iluminación provenía de fuentes fluorescentes.
 
 \medskip
 
-A continuación procedemos a evaluar el sensor de \textbf{Presencia}. El circuito que implementamos es el de la figura \ref{diseno:fig:pir} y se alimentó con las mismas tensiones que tendría en la placa, haciendo uso de una fuente de alimentación. Conectando la sonda al pin de salida, observamos que la señal se ponía a nivel alto cuando pasábamos la mano sobre él, y que volvía a nivel bajo cuando la quitábamos, con unos tiempos de establecimiento.
+A continuación procedemos a evaluar el sensor de \textbf{Presencia}. El circuito que implementamos es el de la figura \ref{diseno:fig:pir}, alimentado con las mismas tensiones que tendría en la placa, para lo cual hicimos uso de una fuente de alimentación. Conectando la sonda al pin de salida, observamos que la señal se ponía a nivel alto cuando pasábamos la mano sobre él, y que volvía a nivel bajo cuando la quitábamos.
 
 No obstante, nos percatamos de que la adición de la resistencia de \textit{pull-down} nos introducía un efecto de carga en el nivel alto, si bien la tensión resultante no era mucho menor de la que se debía obtener al ser la resistencia de valor alto, por lo que concluimos la prueba satisfactoriamente.
 
@@ -76,9 +76,9 @@ Las pruebas realizadas en el ámbito de la \ac{PCB} fueron generalmente test eléc
 
 \begin{itemize}
 \item En primer lugar realizamos una inspección óptica, comprobando que el \textit{layout} de la placa es el esperado.
-\item Cuando conectámabos un dispositivo, como puede ser un sensor o un actuador, o un componente, realizábamos pruebas de corto, en las cuales comprobámos que las conexiones entre patas del componente eran nulas, y que había cortocircuitos entre el pad del mismo y el siguiente punto de conexión en el circuito.
-\item En caso de soldar resistencias, usábamos el multímetro en posición de medir esta magnitud, de forma que comprobamos que el valor que aparecía en el medidor era similar al que debíamos obtener, con lo que verificábamos tanto una buena conexión como la elección de la resistencia de valor adecuado.
-\item Acciones similares eran seguidas con los condensadores, buscando los mismos propósitos que en el caso anterior. Para ello, poníamos el multímetro en posición de medir condensadores.
+\item Cuando acoplábamos un dispositivo, como puede ser un sensor, un actuador o un componente, realizábamos pruebas de corto, en las cuales comprobamos que las conexiones entre patas del componente eran nulas, y que había cortocircuitos entre el pad del mismo y el siguiente punto de conexión en el circuito.
+\item En caso de soldar resistencias, usábamos el multímetro en posición de medir esta magnitud, de forma que comprobamos que el valor que aparecía en el medidor era similar al que debíamos obtener, con lo que verificábamos tanto una buena conexión como la inserción de la resistencia de valor adecuado.
+\item Acciones similares eran seguidas con los condensadores, buscando los mismos propósitos que en el caso anterior. Para ello, poníamos el multímetro en posición de medir capacidades.
 \end{itemize}
 
 Una vez satisfechas todas las pruebas, la \ac{PCB} final ya podría ser sometida a pruebas de comportamiento del sistema.
@@ -89,7 +89,7 @@ Una vez satisfechas todas las pruebas, la \ac{PCB} final ya podría ser sometida 
 \label{pruebas:sec:software}
 %-------------------------------------------------------------------
 
-En este subapartado se detallan las pruebas hechas sobre el \textit{software} desarrollado, que ha sido objeto de estudio en el capítulo \ref{cap:software}. Las hemos clasificado en dos subapartados, el de la \ac{HAL} \textit{per se}, y el que se encuentra en combinación con los sensores y los actuadores.
+En este subapartado se detallan las pruebas hechas sobre el \textit{software} desarrollado, que ha sido objeto de estudio en el capítulo \ref{cap:software}. Las hemos clasificado en dos subapartados, las de la \ac{HAL} \textit{per se}, y las que se han desarrollado en combinación con los sensores y los actuadores.
 
 %-------------------------------------------------------------------
 \subsection{HAL}
@@ -97,21 +97,21 @@ En este subapartado se detallan las pruebas hechas sobre el \textit{software} de
 \label{pruebas:sec:hal}
 %-------------------------------------------------------------------
 
-Las pruebas realizadas sobre la \ac{HAL} consistieron en la medida de las distintas interfaces que iban a formar parte de nuestro sistema en desarrollo. Pasamos a detallarlas a continuación.
+Las pruebas realizadas sobre la \ac{HAL} consistieron en medidas sobre las distintas interfaces que iban a formar parte de nuestro sistema. Pasamos a detallarlas a continuación.
 
-En primer lugar encontramos el \textbf{\ac{ADC}}, cuya principal prueba fue crear un divisor de tensión por medio de resistencias conectadas a $V_{CC}$ y a GND, e introducir la tensión en distintos puntos y comprobar que la palabra binaria obtenida era la correspondida con la siguiente fórmula: $$ADC = \left \lfloor {v_{ADC} \cdot \frac{2^n-1}{V_{CC}}} \right \rfloor = \left \lfloor v_{ADC} \cdot \frac{2^{10}-1}{3.3} \right \rfloor$$
+En primer lugar probamos el \textbf{\ac{ADC}}, la cual consistió en formar un divisor de tensión por medio de resistencias conectadas a $V_{CC}$ y a GND, e introducir la tensión en distintos puntos en el \ac{ADC}, de forma que comprobáramos que la palabra obtenida era la correspondida con la siguiente fórmula: $$ADC = \left \lfloor {v_{ADC} \cdot \frac{2^n-1}{V_{CC}}} \right \rfloor = \left \lfloor v_{ADC} \cdot \frac{2^{10}-1}{3.3} \right \rfloor$$
 
-En efecto, comprobamos que las palabras en hexadecimal obtenidas cuando $v_{ADC} = 3.3$ V, $v_{ADC} = 1.65$ V y $v_{ADC} = 0$ V son, respectivamente, \verb@3FF@, \verb@1FF@ y \verb@000@, por lo que el funcionamiento del mismo es correcto.
-
-\medskip
-
-Para los \textbf{\ac{GPIO}} de entrada, la prueba realizada para cada uno de ellos fue la de forzar un nivel alto, seguido de uno bajo a la misma, comprobando que el programa detectaba correctamente el nivel en el que se encontraba. 
-
-Análogamente para los de salida, se programó un nivel alto seguido de uno bajo, con puntos de parada, verificando por medio del osciloscopio que se obtenía el citado estado cuando la ejecución del programa llegaba a los puntos donde debían variar el estado.
+En efecto, verificamos que las palabras en hexadecimal obtenidas cuando $v_{ADC} = 3.3$ V, $v_{ADC} = 1.65$ V y $v_{ADC} = 0$ V son, respectivamente, \verb@3FF@, \verb@1FF@ y \verb@000@, por lo que el funcionamiento del mismo es correcto.
 
 \medskip
 
-Los actuadores que requieren la intervención de un temporizador, como son el \textbf{Emisor Infrarrojo} o el \textbf{Buzzer}, fueron probados de la siguiente manera. Se simuló la salida modulada que debían presentar, una señal cuadrada periódica de frecuencia 38 kHz para el caso del \ac{IR} y 2 y 1.5 kHz para el caso del buzzer, y se introdujo esa señal en el osciloscopio, de forma que se midió la frecuencia.
+Para los \textbf{\ac{GPIO}} de entrada, la prueba realizada para cada uno de ellos fue la de forzar un nivel alto, seguido de uno bajo, sobre las mismas, comprobando que el programa detectaba correctamente el nivel en el que se encontraba. 
+
+Análogamente para los de salida, se programó un nivel alto seguido de uno bajo, con puntos de parada, verificando por medio del osciloscopio que se obtenía el citado estado cuando la ejecución del programa llegaba a los puntos donde se debían variar.
+
+\medskip
+
+Los actuadores que requieren la intervención de un temporizador, como son el \textbf{Emisor Infrarrojo} o el \textbf{Buzzer}, fueron probados de la siguiente manera. Se simuló la salida modulada que debían presentar, una señal cuadrada periódica de frecuencia 38 kHz para el caso del \ac{IR}, y 2 y 1.5 kHz para el caso del buzzer, y se introdujo esa señal en el osciloscopio, de forma que se midió la frecuencia.
 
 Las señales obtenidas en el osciloscopio pueden verse en las figuras ().
 
@@ -121,30 +121,30 @@ Las señales obtenidas en el osciloscopio pueden verse en las figuras ().
 \label{pruebas:sec:softsensores}
 %-------------------------------------------------------------------
 
-Por último, se presentan las pruebas realizadas a los sensores y actuadores de las funciones desarrolladas para las mismas. En este punto se procuró que los sensores y actuadores ya estuvieran soldados y la placa colocada encajada en el \ac{CNGD}, de forma que estos tests se llevaran a cabo bajo las mismas condiciones que tendrán en su entorno real.
+Por último, se presentan las pruebas realizadas a los sensores y actuadores de las funciones desarrolladas para las mismas. En este punto se procuró que los sensores y actuadores ya estuvieran soldados y la placa colocada sobre el \ac{CNGD}, de forma que estos tests se llevaran a cabo bajo las mismas condiciones que tendrán en su entorno final.
 
-En primer lugar presentamos las pruebas realizadas al sensor de \textbf{Temperatura}. De la sección \ref{software:sec:temp} recordamos el conjunto de funciones que presenta:
+En primer lugar presentamos las pruebas realizadas al sensor de \textbf{Temperatura}. De la sección \ref{software:sec:temp} recordamos el conjunto de funciones que necesita:
 
 \begin{itemize}
 \item \verb@getTemp@. Comprobamos que el sensor respondía a esta instrucción, y que el valor de temperatura devuelto era coherente con la sensación térmica en el momento. Un aumento de temperatura fue forzado, y volvimos a repetir la medición, esta vez con un resultado superior.
-\item \verb@setTempResolution@. Tras enviar este comando, procedimos a solicitar de nuevo la temperatura actual, observando en dicha medida que su precisión había aumentado conforme se la había indicado.
-\item \verb@setTempAlert@ y \verb@getTempAlert@. Conocida la temperatura ambiente en el momento, modificamos el valor de los registros de forma tal que ese valor pasara a estar en la zona de alarma. Con la segunda función, comprobamos efectivamente que este cambio originaba dicha alarma.
-\item \verb@setTempLowPower@. La estrategia seguida fue la de comprobar que, puesto que estaba en este modo, la temperatura no se estaba continuamente recalculando, de forma que tuvimos que modificar la función \verb@getTemp@. para que no solicitara este cálculo cuando estaba en este estado. Comprobamos efectivamente que, bajo estas condiciones, la lectura del sensor permanecía invariante ante cambios de temperatura. \\Una vez hecha la comprobación, se restauró la función, comprobando que de nuevo las lecturas volvían a ser coherentes, incluso en este estado de bajo consumo.
+\item \verb@setTempResolution@. Tras enviar este comando, procedimos a solicitar de nuevo la temperatura actual, observando en dicha medida que su precisión había aumentado conforme se le había indicado.
+\item \verb@setTempAlert@ y \verb@getTempAlert@. Conocida la temperatura ambiente en el momento, e iniciando la prueba en una situación de no alarma, modificamos el valor de los registros de forma tal que este valor pasara a estar en la zona de peligro. Con la segunda función, comprobamos efectivamente que bajo estas nuevas condiciones se producía la alarma.
+\item \verb@setTempLowPower@. La estrategia seguida fue la de comprobar que, puesto que es conocido que en este modo la temperatura no está calculándose continuamente, sino que debe solicitarse, modificamos la función \verb@getTemp@ para que no lo solicitara a pesar de estar en modo bajo consumo. Comprobamos efectivamente que, bajo estas condiciones, la lectura del sensor permanecía invariante ante cambios de temperatura. \\Una vez hecha la comprobación, se restauró la función, comprobando que de nuevo las lecturas volvían a ser coherentes.
 \end{itemize}
 
 Seguidamente procedemos a evaluar el sensor de \textbf{Presencia}. Como se dijo en su sección del capítulo \ref{cap:software}, el estado de este sensor puede ser evaluado bien mediante \textit{polling}, preguntando periódicamente, o bien mediante la interrupción del puerto \ac{CN}.
 
-En el primer caso, vimos que la función \verb@getPIR@. devolvía valores correctos en función de si detectaba presencia o no. Valor que, a su vez, estaba comprobándose paralelamente en el osciloscopio.
+En el primer caso, vimos que la función \verb@getPIR@ devolvía valores correctos en función de si detectaba presencia o no. Valor que, a su vez, estaba comprobándose paralelamente en el osciloscopio.
 
 En el caso de la interrupción, dejamos corriendo el programa y situamos un punto de parada en la rutina de atención a la interrupción. Cuando el sensor detectó presencia, el programa entró en la misma, por lo que verificamos el funcionamiento correcto.
 
 \medskip
 
-Siguiendo con el sensor de \textbf{Luminosidad}, seguimos un proceso similar al visto en la sección \ref{pruebas:sec:hal}, comprobando que la tensión que se obtiene a la salida del sensor (medida por el osciloscopio) y la palabra binaria resultante de la llamada a la función \verb@getLum@ son concordantes; siendo así en efecto.
+Siguiendo con el sensor de \textbf{Luminosidad}, llevamos un proceso similar al visto en la sección \ref{pruebas:sec:hal}, comprobando que la tensión que se obtiene a la salida del sensor (medida por el osciloscopio) y la palabra resultante de la llamada a la función \verb@getLum@ son concordantes; siendo así en efecto.
 
 \medskip
 
-No se han podido comprobar las funciones del \textbf{Acelerómetro}, puesto que, como se puso de manifiesto en el capítulo \ref{cap:diseno} no llegó la versión definitiva de la placa al cierre de esta memoria. No obstante, confiamos que las mismas funciones, puesto que la interfaz \ac{I2C} ha sido testada con éxito con el sensor de temperatura, mientras que los \ac{CN} también han mostrado un comportamiento positivo en las pruebas desarrolladas con el \ac{PIR}.
+No se han podido comprobar las funciones del \textbf{Acelerómetro}, puesto que, como se puso de manifiesto en el capítulo \ref{cap:diseno} no llegó la versión definitiva de la placa al cierre de esta memoria. No obstante, tenemos garantías en que las mismas funcionen, puesto que la interfaz \ac{I2C} ha sido testada con éxito con el sensor de temperatura, y los \ac{CN} también han mostrado un comportamiento positivo en las pruebas desarrolladas con el \ac{PIR}.
 
 \medskip
 
@@ -154,7 +154,7 @@ Los campos \verb@address@ y \verb@command@ fueron decodificados por medio de la 
 
 \medskip
 
-Por último, las pruebas realizadas al \textbf{Buzzer} y \textbf{LEDs} fueron el mandar el encendido y el apagado de los mismos, con las funciones ya descritas. En el caso del Buzzer, se obtienen, como era de esperar, dos pitidos que se alternan de forma aproximada cada segundo; y, para los LEDs, comprobando que \verb@ledOn@ mantiene encendido el LED, \verb@ledOff@ lo apaga incondicionalmente, y \verb@ledToggle@ lo conmuta, apagándolo o encendiéndolo según el caso.
+Por último, las pruebas realizadas al \textbf{Buzzer} y \textbf{LEDs} fueron el mandar el encendido y el apagado de los mismos, con las funciones ya descritas. En el caso del Buzzer, se obtuvo, como era de esperar, dos pitidos que se alternaban de forma aproximada cada segundo; y, para los LEDs, comprobamos que \verb@ledOn@ mantiene encendido el LED, \verb@ledOff@ lo apaga incondicionalmente, y \verb@ledToggle@ lo conmuta, apagándolo o encendiéndolo según el caso.
 
 %-------------------------------------------------------------------
 \section{Herramientas}
@@ -175,8 +175,13 @@ Además, ha sido necesario usar las herramientas expuestas en la sección \ref{sof
 El osciloscopio nos permite ver la forma de onda de las señales temporales que se introducen en él. En nuestro laboratorio encontramos el \textbf{Tektronix TDS5054B}, el cual nos permite, además, las siguientes funciones, útiles en nuestro trabajo.
 
 \begin{itemize}
+\item \emph{Cuatro canales de entrada}, con lo que se pueden introducir cuatro señales simultáneas.
+\item \emph{Alto periodo de muestreo}, de hasta 5 millones de muestras por segundo.
 \item \emph{Medidas de parámetros de señal}, como pueden ser la frecuencia en señales periódicas, la amplitud, entre otras.
-\item \emph{Disparo}, que permite que las señales periódicas permanecen congeladas en la pantalla.
+\item \emph{Disparo}, que permite que las señales periódicas permanecen congeladas en la pantalla. De especial ayuda resultó el modo \textit{single}, el cual únicamente esperaba a recibir una trama, reteniéndola en la pantalla y permitiendo su evaluación.
+\item \emph{Cursores}, que ofrecen la posibilidad de realizar medidas de distancia entre dos puntos, útil para calcular los tiempos de nivel alto y bajo en las señales moduladas.
+\item \emph{Zoom}, que amplía el sector que se desea evaluar para tener una mejor visión del mismo, usado en tramas largas como las del \ac{IR}.
+\item \emph{Capturas de pantalla}, de forma que los resultados son exportables y presentables en otros documentos.
 \end{itemize}
 
 %-------------------------------------------------------------------
