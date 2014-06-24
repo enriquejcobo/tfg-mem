@@ -18,7 +18,7 @@ Confucio
 \end{FraseCelebre}
 
 \begin{resumen}
-This chapter covers a full review about the whole project. A general view of the implemented system together with the main taken decisions and carried out tasks is shown. Most important conclusions are summarized and future lines are set.
+En este último capítulo se ofrece una revisión de todo el proyecto, detallando los hitos logrados y las metas alcanzadas. Asimismo, se presentan los estudios futuros surgidos de la implementación de este trabajo.
 \end{resumen}
 
 %-------------------------------------------------------------------
@@ -29,7 +29,7 @@ This chapter covers a full review about the whole project. A general view of the
 
 La principal meta de este trabajo era diseñar e implementar una placa con sensores y actuadores que se incluya dentro de la plataforma \ac{CNGD} que ayudara al estudio de las \ac{CWSN}, además de realizarlas bajo unas constantes estrictas de bajo coste y bajo consumo.
 
-Adicionalmente, era necesario desarrollar una interfaz que abstrayera el \textit{hardware} para su uso desde la aplicación \textit{software}, igualmente buscando la eficiencia y la simplifidad a la hora de implementar el código, y modularidad con el objeto de que la misma fuera versátil y ampliable en un futuro.
+Adicionalmente, era necesario desarrollar una interfaz que abstrajera el \textit{hardware} para su uso desde la aplicación \textit{software}, igualmente buscando la eficiencia y la simplicidad a la hora de implementar el código, y modularidad con el objeto de que la misma fuera versátil y ampliable en un futuro.
 
 Los sensores y actuadores que se han buscado se caracterizan por su polivalencia, como consecuencia de su inserción en lo que se ha pensado una placa de propósito general, su variedad, puesto que permiten medir y actuar sobre diferentes aspectos del entorno, y su tamaño, de forma que fueran integrables en un reducido espacio.
 
@@ -65,168 +65,7 @@ En base al desarrollo llevado a lo largo del trabajo, observamos ciertas vías de
 \item \emph{Pasarela de presentación de datos en tiempo real}. Trata de un sistema que presentara, bajo una interfaz \textit{web}, los datos de todos los sensores y actuadores de la red, y poder realizar acciones sobre los mismos.
 \end{itemize}
 
-\newpage
 
-%-------------------------------------------------------------------
-\section{Costes estimados}
-%-------------------------------------------------------------------
-\label{conclusiones:sec:costes}
-%-------------------------------------------------------------------
-
-\begin{table}[!h]
-\footnotesize
-\centering
-\begin{tabular*}{\textwidth}[c]{ l @{\hspace{2.5cm}} r r @{\hspace{5cm}} r }
-\multicolumn{4}{c}{\textbf{Software}} 		       \\
-\hline
-\hline
-Concepto & Coste & Amortización & Coste real	\\
-\hline
-MS Windows 7 Home &  79.76 & 5\% & 3.99 \euro	\\
-Altium Designer 10 & 195 & 5\% & 9.75 \euro	\\
-\hline
-\multicolumn{3}{l}{Total}	& 13.74 \euro \\
-\end{tabular*}
-\end{table}
-
-\medskip
-
-\begin{table}[!h]
-\footnotesize
-\centering
-\begin{tabular*}{\textwidth}[c]{ l l r r @{\hspace{2.5cm}} r }
-\multicolumn{5}{c}{\textbf{Recursos hardware}} 		       \\
-\hline
-\hline
-\multicolumn{2}{l}{Concepto} & Coste & Amortización & Coste real \\
-\hline
-\multicolumn{2}{l}{Ordenador de sobremesa}							& 800.00 \euro & 10\% &  80.00 \euro		\\
-\multicolumn{2}{l}{Impresora láser}							& 100.00 \euro & 1\% & 1.00 \euro		\\
-\multicolumn{2}{l}{MPLAB ICD3 Programmer}						& 200.00 \euro& 1\% & 2.00 \euro		\\
-\multicolumn{2}{l}{Consumibles de oficina}							& 30.00 \euro & 100\% & 30.00 \euro		\\
-%\multicolumn{2}{l}{Herramientas de trabajo electrónico}						& 30.00 \euro & 100\% & 30.00 \euro		\\
-\multicolumn{2}{l}{Agilent E3644A Fuente de Alimentación}						& 200.00 \euro & 1\% & 2.00 \euro	\\
-\multicolumn{2}{l}{Tektronix TDS5054B Oscilloscope}					& 10800.00 \euro & 1\% & 108.00 \euro	\\
-\multicolumn{2}{l}{Bausch \& Lomb StereoZoom Microscopio}			& 324.00 \euro & 1\% & 3.24 \euro	\\
-\multicolumn{2}{l}{JBC AM 6000 Estación de Soldadura}					& 2500.00 \euro & 1\% & 25.00 \euro	\\
-\multicolumn{2}{l}{Fabricación de PCB}							&  &  & 	\\
-	& Versión 1 								& 213.31 \euro & 100 \% & 213.31 \euro \\
-	& Versión 2 (y final) 								& 126.03 \euro & 100 \% & 126.03 \euro \\
-\multicolumn{2}{l}{Componentes electrónicos}						& 358 \euro & 100\% & 358 \euro	\\
-	& Microchip MCP9800 (0.98 \euro x 10) 								& 9.80 \euro & 100 \% & 9.80 \euro \\
-	& Freescale MMA8453Q (0.98 \euro x 10) 								& 9.80 \euro & 100 \% & 9.80 \euro \\
-	& Panasonic AMN33112J (0.98 \euro x 10) 								& 9.80 \euro & 100 \% & 9.80 \euro \\
-	& Avago APDS 9005 (0.98 \euro x 10) 								& 9.80 \euro & 100 \% & 9.80 \euro \\
-	& Vishay TSUS5202 (0.98 \euro x 10) 								& 9.80 \euro & 100 \% & 9.80 \euro \\
-	& TDK PS1720 (0.98 \euro x 10) 								& 9.80 \euro & 100 \% & 9.80 \euro \\
-	& LEDs (0.98 \euro x 20) 								& 9.80 \euro & 100 \% & 9.80 \euro \\
-	& Resistencias (0.98 \euro x 10) 								& 9.80 \euro & 100 \% & 9.80 \euro \\
-	& Condensadores (0.98 \euro x 10) 								& 9.80 \euro & 100 \% & 9.80 \euro \\
-	& Otros elementos (transistor y header)							& 9.80 \euro & 100 \% & 9.80 \euro \\
-%\multicolumn{2}{l}{Electronic components}						& 358 \euro & 100\% & 358 \euro	\\
-\hline
-\multicolumn{4}{l}{Total} 		& 1445.30 \euro \\
-\end{tabular*}
-\end{table}
-
-\medskip
-
-\begin{table}[!h]
-\footnotesize
-\centering
-\begin{tabular*}{\textwidth}[c]{ l r r @{\hspace{7cm}} r }
-\multicolumn{4}{c}{\textbf{Labor costs}} 		       \\
-\hline
-\hline
-Concept			& Daily Cost	& Days 	 & Total cost		\\ 
-\hline
-Full time engineer 		& 113.32 \euro	& 220 &	24930.40 \euro			\\
-Social expenses (31.6 \%)	& 35.80  \euro & 220 & 7876.00  \euro \\
-\hline
-\multicolumn{3}{l}{Total} 								& 32806.40 \euro \\
-\end{tabular*}
-\end{table}
-
-\medskip
-
-\begin{table}[!h]
-\footnotesize
-\centering
-\begin{tabular*}{\textwidth}[c]{ l @{\hspace{10.6cm}} r }
-\multicolumn{2}{c}{\textbf{Physical implementation costs}} 		       \\
-\hline
-\hline
-Software resources & 27.48 \euro	\\
-Hardware resources & 1445.30 \euro	\\
-Labor costs & 32806.40 \euro\\
-Printing and binding & 195.00 \euro	\\
-\hline
-Total	& 34474.18 \euro \\
-\end{tabular*}
-\end{table}
-
-\medskip
-
-\begin{table}[!h]
-\footnotesize
-\centering
-\begin{tabular*}{\textwidth}[c]{ l @{\hspace{9.4cm}} r }
-\multicolumn{2}{c}{\textbf{Overhead and industrial profit}} 		       \\
-\hline
-\hline
-Physical implementation cost				& 34474.18 \euro	\\
-Overhead (15 \%)					& 5171.13 \euro	\\
-Industrial profit (6 \%)				& 2068.45 \euro	\\
-\hline
-Contracted operation budget				& 41713.76 \euro \\
-\end{tabular*}
-\end{table}
-
-\medskip
-
-\begin{table}[!h]
-\footnotesize
-\centering
-\begin{tabular*}{\textwidth}[c]{ l @{\hspace{10cm}}r }
-\multicolumn{2}{c}{\textbf{Fees for project management and writing}} 	\\
-\hline
-\hline
-Accumulated subtotal								& 41713.76 \euro\\
-Writing fees (5.6 \%)								& 2335.97 \euro\\
-Management fees (5.6 \%)							& 2335.97 \euro\\
-\hline
-Total										& 46385.7 \euro\\
-\end{tabular*}
-\end{table}
-
-\medskip
-
-\begin{table}[!h]
-\footnotesize
-\centering
-\begin{tabular*}{\textwidth}[c]{ l @{\hspace{10.3cm}}r }
-\multicolumn{2}{c}{\textbf{Total Budget}}											\\
-\hline
-\hline
-Accumulated subtotal								& 46385.7 \euro\\
-Value-added tax (21 \%)								& 9741 \euro\\
-\hline
-Total										& 56126.7 \euro\\
-\end{tabular*}
-\end{table}
-
-\FloatBarrier
-The estimated cost for this project amounts to FIFTY-SIX THOUSAND ONE HUNDRED AND TWENTY-SIX POINT SEVEN euros. 
-
-\vspace{1cm}
-
-\begin{center}
-\footnotesize{Madrid, Junio de 2014} \\
-%\footnotesize{Project Head Engineer} \\
-\vspace{3cm}
-\footnotesize{Firmado: Enrique Cobo Jiménez} \\
-\footnotesize{Graduado en Ingeniería de Tecnologías y Servicios de Telecomunicación} \\
-\end{center}
 
 % Variable local para emacs, para  que encuentre el fichero maestro de
 % compilación y funcionen mejor algunas teclas rápidas de AucTeX
