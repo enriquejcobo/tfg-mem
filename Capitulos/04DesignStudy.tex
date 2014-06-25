@@ -168,7 +168,7 @@ Finalmente, el condensador C4 es responsable de hacer un filtrado en la señal, y
 \label{diseno:sec:ir}
 %-------------------------------------------------------------------
 
-El \ac{IR} escogido fue el \textbf{Vishay TSUS5202} \cite{tsus}, el cual se caracteriza por los siguientes parámetros.
+El \ac{IR} escogido fue el \textbf{Vishay TSUS5202} \cite{tsus}, el cual se caracteriza por los siguientes parámetros técnicos, además de tener un precio de 0.17 \euro.
 
 \begin{multicols}{2}
 \begin{itemize}
@@ -210,7 +210,7 @@ Podemos observar varios componentes en este diseño. En primer lugar remarcamos l
 \label{diseno:sec:leds}
 %-------------------------------------------------------------------
 
-Con el objeto de poder hacer depuración en etapas siguientes del proceso, y como salida visual de diferentes parámetros, añadimos dos \ac{LED}, verde y rojo, al diseño de la placa. Su circuito, similar al visto en la sección \ref{diseno:sec:ir} se presenta en la figura \ref{diseno:fig:led}.
+Con el objeto de poder hacer depuración en etapas siguientes del proceso, y como salida visual de diferentes parámetros, añadimos dos \ac{LED}, verde y rojo, al diseño de la placa. Su circuito se presenta en la figura \ref{diseno:fig:led}.
 
 \figuraEx{Bitmap/Capitulo4/led}{width=.3\textwidth}{diseno:fig:led}%
 {LED de información y depuración.}{LED de información y depuración.}
@@ -264,8 +264,8 @@ Infrarrojo & \multicolumn{2}{c|}{TSUS 5202} & GPIO & 35 & RE(6) \\
 \hline
 Buzzer & \multicolumn{2}{c|}{PS1720} & GPIO & 3 & RB(11) \\
 \hline
-\multirow{2}{*}{LEDs} & \multicolumn{2}{c|}{Rojo} & \multirow{2}{*}{GPIO} & 23 & RE(5) \\
-& \multicolumn{2}{c|}{Verde} & & 22 & RE(7) \\
+\multirow{2}{*}{LEDs} & \multicolumn{2}{c|}{Rojo} & \multirow{2}{*}{GPIO} & 22 & RE(5) \\
+& \multicolumn{2}{c|}{Verde} & & 23 & RE(7) \\
 \hline
 \end{tabular}
 }
@@ -274,7 +274,7 @@ Buzzer & \multicolumn{2}{c|}{PS1720} & GPIO & 3 & RB(11) \\
 \label{diseno:tab:ifaz}}
 \end{table} 
 
-A la hora de considerar la asignación de los distintos pines a las entradas y salidas de los componentes, se tuvo en cuenta, aparte de que la función requerida estuviera disponible en el mismo, que no reutilizara ningún otro pin ya usado para hacer otras \textit{shields}, con lo que conseguimos que todas sean compatibles entre sí. En este sentido, evaluamos el uso que hacían de los \textit{headers} las placas de expansión correspondientes al módulo RS232 y al cargador \cite{aguspfc} y a la del módulo de reprogramación \cite{northpfc}.
+A la hora de considerar la asignación de los distintos pines a las entradas y salidas de los componentes, se tuvo en cuenta, aparte de que la función requerida estuviera disponible en el mismo, que no reutilizara ningún otro pin ya usado para hacer otras \textit{shields}, con lo que conseguimos que todas sean compatibles entre sí. En este sentido, evaluamos el uso que hacían de los \textit{headers} las placas de expansión correspondientes al módulo RS232 y al cargador \cite{aguspfc} y a la del módulo de reprogramación --en desarrollo en la actualidad.
 
 %-------------------------------------------------------------------
 \subsection{Esquemático}
@@ -321,6 +321,18 @@ Para realizar el diseño de la \ac{PCB}, se han tenido en cuenta diversas conside
 En segundo lugar, durante el rutado, se buscó un compromiso entre anchura de pista (que disminuye las pérdidas por resistividad) y tamaño de la placa. En base a esto, las pistas correspondientes a alimentación, con mayor paso de corriente, se diseñaron más anchas que las usadas para transmitir información.
 
 Adicionalmente, remarcamos la existencia de un plano de masa sobre ambas caras de la \ac{PCB}. Con esto conseguimos una reducción del ruido y de la influencia de emisiones electromagnéticas parásitas, puesto que este plano ofrece un camino de baja impedancia para las mismas.
+
+Remarcar que el \textit{layout} que acaba de ser expuesto se corresponde con el de la segunda versión. El de la primera, que puede verse en la figura \ref{diseno:fig:previo}, tuvo que ser modificado, principalmente por el hecho de que la huella del acelerómetro aparecía reflejada, lo que hacía que los pines no coincideran. No obstante, y aprovechando este segundo pedido, se modificaron ciertas características, como puede ser la adición de la resistencia de \textit{pull-down}, el rutado de las salidas de interrupción hacia \ac{CN}s y el reflejo de la huella del \ac{PIR}.
+
+\begin{figure}[!h]
+\centering
+\subfloat[\textit{Layout} de la cara superior]{\includegraphics[height=130px]{Imagenes/Bitmap/Capitulo4/PrevioTop}}%
+\qquad
+\subfloat[\textit{Layout} de la cara inferior]{\includegraphics[height=130px]{Imagenes/Bitmap/Capitulo4/PrevioBottom}}%
+\caption{\textit{Layout} de la placa de expansión previa}
+\label{diseno:fig:previo}
+\end{figure}
+
 
 %-------------------------------------------------------------------
 \subsection{Lista de Materiales}
@@ -372,9 +384,12 @@ Como consideración de diseño, y siempre que ha sido posible, para los componente
 \label{diseno:sec:final}
 %-------------------------------------------------------------------
 
-La figura () muestra el resultado final de nuestra placa de sensores y actuadores. Como se aprecia, aparecen remarcados componentes más importantes que la conforman.
+La figura \ref{diseno:fig:resultado} muestra el resultado final de nuestra placa de sensores y actuadores.
 
+\figuraEx{Bitmap/Capitulo4/resultado}{width=.6\textwidth}{diseno:fig:resultado}%
+{Resultado final: la placa de expansión sobre el cNGD.}{Resultado final: la placa de expansión sobre el cNGD.}
 
+No obstante, se trata de la primera versión de la misma, puesto que al cierre de esta memoria no se había recibido el pedido. No obstante, esta versión nos ha sido muy útil, puesto que sobre la misma se han realizado toda la batería de pruebas.
 
 %-------------------------------------------------------------------
 \section{Herramientas}
