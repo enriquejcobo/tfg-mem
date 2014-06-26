@@ -18,7 +18,7 @@ Alan Kay
 \end{FraseCelebre}
 
 \begin{resumen}
-En este capítulo se presentan las funciones que abstraen los Sensores y los Actuadores, creando una capa software que permite su uso. Adicionalmente se detalla la aplicación de prueba que la ilustra.
+En este capítulo se presentan las funciones que permiten obtener medidas de los sensores y mandar instrucciones a los actuadores, creando una capa \textit{software} que permite su uso. Adicionalmente se detalla la aplicación de prueba que ilustra el funcionamiento del sistema en su conjunto.
 \end{resumen}
 
 %-------------------------------------------------------------------
@@ -27,11 +27,11 @@ En este capítulo se presentan las funciones que abstraen los Sensores y los Actu
 \label{software:sec:interfaz}
 %-------------------------------------------------------------------
 
-La interfaz \textit{hardware}-\textit{software} no es más que una capa, dentro del sistema, que se encarga de abstraer los recursos \textit{hardware} por medio de funciones que pueden ser invocadas y que rigen su funcionamiento. Es por ello que esta interfaz también se la conoce por el nombre de \ac{HAL}.
+A continuación detallamos los trabajos realizados en materia de desarrollar un conjunto de funciones \textit{software} responsables de intervenir sobre los sensores y los actuadores de la placa de expansión. Puesto que esta interfaz realmente abstrae los recursos \textit{hardware} implantados, se la denomina \ac{HAL}.
 
 El lenguaje usado para la realización de la misma ha sido C, por dos motivos. En primer lugar, porque se dispone de una amplia librería de funciones ya desarrolladas por el fabricante para el microcontrolador en este lenguaje, y en segundo lugar, porque el \textit{software} que implementa el \ac{CNGD} también fue escrito en C. El manual de referencia usado ha sido \cite{thec}. 
 
-Nuestro código está integrado básicamente en dos ficheros: \verb@SensorsHAL.c@, que es el fichero maestro en el que se detallan las acciones llevadas a cabo por las funciones, y \verb@SensorsHAL.h@, en el que se encuentran las cabeceras exportadas de las mismas, de forma que estas puedan ser invocadas desde otro punto del programa que incluya este fichero.
+Nuestro código está integrado básicamente en dos ficheros: \verb@SensorsHAL.c@, que es el fichero maestro en el que se detallan las acciones llevadas a cabo por las funciones, y \verb@SensorsHAL.h@, en el que se encuentran las cabeceras exportadas de las mismas.
 
 Todo el código desarrollado, así como el necesario para que el sistema completo funcione, se encuentra accesible públicamente en GitHub, siguiendo el siguiente enlace o consultando el código QR de la figura \ref{software:fig:qrgithub}: \url{http://github.com/enriquejcobo/tfg-soft}
 
@@ -44,28 +44,35 @@ Todo el código desarrollado, así como el necesario para que el sistema completo 
 \label{software:sec:general}
 %-------------------------------------------------------------------
 
-En los siguientes subapartados iremos presentado las funciones que se han desarrollado para hacer la abstracción a nivel \textit{software} de nuestros sensores y actuadores. En primer lugar presentamos las funciones que son comunes al propio sistema, debido a que engloban varios dispositivos del mismo. Estas son:
+En los siguientes subapartados iremos presentado las funciones que se han desarrollado para el manejo de los sensores y actuadores. En primer lugar presentamos las funciones que son comunes al propio sistema, debido a que engloban varios dispositivos del mismo. Estas son:
 
 \begin{itemize}
-\item \verb@InitSensors ()@. Su misión es la de preparar los periféricos dentro del \ac{MCU}, de forma que se habiliten los necesarios y en los pines correctos. Detallando, y en relación con lo expuesto en la tabla \ref{diseno:tab:ifaz},
+\item \verb@InitSensors ()@. Su misión es la de preparar los periféricos dentro del \ac{MCU}, de forma que se habiliten los necesarios y en los pines asignados.
 	\begin{itemize}
 	\item Se habilita la interfaz I$^2$C, usada por el sensor de temperatura y el acelerómetro.
 	\item Se configura el \ac{ADC} que será requerido por el sensor de luminosidad.
 	\item Los puertos de entrada, tanto \ac{CN} como \ac{GPIO}s, usados por cada sensor, son inicializados.
 	\item Los \ac{GPIO}s de salida para todos los actuadores se marcan como tal.
-	\item Por último, se configura el temporizador interno.
+	\item Por último, se configura el temporizador interno --mediante el uso de la librería \verb@timer.h@--, cuya misión se expone a continuación.
 	\end{itemize}
-\item \verb@IntTmp ()@. Rutina de atención a la interrupción causada por el temporizador interno TMR5, necesaria tanto para definir tiempos de espera como señales moduladas.
-\item \verb@IntCN ()@. Rutina de atención a la interrupción motivada por el cambio en alguna señal rutada hacia un \ac{CN}, tomando las acciones necesarias.
+\item \verb@IntTmp ()@. Rutina de atención a la interrupción causada por el temporizador interno TMR5, usada por los siguientes elementos:
+	\begin{itemize}
+	\item Definir tiempos de espera, necesarios en la medida de temperatura bajo condiciones de bajo consumo.
+	\item Obtener señales periódicas, como la que necesita el Buzzer para sonar.
+	\item Generar modulaciones, imprescindible para la transmisión de datos via infrarroja.
+	\end{itemize}
+\item \verb@IntCN ()@. Rutina de atención a la interrupción motivada por el cambio en alguna señal rutada hacia un \ac{CN}, como pueden ser las interrupciones 1 y 2 del acelerómetro, o la salida del sensor de presencia.
 \end{itemize}
 
-Aparte de estas funciones, ha sido necesario modificar en parte los siguientes archivos, pertenecientes al \textit{firmware} del \ac{CNGD}, para que la integración de ambos códigos sea posible. En este sentido, los archivos modificados han sido:
+No obstante, la necesidad y justificación del uso de las mismas será detallada en el apartado correspondiente a cada elemento de la \textit{shield}. 
+
+Aparte de estas funciones, ha sido necesario modificar en parte los siguientes archivos, pertenecientes al \textit{firmware} del \ac{CNGD}, para que la integración de la placa en el \ac{CNGD} sea posible. En este sentido, los archivos modificados han sido:
 
 \begin{itemize}
 \item \verb@HardwareConfig.h@. En este fichero se encuentran las definiciones de los periféricos usados por el nodo, de forma que el diseño es totalmente modular, comentando y descomentando en función de las necesidades particulares de cada unidad. \\
 En este sentido, se ha definido la placa y, dentro de ella, cada uno de los sensores y actuadores que pueden formar parte, de tal manera que si se prescindiera de alguno las funciones y los periféricos del \ac{MCU} asociados dejarían de ser usados con este propósito.
-\item \verb@HardwareProfile.h@. En este código se producen las asignaciones, en función del archivo anterior, de los pines a sus diferentes periféricos, de forma que un cambio en los mismos se simplifica únicamente modificando su etiqueta. \\
-Esto es muy relevante, puesto que se trata de un fichero en el que estas asignaciones se hacen a nivel de nodo, de forma que cualquier cambio puede ser realizado únicamente variando esta asignación.
+\item \verb@HardwareProfile.h@. Se producen las asignaciones de los pines a sus diferentes periféricos, de forma que un cambio en los mismos se simplifica únicamente modificando su etiqueta. \\
+En nuestro caso, se han realizado las asignaciones necesarias en función del primer archivo, de forma que en un cambio en el mismo originaría la liberación de los recursos, permitiéndoles otro uso. Estas asignaciones son las que permiten la inicialización, modificación y consulta de los puertos.
 \end{itemize}
 
 %-------------------------------------------------------------------
@@ -74,7 +81,7 @@ Esto es muy relevante, puesto que se trata de un fichero en el que estas asignac
 \label{software:sec:sensores}
 %-------------------------------------------------------------------
 
-De forma paralela a como se viene estructurando este documento, presentamos a continuación todo el código desarrollado para los sensores que figuran en nuestra placa. Detallamos únicamente las funciones exportadas y que, por tanto, serán las que puedan ser llamadas en otro punto del \textit{software}, dejando aquellas privadas, únicamente accesibles desde este fichero, que cumplen propósitos como el de evitar duplicidades.
+De forma paralela a como se viene estructurando este documento, presentamos a continuación todo el código desarrollado para los sensores que figuran en nuestra placa.
 
 %-------------------------------------------------------------------
 \subsubsection{Temperatura}
@@ -82,20 +89,26 @@ De forma paralela a como se viene estructurando este documento, presentamos a co
 \label{software:sec:temp}
 %-------------------------------------------------------------------
 
-El sensor de temperatura dispone de una interfaz I$^2$C, por el que se realiza la lectura y configuración de los registros, y una salida GPIO, denominada ALERT. Sus funciones aparecen recogidas a continuación:
+El sensor de temperatura dispone de una interfaz I$^2$C, por el que se realiza la lectura y configuración de los registros, y una salida GPIO, denominada ALERT. 
+
+Sus funciones aparecen recogidas a continuación:
 
 \begin{itemize}
-\item \verb@getTemp ()@. Esta función devuelve la medida de la temperatura en forma de un entero, si bien éste representa un número real de coma fija, en el que el primer byte representa la parte entera y el segundo la parte decimal. \\
-Un ejemplo sería el siguiente: Si recibimos, en hexadecimal, \verb@temp = 1C80@, esta debe interpretarse como \verb@1C@ la parte entera, igual a 28 en el sistema decimal, y \verb@80@ la fraccionaria, que, por este motivo, equivale en decimal a 0.5. Sumando ambos números, obtenemos un valor de temperatura de 28.5 ºC.
+\item \verb@INT8 getTemp ()@. Esta función devuelve la medida de la temperatura en forma de un entero, si bien éste representa un número real de coma fija, en el que el primer byte representa la parte entera y el segundo la parte decimal.
 \item \verb@setTempResolution (int res)@. Permite modificar el registro de configuración asignando un nuevo valor de resolución, en función del argumento, que es un número entre 0 y 3, ambos inclusive. \\
 Este argumento muestra la cantidad de bits fraccionarios que se usarán, de forma que un 0 conlleva ningún bit fraccionario (con una precisión, por tanto, de $\pm$0.5 ºC), mientras que un 3 nos ofrece como resultado 3 bits (con una precisión de $\pm$0.0625 ºC)
-\item \verb@setTempAlert (int reg, INT8 alert)@. Modifica los registros correspondientes a los umbrales superior (\verb@MAX_HIGH@) e inferior (\verb@MAX_LOW@), poniendo el valor de temperatura \verb@alert@ en los mismos. \verb@alert@ debe redondearse al entero más próximo. La figura \ref{software:fig:tempalert} muestra esta salida en función del valor de los registros.
+\item \verb@setTempAlert (int reg, INT8 alert)@. Modifica los registros correspondientes a los umbrales superior (\verb@MAX_HIGH@) e inferior (\verb@MAX_LOW@), poniendo el valor de temperatura \verb@alert@ en los mismos. \verb@alert@ debe redondearse al entero más próximo.
 \item \verb@setTempLowPower ()@. Modifica el registro de configuración poniendo el sensor de temperatura en un estado de bajo consumo, en el que se detiene la conversión de temperatura pero permanece abierta la interfaz I$^2$C. La medida de temperatura, en este caso, necesita un tiempo de conversión, para lo que se hace uso del temporizador interno.
-\item \verb@getTempAlert ()@. Lee, del GPIO correspondiente, el valor de si hay alarma detectada o no. Como referimos en apartados anteriores, el valor de la alarma varía únicamente si el dispositivo se encuentra el estado despierto, o bien cuando en el estado dormido se le haga una petición de lectura de temperatura.
+\item \verb@BOOL getTempAlert ()@. Lee, del GPIO correspondiente, el valor de si hay alarma detectada o no.
 \end{itemize}
 
-\figuraEx{Bitmap/Capitulo7/tempalert}{width=.7\textwidth}{software:fig:tempalert}%
-{Salida de ALERT en función de los valores de sus registros.}{Salida de ALERT en función de los valores de sus registros.}
+A continuación mostramos aquellas funciones que, aunque no se encuentran exportadas, cumplen la misión de simplificar el código, evitando duplicidades si dentro de dos funciones distintas se requería hacer la misma acción. En el caso del sensor de temperatura, serán las que implementen principalmente las funciones que proporciona el fabricante en \verb@i2c.h@ para la comunicación por medio de este protocolo.
+
+\begin{itemize}
+\item \verb@setTempConf ()@. Realiza la escritura en el registro de configuración. Se encuentra exportada al ser requerida por todas las funciones que realizan cambios sobre el mismo, como pueden ser \verb@setTempResolution ()@ o \verb@getTempLowPower ()@.
+\item \verb@setTempRegister (UINT8 reg)@. Abre la comunicación \ac{I2C} haciendo las peticiones necesarias para leer el registro que se le pasa por parámetro. Es la función que la llama la responsable de obtener el dato y de cerrar la comunicación.
+\item \verb@INT8 getTempConf ()@. Función auxiliar que permite comprobar que el estado del registro interno de configuración coincide con la copia de él que el programa dispone. De esta manera garantizamos la concordancia entre ambos.
+\end{itemize}
 
 %-------------------------------------------------------------------
 \subsubsection{Acelerómetro}
@@ -107,9 +120,9 @@ Nuestro acelerómetro se conecta al sistema por medio de la interfaz I$^2$C y por
 
 \begin{itemize}
 \item \verb@getAcc ()@. Función que consunta al dispositivo las aceleraciones correspondientes a los tres ejes ($\hat{x}$, $\hat{y}$, $\hat{z}$) y las guarda en variables locales. Puesto que son tres valores distintos, tomamos la decisión de diseño de que esta función únicamente trajera los datos, siendo necesario invocar otra para acceder a ellos.
-\item \verb@getAccX ()@, \verb@getAccY ()@, \verb@getAccZ ()@. Devuelven el valor de las variables locales en las que previamente se han almacenado los valores de las aceleraciones en los ejes correspondientes.
+\item \verb@INT8 getAccX ()@, \verb@INT8 getAccY ()@, \verb@INT8 getAccZ ()@. Devuelven el valor de las variables locales en las que previamente se han almacenado los valores de las aceleraciones en los ejes correspondientes.
 \item \verb@setAccInt (int interrupcion, int source)@. Permite modificar los parámetros correspondientes a la interrupción que se le pasa por parámetro modificando ciertos parámetros, como puede ser la fuente (\verb@source@) que la ocasiona.
-\item \verb@getAccInt1 ()@, \verb@getAccInt2 ()@. Devuelve \verb@TRUE@ o \verb@FALSE@ en función de si hay interrupción pendiente o no. En principio estas funciones no serían necesarias, puesto que al estar rutadas hacia \ac{CN}s, el vector de interrupción correspondiente atendería la petición cuando se genere. No obstante, se referencian por si fueran necesarias.
+\item \verb@BOOL getAccInt1 ()@, \verb@BOOL getAccInt2 ()@. Devuelve \verb@TRUE@ o \verb@FALSE@ en función de si hay interrupción pendiente o no. En principio estas funciones no serían necesarias, puesto que al estar rutadas hacia \ac{CN}s, el vector de interrupción correspondiente atendería la petición cuando se genere. No obstante, se referencian por si fueran necesarias.
 \end{itemize}
 
 %-------------------------------------------------------------------
@@ -120,7 +133,7 @@ Nuestro acelerómetro se conecta al sistema por medio de la interfaz I$^2$C y por
 
 De forma similar a como ocurría en el caso anterior, la salida de este sensor se encuentra conectada a un \ac{CN}, por lo que será necesario atender a la rutina de interrupción \verb@IntCN ()@ y, en base a esto, definir las acciones que sean necesarias.
 
-No obstante, puesto que este puerto también es accesible \textit{on-demand}, creamos la función \verb@getPIR ()@, la cual devuelve \verb@TRUE@ si halla presencia, o \verb@FALSE@, en caso contrario.
+No obstante, puesto que este puerto también es accesible bajo demanda, creamos la función \verb@BOOL getPIR ()@, la cual devuelve \verb@TRUE@ si halla presencia, o \verb@FALSE@, en caso contrario.
 
 %-------------------------------------------------------------------
 \subsubsection{Luminosidad}
@@ -130,7 +143,9 @@ No obstante, puesto que este puerto también es accesible \textit{on-demand}, cre
 
 Como ya conocemos, la salida del sensor de luminosidad es una tensión proporcional a la fotocorriente causada por la iluminación del dispositivo, por lo que se conecta a un puerto \ac{ADC} del microcontrolador, para que éste haga la conversión, a 10 bits y en el intervalo 0 V--3.3 V, de la tensión que le llega. Este puerto ha sido previamente inicializado en la rutina \verb@InitSensors ()@.
 
-Para consultar el valor de luminosidad, basta con llamar a \verb@getLum ()@, el cual solicita realizar la medida al \ac{ADC}. Para obtener un dato actual, desechando valores anteriores, esta petición se realiza 10 veces. Esta función devuelve un entero que representa la tensión.
+Para consultar el valor de luminosidad, basta con llamar a \verb@int getLum ()@, el cual solicita realizar la medida al \ac{ADC}. Para obtener un dato actual, desechando valores anteriores, esta petición se realiza 10 veces. Esta función devuelve un entero que representa la tensión.
+
+Todas estas medidas son posibles gracias al uso de la librería \verb@adc.h@, la cual contiene las funciones necesarias tanto para inicializar el \ac{ADC} como para realizar las lecturas.
 
 %-------------------------------------------------------------------
 \subsection{Actuadores}
@@ -146,16 +161,35 @@ Análogamente, procedemos a presentar las funciones que requieren los actuadores 
 \label{software:sec:ir}
 %-------------------------------------------------------------------
 
-La comunicación infrarroja se puede realizar usando diversos estándares. Nosotros implementamos el más extendido, y por tanto más polivalente, el NEC, el cual está basado en una modulación por distancia de pulsos sobre una portadora de 38 kHz \cite{nec}. La figura \ref{software:fig:tramanec} muestra un ejemplo de la trama resultante de la aplicación de este protocolo.
+La comunicación infrarroja se implementa bajo diversos estándares, puesto que cada fabricante puede definir su propio protocolo de comunicaciones con su equipo. Como muestra de ello se presentan, en la figura \ref{software:fig:tramasvarias}, las tramas procedentes de mandos a distancia de fabricantes distintos.
 
-\figuraEx{Bitmap/Capitulo7/tramanec}{width=.9\textwidth}{software:fig:tramanec}%
-{Ejemplo de trama del protocolo NEC, obtenida de \cite{nec}.}{Ejemplo de trama del protocolo NEC, usado en comunicación infrarroja.}
+\begin{figure}[!h]
+\centering
+\subfloat[Trama Ir de televisión Sony]{\includegraphics[height=130px]{Imagenes/Bitmap/Capitulo7/irsony}}%
+\qquad
+\subfloat[Trama Ir de televisión Samsung]{\includegraphics[height=130px]{Imagenes/Bitmap/Capitulo7/irsamsung}}%
+\caption{Tramas de comunicación infrarroja de distintos fabricantes.}
+\label{software:fig:tramasvarias}
+\end{figure}
 
-La decisión de diseño tomada en esta \ac{HAL} ha sido la de usar un \textit{buffer}, puesto que previmos que en la implementación final del sistema se tendría la necesidad de enviar varios comandos seguidos. El tamaño del mismo puede controlarse por la constante \verb@BUFFER_MAX@. Además, con este método conseguimos que la transmisión por el puerto \ac{IR} no bloquee el programa principal, puesto que la transmisión entera dura 67.5 ms, y el encadenamiento de varias puede originar un paro significativo en la ejecución.
+No obstante, estos estándares sí unifican el hecho de que para este tipo de comunicaciones se usan modulaciones basadas en el ancho de pulsos sobre portadoras de 34 kHz.
 
-Como resultado de requerir una modulación, será necesario emplear de nuevo el temporizador interno, con la frecuencia suficiente que permita obtener una señal pulsada de 38 kHz. Como consecuencia, la máquina de estados que gobierne la transmisión y el \textit{buffer} tendrá que llamarse desde la rutina de atención a la interrupción, si bien es muy ligera desde el punto de vista de tiempo de ejecución. Esto además posibilita el hecho de que se pueda seguir ejecutando el programa principal entre activaciones de la interrupción.
+Esto nos lleva, en primer lugar, a elegir el electrodoméstico que queramos controlar, de forma que podamos implementar su protocolo. En nuestro caso, decidimos controlar el aire acondicionado, debido a que la placa dispone de sensor de temperatura y puede conocer, por tanto, el valor de la misma en tiempo real.
 
-La función que permite añadir comandos a la cola de transmisión se denomina \verb@sendIR (int address, int command)@, en la que los argumentos indican tanto la dirección \ac{IR} de la máquina como el comando a transmitir. Sugerimos que, de cara a una implementación final, se añadan como constantes las direcciones y los comandos, de forma que sean fácilmente referenciables.
+Evaluando trabajos previos \cite{javipfc}, obtenemos que la información en las tramas se organiza de la siguiente manera: En primer lugar en 2 bytes se codifica el dispositivo, seguido de un byte de protección frente a errores, el comando a mandar --con tamaño variable-- y, por último, su código redundante.
+
+Su implementación física se detalla en la figura ().
+
+La decisión de diseño tomada en esta \ac{HAL} ha sido la de usar un \textit{buffer}, puesto que previmos que en la implementación final del sistema se tendría la necesidad de enviar varios comandos seguidos. El tamaño del mismo puede controlarse por la constante \verb@BUFFER_MAX@. Además, con este método conseguimos que la transmisión por el puerto \ac{IR} no bloquee el programa principal, puesto que el encadenamiento de varias puede originar un paro significativo en la ejecución.
+
+Como resultado de requerir una modulación, será necesario emplear de nuevo el temporizador interno, con la frecuencia suficiente que permita obtener una señal pulsada de 34 kHz. Como consecuencia, la máquina de estados que gobierne la transmisión y el \textit{buffer} tendrá que llamarse desde la rutina de atención a la interrupción, si bien es muy ligera desde el punto de vista de tiempo de ejecución. Esto además posibilita el hecho de que se pueda seguir ejecutando el programa principal entre activaciones de la interrupción. Las funciones, no exportadas, desarrolladas con este propósito son:
+
+\begin{itemize}
+\item \verb@protocoloAA()@. Incluye la máquina de estados correspondientes a la trama presentada en (). Su misión es que, en cada interrupción del temporizador, se ponga en la salida del \ac{GPIO} el valor que corresponda, según la posición en la que nos encontremos.
+\item \verb@int mandarUno()@, \verb@int mandarCero()@. Puesto que estos dependen de la trama y el hecho de enviar un `0' o un `1' implica una parte de modulación y otra de silencio, decidimos crear dos funciones que simplifiquen esta tarea, dada la cantidad de veces que tendrá que ejecutarse.
+\end{itemize}
+
+La función que permite añadir comandos a la cola de transmisión del aire acondicionado se denomina \verb@sendAA (int modo, int estado)@, en la que los argumentos indican si se quiere entrar en modo verano (\verb@AA_Summer@) o invierno (\verb@AA_Winter@); o bien si se quiere encender el aparato (\verb@AA_On@) o apagarlo (\verb@AA_Off@).
 
 %-------------------------------------------------------------------
 \subsubsection{Buzzer}

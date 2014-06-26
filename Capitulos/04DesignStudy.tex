@@ -249,23 +249,23 @@ En adición, y a modo de resumen, presentamos en la tabla \ref{diseno:tab:ifaz} u
 Dispositivo & Comercial & Puerto & Com. & \textit{Header} & Función \\
 
 \hline \hline
-\multirow{2}{*}{Temperatura} & \multirow{2}{*}{MCP9800} & ALERT & GPIO & 9 & RD(8) \\\cline{3-6}
-& & \multirow{2}{*}{I$^2$C} & SDA & 10 & SDA(2) \\\cline{1-2}
-\multirow{3}{*}{Acelerómetro} & \multirow{3}{*}{MMA8453Q} & & SCK & 11 & SCK(2) \\\cline{3-6}
-& & INT1 & \multirow{2}{*}{CN} & 16 & CN(12)  \\
-& & INT2 &  & 2 & CN(4)  \\
+\multirow{2}{*}{Temperatura} & \multirow{2}{*}{MCP9800} & ALERT & GPIO & 9 & RD8 \\\cline{3-6}
+& & \multirow{2}{*}{I$^2$C} & SDA & 10 & SDA2 \\\cline{1-2}
+\multirow{3}{*}{Acelerómetro} & \multirow{3}{*}{MMA8453Q} & & SCK & 11 & SCK2 \\\cline{3-6}
+& & INT1 & \multirow{2}{*}{CN} & 16 & CN12  \\
+& & INT2 &  & 2 & CN4  \\
 \hline
-Presencia & \multicolumn{2}{c|}{AMN 33112J} & CN & 33 & CN(15) \\
+Presencia & \multicolumn{2}{c|}{AMN 33112J} & CN & 33 & CN15 \\
 \hline
-Luminosidad & \multicolumn{2}{c|}{APDS 9005} & ADC & 5 & AN(13) \\
+Luminosidad & \multicolumn{2}{c|}{APDS 9005} & ADC & 5 & AN13 \\
 \hline
 \hline
-Infrarrojo & \multicolumn{2}{c|}{TSUS 5202} & GPIO & 35 & RE(6) \\
+Infrarrojo & \multicolumn{2}{c|}{TSUS 5202} & GPIO & 35 & RE6 \\
 \hline
-Buzzer & \multicolumn{2}{c|}{PS1720} & GPIO & 3 & RB(11) \\
+Buzzer & \multicolumn{2}{c|}{PS1720} & GPIO & 3 & RB11 \\
 \hline
-\multirow{2}{*}{LEDs} & \multicolumn{2}{c|}{Rojo} & \multirow{2}{*}{GPIO} & 22 & RE(5) \\
-& \multicolumn{2}{c|}{Verde} & & 23 & RE(7) \\
+\multirow{2}{*}{LEDs} & \multicolumn{2}{c|}{Rojo} & \multirow{2}{*}{GPIO} & 22 & RE5 \\
+& \multicolumn{2}{c|}{Verde} & & 23 & RE7 \\
 \hline
 \end{tabular}
 }
@@ -273,6 +273,8 @@ Buzzer & \multicolumn{2}{c|}{PS1720} & GPIO & 3 & RB(11) \\
 \caption{Entradas y salidas de los \textit{headers} hacia la placa de expansión.
 \label{diseno:tab:ifaz}}
 \end{table} 
+
+Justificamos la asignación de los puertos de salida de los sensores que deben generar interrupciones. Tales son los casos del acelerómetro --con INT1 e INT2-- y del de presencia, que se encuentran rutados hacia \ac{CN}s. No figura en esta lista el sensor de temperatura que, a pesar de tener una salida independiente de alerta, ésta solo se captura cuando el sensor se encuentra en estado despierto.
 
 A la hora de considerar la asignación de los distintos pines a las entradas y salidas de los componentes, se tuvo en cuenta, aparte de que la función requerida estuviera disponible en el mismo, que no reutilizara ningún otro pin ya usado para hacer otras \textit{shields}, con lo que conseguimos que todas sean compatibles entre sí. En este sentido, evaluamos el uso que hacían de los \textit{headers} las placas de expansión correspondientes al módulo RS232 y al cargador \cite{aguspfc} y a la del módulo de reprogramación --en desarrollo en la actualidad.
 

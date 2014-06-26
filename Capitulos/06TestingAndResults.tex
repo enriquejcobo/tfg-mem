@@ -111,7 +111,7 @@ Análogamente para los de salida, se programó un nivel alto seguido de uno bajo, 
 
 \medskip
 
-Los actuadores que requieren la intervención de un temporizador, como son el \textbf{Emisor Infrarrojo} o el \textbf{Buzzer}, fueron probados de la siguiente manera. Se simuló la salida modulada que debían presentar, una señal cuadrada periódica de frecuencia 38 kHz para el caso del \ac{IR}, y 2 y 1.5 kHz para el caso del buzzer, y se introdujo esa señal en el osciloscopio, de forma que se midió la frecuencia.
+Los actuadores que requieren la intervención de un temporizador, como son el \textbf{Emisor Infrarrojo} o el \textbf{Buzzer}, fueron probados de la siguiente manera. Se simuló la salida modulada que debían presentar, una señal cuadrada periódica de frecuencia 34 kHz para el caso del \ac{IR}, y 2 y 1.5 kHz para el caso del buzzer, y se introdujo esa señal en el osciloscopio, de forma que se midió la frecuencia.
 
 Las señales obtenidas en el osciloscopio pueden verse en las figuras ().
 
@@ -148,9 +148,12 @@ No se han podido comprobar las funciones del \textbf{Acelerómetro}, puesto que, 
 
 \medskip
 
-En cuando a los actuadores, comenzamos evaluando el \textbf{Emisor Infrarrojo}, mediante el envío de los comandos ``Enciende Aire Acondicionado'' y ``Apaga Aire Acondicionado''. Estas tramas fueron reconocidas correctamente por el receptor de infrarrojos descrito en el apartado \ref{pruebas:sec:hardsensores}, y dieron lugar al encendido (y posterior apagado) de la máquina de aire acondicionado presente en el laboratorio.
+En cuando a los actuadores, comenzamos evaluando el \textbf{Emisor Infrarrojo}, mediante el envío de los comandos ``Enciende Aire Acondicionado, modo Verano'' y ``Apaga Aire Acondicionado, modo Verano''. Estas tramas fueron reconocidas correctamente por el receptor de infrarrojos descrito en el apartado \ref{pruebas:sec:hardsensores}, y dieron lugar al encendido (y posterior apagado) de la máquina de aire acondicionado presente en el laboratorio.
 
-Los campos \verb@address@ y \verb@command@ fueron decodificados por medio de la inspección de la trama recibida, usando el receptor y presentando dicha trama en el osciloscopio.
+Los bytes que forman las tramas fueron decodificados por medio de la inspección de la trama enviada por el mando original, usando el receptor y presentando dicha trama en el osciloscopio. La figura \ref{pruebas:fig:tramaaa} muestra en detalle la trama recibida. A partir del análisis de varias tramas en las que se modificaba algún parámetro (conocido), procedimos a identificar la posición de los mismos dentro de la trama, mediante el uso de una hoja de cálculo. 
+
+\figuraEx{Bitmap/Capitulo6/tramaaa}{width=.7\textwidth}{pruebas:fig:tramaaa}%
+{Detalle del comienzo de trama infrarroja.}{Detalle del comienzo de trama infrarroja.}
 
 \medskip
 
