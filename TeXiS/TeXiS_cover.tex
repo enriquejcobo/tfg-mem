@@ -344,6 +344,7 @@
 
 
 \pagecolor{white}
+
 \cleardoublepage
 
 %%%
@@ -382,7 +383,7 @@
 \vspace{1cm}
 \large
 \begin{tabular}[t]{p{5cm}}
-\bf PUNTUACIÓN:\\
+\bf CALIFICACIÓN:\\
 \end{tabular}
 
 \vspace{2cm}
@@ -490,22 +491,66 @@
 %\vspace{2cm}
 
 \newpage
+
 \thispagestyle{empty}
 \mbox{ }
 
+\begin{center}
+\includegraphics[width=0.4\textwidth]{Imagenes/Bitmap/Otras/memoriaonline}
+\end{center}
+
+\begin{small}
+\begin{center}
+Versión online. \emph{http://goo.gl/mQ3Mez}.
+\end{center}
+\end{small}
+
+
+\vfill%space*{4cm}
+\begin{small} 
+\begin{center}
+\ifx\noTeXiSCreditsVal\undefined
+  Documento creado a partir de \texis\ v.\texisVer.
+\else
+\mbox{ }
+\fi
+\end{center}
+\end{small}
+\vspace*{1cm}
+\begin{small} 
+\begin{center}
+\ifx\explicacionDobleCaraVal\undefined
+\mbox{ }
+\else
+\noindent Este documento está preparado para su impresión a doble cara.
+\fi
+\end{center}
+\end{small}
+
+\begin{small}
+\begin{center}
+\vspace*{1cm}
+Todos los ficheros usados para hacer este documento son accesibles públicamente en el siguiente repositorio: \emph{\url{https://github.com/agus-xyz/cNGD-mem}}.
+\end{center}
+\end{small}
+
+%\newpage
+%\thispagestyle{empty}
+%\mbox{ }
+
 % Información del ISBN y copyright
-\vskip 13cm
-\ifx\copyrightInfoVal\undefined
-\mbox{ }
-\else
-Copyright \textcopyright\ \copyrightInfoVal
-\fi
-\vskip 3cm
-\ifx\isbnVal\undefined
-\mbox{ }
-\else
-ISBN \isbnVal
-\fi
+%\vskip 13cm
+%\ifx\copyrightInfoVal\undefined
+%\mbox{ }
+%\else
+%Copyright \textcopyright\ \copyrightInfoVal
+%\fi
+%\vskip 3cm
+%\ifx\isbnVal\undefined
+%\mbox{ }
+%\else
+%ISBN \isbnVal
+%\fi
 
 } % \newcommand{\makeCover}
 
