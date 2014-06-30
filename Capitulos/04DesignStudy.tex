@@ -59,8 +59,8 @@ De los modelos presentados en la tabla \ref{previo:tab:temp}, hemos decidido sel
 
 \begin{multicols}{2}
 \begin{itemize}
-\item Precisión típica de $\pm$0.5ºC a 25ºC.
-\item Error máximo de $\pm$1ºC entre -10ºC y 85ºC.
+\item Precisión típica de $\pm$0.5 ºC a 25 ºC.
+\item Error máximo de $\pm$1ºC entre -10 ºC y 85 ºC.
 \item Resolución seleccionable de 9-12 bits.
 \item Conexión I$^2$C.
 \item Corriente de operación de 200 $\mu$A.
@@ -332,7 +332,7 @@ En segundo lugar, durante el rutado, se buscó un compromiso entre anchura de pis
 
 Adicionalmente, remarcamos la existencia de un plano de masa sobre ambas caras de la \ac{PCB}. Con esto conseguimos una reducción del ruido y de la influencia de emisiones electromagnéticas parásitas, puesto que este plano ofrece un camino de baja impedancia para las mismas.
 
-Remarcar que el trazado que acaba de ser expuesto se corresponde con el de la segunda versión. El de la primera, que puede verse en la figura \ref{diseno:fig:previo}, tuvo que ser modificado, principalmente por el hecho de que la huella del acelerómetro aparecía reflejada, lo que hacía que los pines no coincideran. No obstante, y aprovechando este segundo diseño, se modificaron ciertas características, como puede ser el rutado de las salidas de interrupción hacia \ac{CN}s en lugar de hacia \ac{GPIO}s, y la adición de la resistencia de \textit{pull-down} y el reflejo de la huella del \ac{PIR}, de forma similar al caso del acelerómetro.
+Remarcar que el trazado que acaba de ser expuesto se corresponde con el de la segunda versión. El de la primera, que puede verse en la figura \ref{diseno:fig:previo}, tuvo que ser modificado, principalmente por el hecho de que la huella del acelerómetro aparecía reflejada, lo que hacía que los pines no coincidieran. No obstante, y aprovechando este segundo diseño, se modificaron ciertas características, como puede ser el rutado de las salidas de interrupción hacia \ac{CN}s en lugar de hacia \ac{GPIO}s, y la adición de la resistencia de \textit{pull-down} y el reflejo de la huella del \ac{PIR}, de forma similar al caso del acelerómetro.
 
 \begin{figure}[!h]
 \centering
@@ -418,8 +418,8 @@ En la tabla \ref{diseno:tab:costes}
 \hline
 \multicolumn{5}{|l|}{Fabricación de PCB}								\\
 \hline
-	& Versión 1 													& 21.33 \euro & 10 & 213.31 \euro \\
-	& Versión 2 (y final) 											& 12.60 \euro & 10 & 12.60 \euro \\
+	& Versión 1 													& 1.75 \euro & 10 & 17.50 \euro \\
+	& Versión 2 (y final) 											& 0.945 \euro & 10 & 9.45 \euro \\
 \hline
 \multicolumn{5}{|l|}{Componentes electrónicos}						\\
 \hline
@@ -429,14 +429,14 @@ En la tabla \ref{diseno:tab:costes}
 	& Avago APDS 9005 				 								& 0.74 \euro & 10 & 7.40 \euro \\
 	& Vishay TSUS5202 				 								& 0.17 \euro & 10 & 1.70 \euro \\
 	& TDK PS1720 													& 0.75 \euro & 10 & 7.50 \euro \\
-	& LEDs 							 								& 0.085 \euro & 20 & 1.70 \euro \\
+	& Transistor													& 0.116 \euro & 10 & 1.16 \euro \\
+	& LEDs (2 por placa)			 								& 0.085 \euro & 20 & 1.70 \euro \\
 	& Resistencias (11 por placa)									& 0.022 \euro & 110 & 2.42 \euro \\
 	& Condensadores (5 por placa)									& 0.008 \euro & 50 & 0.40 \euro \\
-	& Transistor													& 0.116 \euro & 10 & 1.16 \euro \\
-	& Header 10 pines (4 por placa)									& 0.116 \euro & 40 & 4.64 \euro \\
+	& Header 10 pines (4 por placa)									& 0.19 \euro & 40 & 7.60 \euro \\
 %\multicolumn{2}{l}{Electronic components}						& 358 \euro & 100\% & 358 \euro	\\
 \hline
-\multicolumn{4}{|l|}{\textbf{Total}} 		& \textbf{332.68} \euro \\
+\multicolumn{4}{|l|}{\textbf{Total}} 		& \textbf{136.68} \euro \\
 \hline
 \hline
 \end{tabular}

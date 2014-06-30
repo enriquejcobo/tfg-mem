@@ -47,7 +47,7 @@ Todo el código desarrollado, así como el necesario para que el sistema completo 
 En los siguientes subapartados iremos presentado las funciones que se han desarrollado para el manejo de los sensores y actuadores. En primer lugar presentamos las funciones que son comunes al propio sistema, debido a que engloban varios dispositivos del mismo. Estas son:
 
 \begin{itemize}
-\item \verb@InitSensors ()@. Su misión es la de preparar los periféricos dentro del \ac{MCU}, de forma que se habiliten los necesarios y en los pines asignados.
+\item \verb@void InitSensors ()@. Su misión es la de preparar los periféricos dentro del \ac{MCU}, de forma que se habiliten los necesarios y en los pines asignados.
 	\begin{itemize}
 	\item Se habilita la interfaz I$^2$C, usada por el sensor de temperatura y el acelerómetro.
 	\item Se configura el \ac{ADC} que será requerido por el sensor de luminosidad.
@@ -55,13 +55,13 @@ En los siguientes subapartados iremos presentado las funciones que se han desarr
 	\item Los \ac{GPIO}s de salida para todos los actuadores se marcan como tal.
 	\item Por último, se configura el temporizador interno, mediante el uso de la librería \verb@timer.h@, cuyo uso se justifica a continuación.
 	\end{itemize}
-\item \verb@IntTmp ()@. Rutina de atención a la interrupción causada por el temporizador interno TMR5, que se utiliza para:
+\item \verb@void IntTmp ()@. Rutina de atención a la interrupción causada por el temporizador interno TMR5, que se utiliza para:
 	\begin{itemize}
 	\item Definir tiempos de espera, necesarios en la medida de temperatura bajo condiciones de bajo consumo.
 	\item Obtener señales periódicas, como la que necesita el Buzzer para sonar.
 	\item Generar modulaciones, imprescindible para la transmisión de datos via infrarroja.
 	\end{itemize}
-\item \verb@IntCN ()@. Rutina de atención a la interrupción motivada por el cambio en alguna señal rutada hacia un \ac{CN}, como son las interrupciones 1 y 2 del acelerómetro, o la salida del sensor de presencia.
+\item \verb@void IntCN ()@. Rutina de atención a la interrupción motivada por el cambio en alguna señal rutada hacia un \ac{CN}, como son las interrupciones 1 y 2 del acelerómetro, o la salida del sensor de presencia.
 \end{itemize}
 
 No obstante, la necesidad y justificación del uso de las mismas será detallada en el apartado correspondiente a cada elemento de la \textit{shield}. 
@@ -96,7 +96,7 @@ Sus funciones aparecen recogidas a continuación:
 \begin{itemize}
 \item \verb@int getTemp ()@. Esta función devuelve la medida de la temperatura en forma de un entero, si bien éste representa un número real de coma fija, en el que el primer byte representa la parte entera y el segundo la parte decimal.
 \item \verb@void setTempResolution (int res)@. Permite modificar el registro de configuración asignando un nuevo valor de resolución, en función del argumento, que es un número entre 0 y 3, ambos inclusive. \\
-Este argumento muestra la cantidad de bits fraccionarios que se usarán, de forma que un 0 conlleva ningún bit fraccionario (con una precisión, por tanto, de $\pm$0.5 ºC), mientras que un 3 nos ofrece como resultado 3 bits (con una precisión de $\pm$0.0625 ºC)
+Este argumento muestra la cantidad de bits fraccionarios que se usarán, de forma que un 0 conlleva ningún bit fraccionario (con una precisión, por tanto, de $\pm$0.5 ºC), mientras que un 3 nos ofrece como resultado 3 bits (con una precisión de $\pm$0.0625 ºC).
 \item \verb@void setTempAlert (int reg, INT8 alert)@. Modifica los registros correspondientes a los umbrales superior (\verb@MAX_HIGH@) e inferior (\verb@MAX_LOW@), poniendo el valor de temperatura \verb@alert@ en los mismos. \verb@alert@ debe redondearse al entero más próximo.
 \item \verb@void setTempLowPower ()@. Modifica el registro de configuración poniendo el sensor de temperatura en un estado de bajo consumo, en el que se detiene la conversión de temperatura pero permanece abierta la interfaz I$^2$C. La medida de temperatura, en este caso, necesita un tiempo de conversión, para lo que se hace uso del temporizador interno.
 \item \verb@BOOL getTempAlert ()@. Lee, del GPIO correspondiente, el valor de si hay alarma detectada o no.
@@ -180,7 +180,7 @@ La comunicación infrarroja se implementa bajo diversos estándares, puesto que ca
 \label{software:fig:tramasvarias}
 \end{figure}
 
-No obstante, estos estándares sí unifican el hecho de que para este tipo de comunicaciones se usan modulaciones basadas en el ancho de pulsos sobre portadoras de 34 kHz, y siguiendo un esquema temporal como el que se muestra en la figura \ref{software:fig:tramair}.
+No obstante, estos estándares sí unifican el hecho de que para este tipo de comunicaciones se usan modulaciones basadas en el ancho de pulsos sobre portadoras de 34 kHz, y siguiendo un esquema temporal similar al que se muestra en la figura \ref{software:fig:tramair}.
 
 \figuraEx{Bitmap/Capitulo7/tramair}{width=.8\textwidth}{software:fig:tramair}%
 {Trama detallada del emisor infrarrojo.}{Trama detallada del emisor infrarrojo.}
