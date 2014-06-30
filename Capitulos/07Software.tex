@@ -66,13 +66,12 @@ En los siguientes subapartados iremos presentado las funciones que se han desarr
 
 No obstante, la necesidad y justificación del uso de las mismas será detallada en el apartado correspondiente a cada elemento de la \textit{shield}. 
 
-Aparte de estas funciones, ha sido necesario modificar en parte los siguientes archivos, pertenecientes al \textit{firmware} del \ac{CNGD}, para que la integración de la placa en el \ac{CNGD} sea posible. En este sentido, los archivos modificados han sido:
+Aparte de estas funciones, ha sido necesario modificar en parte los siguientes archivos, pertenecientes al \textit{firmware} del \ac{CNGD}, para que la integración de la placa en el mismo sea posible. En este sentido, los archivos modificados han sido:
 
 \begin{itemize}
 \item \verb@HardwareConfig.h@. En este fichero se encuentran las definiciones de los periféricos usados por el nodo, de forma que el diseño es totalmente modular, comentando y descomentando en función de las necesidades particulares de cada unidad. \\
 En este sentido, se ha definido la placa y, dentro de ella, cada uno de los sensores y actuadores que pueden formar parte, de tal manera que si se prescindiera de alguno las funciones y los periféricos del \ac{MCU} asociados dejarían de ser usados con este propósito.
-\item \verb@HardwareProfile.h@. Se producen las asignaciones de los pines a sus diferentes periféricos, de forma que un cambio en los mismos se simplifica únicamente modificando su etiqueta. \\
-En nuestro caso, se han realizado las asignaciones necesarias en función del primer archivo, de forma que en un cambio en el mismo originaría la liberación de los recursos, permitiéndoles otro uso. Estas asignaciones son las que permiten la inicialización, modificación y consulta de los puertos.
+\item \verb@HardwareProfile.h@. Se producen las asignaciones de los pines a sus diferentes periféricos y a las funciones del microcontrolador, de forma que un cambio en los mismos se simplifica únicamente modificando su etiqueta.
 \end{itemize}
 
 %-------------------------------------------------------------------
@@ -190,8 +189,8 @@ La decisión de diseño tomada en esta \ac{HAL} ha sido la de usar un \textit{buff
 Como resultado de requerir una modulación, será necesario emplear de nuevo el temporizador interno, con la frecuencia suficiente que permita obtener una señal pulsada de 34 kHz. Como consecuencia, la máquina de estados que gobierne la transmisión y el \textit{buffer} tendrá que llamarse desde la rutina de atención a la interrupción, si bien es muy ligera desde el punto de vista de tiempo de ejecución. Esto además posibilita el hecho de que se pueda seguir ejecutando el programa principal entre activaciones de la interrupción. Las funciones, no exportadas, desarrolladas con este propósito son:
 
 \begin{itemize}
-\item \verb@protocoloIR()@. Incluye la máquina de estados que gobierna la transmisión de los datos. Su misión es que, en cada interrupción del temporizador, se ponga en la salida del \ac{GPIO} el valor que corresponda, según la posición en la que nos encontremos.
-\item \verb@int mandarUno()@, \verb@int mandarCero()@. Puesto que estos dependen de la trama y el hecho de enviar un ``0'' o un ``1'' implica una parte de modulación y otra de silencio, decidimos crear dos funciones que simplifiquen esta tarea, dada la cantidad de veces que tendrá que ejecutarse.
+\item \verb@void protocoloIR ()@. Incluye la máquina de estados que gobierna la transmisión de los datos. Su misión es que, en cada interrupción del temporizador, se ponga en la salida del \ac{GPIO} el valor que corresponda, según la posición en la que nos encontremos.
+\item \verb@int mandarUno ()@, \verb@int mandarCero ()@. Puesto que estos dependen de la trama y el hecho de enviar un ``0'' o un ``1'' implica una parte de modulación y otra de silencio, decidimos crear dos funciones que simplifiquen esta tarea, dada la cantidad de veces que tendrá que ejecutarse.
 \end{itemize}
 
 %-------------------------------------------------------------------
@@ -204,7 +203,7 @@ El buzzer se activa mediante una señal rectangular periódica, cuya frecuencia de
 
 Para este actuador volveremos a requerir la interrupción periódica, la cual, como consecuencia de lo estudiado en la sección \ref{software:sec:ir}, es capaz de soportar las frecuencias que se precisan.
 
-Se han desarrollado dos funciones que gobiernan el control del mismo: \verb@buzzerOn ()@, que hace que el buzzer empiece a sonar, y \verb@buzzerOff ()@, que lo detiene.
+Se han desarrollado dos funciones que gobiernan el control del mismo: \verb@void buzzerOn ()@, que hace que el buzzer empiece a sonar, y \verb@void buzzerOff ()@, que lo detiene.
 
 %-------------------------------------------------------------------
 \subsubsection{LEDs}
@@ -228,7 +227,7 @@ Como se expuso en la sección \ref{diseno:sec:leds}, se han introducido dos \ac{L
 \label{software:sec:demo}
 %-------------------------------------------------------------------
 
-Como consecuencia de haber desarrollado una \ac{HAL}, se hace necesario el crear una aplicación demostrativa que ilustre el correcto funcionamiento de la placa creada e implementada en combinación con el \textit{software} desarrollado.
+Una aplicación demostrativa es desarrollada con el objeto de que ilustre el correcto funcionamiento de la placa diseñada en combinación con el \textit{software} implementado.
 
 No cabe olvidar que la meta del trabajo reside en incluir nuestra \textit{shield} dentro de un nodo de una \ac{CWSN}, por lo también es necesario que las placas implantadas en distintos nodos sean capaces de compartir información entre ellas.
 
@@ -246,7 +245,7 @@ En este sentido, se desarrolla una aplicación que consta de los siguientes pasos
 	\end{itemize}
 \end{enumerate}
 
-El archivo que contiene el \textit{software} implementado se denomina \verb@MainAppCode_NodeTest.c@, el cual es el responsable de llamar a las funciones de inicialización y de tener el bucle para que se ejecuten estas acciones de forma continua. Además, es necesario definir la función de cada nodo en particular, como corresponde a una aplicación \ac{P2P} Unicast. Es por ello que habrá un nodo emisor y otro receptor.
+El archivo que contiene este \textit{software} se denomina \verb@MainAppCode_NodeTest.c@, el cual es el responsable de llamar a las funciones de inicialización y de albergar el bucle para que se ejecuten estas acciones de forma continua. Además, es necesario definir la función de cada nodo en particular, como corresponde a una aplicación \ac{P2P} Unicast. Es por ello que habrá un nodo emisor y otro receptor.
 
 Este programa se ha diseñado bajo la idea de que ilustre el funcionamiento de todos los sensores y actuadores que se incluyen en la placa, de forma que una variación de los mismos implique una modificación en algún parámetro.
 

@@ -141,7 +141,7 @@ Siguiendo con el sensor de \textbf{Luminosidad}, llevamos un proceso similar al 
 
 \medskip
 
-No se han podido comprobar las funciones del \textbf{Acelerómetro}, puesto que, como se puso de manifiesto en el capítulo \ref{cap:diseno} no llegó la versión definitiva de la placa al cierre de esta memoria. No obstante, tenemos garantías en que las mismas funcionen, puesto que la interfaz \ac{I2C} ha sido testada con éxito con el sensor de temperatura, y los \ac{CN} también han mostrado un comportamiento positivo en las pruebas desarrolladas con el \ac{PIR}.
+No se han podido comprobar las funciones del \textbf{Acelerómetro}, puesto que, como se puso de manifiesto en el capítulo \ref{cap:diseno} no llegó la versión definitiva de la placa al cierre de esta memoria. No obstante, se ha probado que los periféricos del \ac{MCU} que usa el acelerómetro sí funcionan, puesto que la interfaz \ac{I2C} ha sido testada con éxito con el sensor de temperatura, y los \ac{CN} también han mostrado un comportamiento positivo en las pruebas desarrolladas con el \ac{PIR}.
 
 \medskip
 
@@ -152,7 +152,7 @@ Evaluando trabajos previos \cite{javipfc}, obtenemos que la información en las t
 \figuraEx{Bitmap/Capitulo7/bitstrama}{width=.8\textwidth}{software:fig:bitstrama}%
 {Contenido de la trama del aire acondicionado.}{Contenido de la trama del aire acondicionado.}
 
-Los bytes que forman las tramas fueron decodificados por medio de la inspección de la trama enviada por el mando original, usando el receptor y presentando dicha trama en el osciloscopio, realizando ingeniería inversa. La figura \ref{pruebas:fig:tramaaa} muestra en detalle la trama recibida. A partir del análisis de varias tramas en las que se modificaba algún parámetro (conocido), procedimos a identificar la posición de los mismos dentro de la trama, observando manualmente qué bits eran los que cambiaban su estado. Para este propósito requerimos el uso de una hoja de cálculo. 
+Los bytes que forman las tramas fueron decodificados por medio de la inspección de la trama enviada por el mando original, usando el receptor y presentando dicha trama en el osciloscopio, realizando ingeniería inversa. La figura \ref{pruebas:fig:tramaaa} muestra en detalle este proceso con una trama. A partir del análisis de varias tramas en las que se modificaba algún parámetro (conocido), procedimos a identificar la posición de los mismos dentro de la trama, observando manualmente qué bits eran los que cambiaban su estado. Para este propósito requerimos el uso de una hoja de cálculo. 
 
 \figuraEx{Bitmap/Capitulo6/tramaaa}{width=.7\textwidth}{pruebas:fig:tramaaa}%
 {Detalle del comienzo de trama infrarroja.}{Detalle del comienzo de trama infrarroja.}
