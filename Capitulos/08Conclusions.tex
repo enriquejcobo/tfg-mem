@@ -4,7 +4,7 @@
 %
 %---------------------------------------------------------------------
 
-\chapter{Conclusiones}
+\chapter{Conclusiones y líneas futuras}
 \label{cap:resultados}
 
 \begin{FraseCelebre}
@@ -22,34 +22,36 @@ En este último capítulo se ofrece una revisión de todo el proyecto, detallando l
 \end{resumen}
 
 %-------------------------------------------------------------------
-\section{Resultados}
+\section{Conclusiones}
 %-------------------------------------------------------------------
 \label{conclusiones:sec:resultados}
 %-------------------------------------------------------------------
 
 La principal meta de este trabajo era diseñar e implementar una placa con sensores y actuadores que se incluya dentro de la plataforma \ac{CNGD} que ayudara al estudio de las \ac{CWSN}, además de realizarlas bajo unas constantes estrictas de bajo coste y bajo consumo.
 
-Adicionalmente, era necesario desarrollar una interfaz que abstrajera el \textit{hardware} para su uso desde la aplicación \textit{software}, igualmente buscando la eficiencia y la simplicidad a la hora de implementar el código, y modularidad con el objeto de que la misma fuera versátil y ampliable en un futuro.
+Adicionalmente, era necesario desarrollar \textit{software} que abstrajera el \textit{hardware} para su uso desde la aplicación. igualmente buscando la eficiencia y la simplicidad a la hora de implementar el código, y modularidad con el objeto de que la misma fuera versátil y ampliable en un futuro.
 
-Los sensores y actuadores que se han buscado se caracterizan por su polivalencia, como consecuencia de su inserción en lo que se ha pensado una placa de propósito general, su variedad, puesto que permiten medir y actuar sobre diferentes aspectos del entorno, y su tamaño, de forma que fueran integrables en un reducido espacio.
+Los sensores y actuadores que se han buscado se caracterizan por su polivalencia, en lo que se ha pensado una placa de propósito general, su variedad, puesto que permiten medir y actuar sobre diferentes aspectos del entorno, y su tamaño, de forma que fueran integrables en un reducido espacio.
 
-En referencia a lo que, en un principio, se expuso en la sección \ref{intro:sec:metas}, exponemos los logros obtenidos a lo largo del trabajo:
+En referencia a lo que, en un principio, se expuso en los objetivos, exponemos los logros obtenidos a lo largo del trabajo:
 
 \begin{itemize}
 
-\item \emph{Documentación}. Se consideraron los trabajos previos realizados en esta materia, centrándonos especialmente en el desarrollo de la plataforma que sirve como base de este trabajo. \\Asimismo, se ha adquirido un buen nivel de trabajo con las herramientas que han sido precisas para la elaboración del mismo, tanto \textit{hardware} como \textit{software}. 
+\item \emph{Documentación}. Se consideraron los trabajos previos realizados en esta materia, centrándonos especialmente en el desarrollo de la plataforma que sirve como base de este trabajo. \\Asimismo, se han usado las herramientas que han sido precisas para la elaboración del mismo, tanto \textit{hardware} como \textit{software} y referidas a lo largo del trabajo. 
 
-\item \emph{Diseño, implementación y prueba de la placa de expansión}. Como ha sido expuesto, se han buscado sensores y actuadores bajo las premisas de bajo coste, consumo y con el objeto de desarrollar una placa de propósito general. \\Estos, junto con los componentes adicionales que son necesarios, han sido soldados y probados, tanto de forma individual como de forma conjunta.
+\item \emph{Diseño de la \textit{shield}}. Como ha sido expuesto, se han buscado sensores y actuadores bajo las premisas de bajo coste, consumo y con el objeto de desarrollar una placa de propósito general.
 
-\item \emph{Desarrollo de la interfaz nodo-shield}. La \ac{HAL} desarrollada permite consultar el estado, realizar medidas y modificar parámetros de configuración de todos los sensores y actuadores que se encuentran sobre la placa. \\Adicionalmente, se han realizado pruebas tanto en vacío como con sus dispositivos, verificando en ambos casos el funcionamiento correcto de los mismos.
+\item \emph{Implementación y prueba de la placa de expansión}.  Se realizó el diseño de la \ac{PCB} y se añadieron tanto los sensores y actuadores como los componentes adicionales necesarios, fueron soldados y probados, tanto de forma individual como de forma conjunta.
 
-\item \emph{Aplicación}. Es la expresión última del trabajo desarrollado, puesto que en ella se integran los trabajos realizados tanto con el \textit{hardware} como con el \textit{software}. \\Además, la comunicación que proporciona el nodo hace que las \textit{shields} puedan compartir información entre sí.
+\item \emph{Desarrollo del \textit{software}}. La \ac{HAL} desarrollada permite consultar el estado, realizar medidas y modificar parámetros de configuración de todos los sensores y actuadores que se encuentran sobre la placa. \\Adicionalmente, se han realizado pruebas tanto en vacío como con los sensores y actuadores conectados, verificando en ambos casos el funcionamiento correcto de los mismos.
+
+\item \emph{Aplicación}. Se diseñó una aplicación de prueba que mostrara la integración de los trabajos realizados tanto con el \textit{hardware} como con el \textit{software}.
 
 \end{itemize}
 
 
 %-------------------------------------------------------------------
-\section{Estudios siguientes}
+\section{Líneas futuras}
 %-------------------------------------------------------------------
 \label{conclusiones:sec:estudios}
 %-------------------------------------------------------------------
@@ -60,9 +62,9 @@ En base al desarrollo llevado a lo largo del trabajo, observamos ciertas vías de
 \item \emph{Desarrollo de una placa de expansión con sensores ad-hoc}. En la misma se introducirían sensores, como pueden ser el \ac{GPS} para posicionamiento, sensores de humedad, gas, \ac{RFID} etc., que sirvan a un propósito más específico.
 \item \emph{Desarrollo de una placa de expansión con actuadores ad-hoc}. En concordancia con el elemento anterior, consistiría en añadir actuadores, como relés para corriente alterna, controladores para puertas automáticas, \ac{GSM} para conectividad móvil, entre otros.
 \item \emph{Implementación de \textit{software} para emisor infrarrojo}, que trate de automatizar el proceso de aprendizaje de nuevos comandos para nuevos electrodomésticos, integrando tantos protocolos como sea posible.
-\item \emph{Aplicación context-aware}, de forma que el sistema definiera unos parámetros de control dependientes de cada persona.
-\item \emph{Aplicación integrada con sistema superior}. Consistente en la integración de los sensores sobre el \ac{CNGD} en un entorno más complejo, como puede ser una vivienda completa o un edificio, de forma que sea capaz de leer el estado de las salidas y actuar en función de las lecturas de nuestra placa.
 \item \emph{Pasarela de presentación de datos en tiempo real}. Trata de un sistema que presentara, bajo una interfaz \textit{web}, los datos de todos los sensores y actuadores de la red, y poder realizar acciones sobre los mismos.
+\item \emph{Despliegue de una red de sensores}. Al hilo de lo que se habló en la Introducción, el despliegue de una de estas redes es prioritario, puesto que permite obtener datos y mediciones reales, de forma que puedan ser usadas en investigación.
+\item \emph{Cajeado del nodo con la placa de expansión}. Se realizaría un diseño que fuera compatible con la captación de medidas y la transmisión de información entre nodos y, a su vez, cumpliera una misión de protección del mismo.
 \end{itemize}
 
 

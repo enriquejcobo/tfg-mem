@@ -27,43 +27,48 @@ En este capítulo se da una descripción general del proyecto, desde la introducci
 \label{intro:sec:antecedentes}
 %-------------------------------------------------------------------
 
-Una red de sensores inalámbrica, \ac{WSN}, consiste en un conjunto de nodos distribuidos que cubren un área geográfica sobre la que realizan mediciones. Cada uno de estos nodos tiene comunicación inalámbrica, así como cierta capacidad de procesamiento, lo cual lleva a que sean capaces de adaptarse rápidamente, formando ellos de forma autónoma su propia red para comunicaciones.
+Una red de sensores inalámbrica, \ac{WSN}, consiste en un conjunto de nodos distribuidos que cubren un área geográfica sobre la que realizan mediciones. Cada uno de estos nodos tiene comunicación inalámbrica, así como cierta capacidad de procesamiento, lo cual lleva a que sean capaces de adaptarse rápidamente a nuevos entornos, pudiendo formar de forma autónoma, si fuera necesario, su propia red para comunicaciones.
 
-Las \ac{WSN}, por estas características, son aplicables a multitud de campos, como pueden ser la domótica, salud, control industrial, seguridad y vigilancia, entre otros. Como consecuencia directa de este hecho, estas redes han emergido a la primera línea de investigación, debido además a otros factores, como son su potencial económico y su capacidad de transformar nuestras vidas a corto-medio plazo.
+Las \ac{WSN}, por estas características, son aplicables a multitud de campos, como pueden ser la domótica, salud, control industrial, seguridad y vigilancia, entre otros. Como consecuencia directa de esta variedad de usos prácticos, estas redes han emergido a la primera línea de investigación, por su potencial económico y por su capacidad de transformar nuestras vidas a corto-medio plazo.
 
-No obstante, algunas de las propiedades de las mismas plantean retos, tales como el modo de alimentación --ya que para algunas aplicaciones es necesario el uso de baterías--, fiabilidad en las comunicaciones --evitando retransmisiones innecesarias-- o seguridad en las transmisiones --de forma que se garantice la privacidad del contenido--. Es por ello que las \ac{WSN}s requieren, para un modo de operación eficiente, propiedades cognitivas. 
+No obstante, algunas de las propiedades de las mismas plantean retos, tales como el modo de alimentación --ya que habitualmente es necesario el uso de baterías--, fiabilidad en las comunicaciones, o seguridad en las transmisiones. A esto se une el hecho de que la creciente demanda de comunicación inalámbrica, junto con una mala distribución del espectro radio\footnote{El espectro radio refiere a la parte del espectro radioeléctrico en el que se encuentran las transmisiones radio, englobando frecuencias inferiores a los 300 GHz}, está llevando a que ciertas bandas del mismo se encuentren saturadas, como muestra la figura \ref{intro:fig:espectroradio}. Esta saturación se hace más patente en las bandas de acceso libre \ac{ISM}.
 
-Las propiedades cognitivas fueron introducidas por Mitola en los años 1999 \cite{mitola1} y 2000 \cite{mitola2}, bajo el paraguas de la Radio Cognitiva. Fue entonces cuando comienzan a integrarse en las redes de comunicaciones conceptos como la medición del espectro, el autoaprendizaje, la autogestión, o el análisis del contexto, pasando a ser Redes Cognitivas, \ac{CN}.
+\figuraEx{Bitmap/Capitulo1/espectroradio}{width=.8\textwidth}{intro:fig:espectroradio}%
+{Aplicaciones y su ocupación en el espectro radio, obtenido de \cite{espectroradio}.}{Aplicaciones y su ocupación en el espectro radio.}
 
-La introducción de este concepto de \ac{CN} hace que las \ac{WSN} pasen a ser conscientes de su entorno y capaces de adaptar sus parámetros de comunicación, de forma que se alcancen comunicaciones más fiables y eficientes. Con esto, obtenemos nuestra red de sensores inalámbrica cognitiva \ac{CWSN}.
+Es por ello que las \ac{WSN}s requieren, para un modo de operación eficiente, propiedades cognitivas, las cuales pasamos a presentar a continuación. Las redes cognitivas fueron introducidas por Mitola en los años 1999 \cite{mitola1} y 2000 \cite{mitola2}, bajo el paraguas de la Radio Cognitiva, \ac{CR}. Fue entonces cuando comienzan a integrarse en las redes de comunicaciones conceptos como el sensado del espectro, el autoaprendizaje, la autogestión, o el análisis del contexto, pasando a ser redes cognitivas.
 
-Como consecuencia del potencial de las mismas, se están desplegando escenarios tanto reales como simulados. Tanto es así, que en muchos centros de investigación se están desarrollando bancos de pruebas para el estudio de estas redes. Algunos ejemplos son el \emph{TWIST} \cite{twist} de la \ac{TU} Berlín, el \emph{LOG-a-TEC} \cite{logatec} en Eslovaquia, el \emph{VT-CORNET} \cite{vtcornet} en Virginia o el \emph{FIT/CorteXlab} \cite{fitcortex} en Lyon.
+Integrando el concepto de \ac{CR} en las \ac{WSN} obtenemos las redes de sensores inalámbricas cognitivas, \ac{CWSN}. Este concepto hace que las \ac{CWSN} sean conscientes de su entorno y capaces de adaptar sus parámetros de comunicación, de forma que se alcancen comunicaciones más fiables y eficientes.
 
-No obstante, se hacía necesario crear plataformas reales que contribuyeran al estudio de estas redes y que apoyaran este despliegue. En el contexto del \ac{LSI}, perteneciente al \ac{DIE} en la \ac{ETSIT} de la \ac{UPM} han sido diseñados dos nodos para \ac{CWSN}: El \ac{FCD}, desarrollado en 2011 como una primera implementación \cite{fcd}, y el \ac{CNGD}, del año 2013, sobre el cual se están realizando el grueso se las investigaciones \cite{aguspfc}.
+Como consecuencia del potencial de las mismas, se están desplegando escenarios tanto reales como simulados. Tanto es así, que en muchos centros de investigación se están desarrollando bancos de pruebas para el estudio de estas redes. Algunos ejemplos son el \emph{TWIST} \cite{twist} de la Technische Universität Berlín, el \emph{LOG-a-TEC} \cite{logatec} en Eslovaquia, el \emph{VT-CORNET} \cite{vtcornet} en Virginia o el \emph{FIT/CorteXlab} \cite{fitcortex} en Lyon.
 
-Unido al desarrollo de esta plataforma, se está llevando a cabo la implantación de un banco de pruebas \cite{papertestbed}. No obstante, el \ac{CNGD}, a pesar de haber sido diseñado con el propósito explícito de ser un nodo para \ac{CWSN}, no dispone de los sensores característicos de este tipo de redes. Es por ello que se hace necesario la creación de módulo auxiliar que los integre.
+Complementando el despligue de estas redes es necesario el uso de plataformas reales que contribuyan al estudio de las mismas. En el contexto del \ac{LSI}, perteneciente al \ac{DIE} en la \ac{ETSIT} de la \ac{UPM} han sido diseñados dos nodos para \ac{CWSN}: El \ac{FCD}, desarrollado en 2011 como una primera implementación \cite{fcd}, y el \ac{CNGD}, del año 2013, sobre el cual se están realizando el grueso se las investigaciones \cite{aguspfc}.
 
-En este módulo auxiliar se encontrarán presentes tanto los sensores, propios de la red homónima, como los actuadores, que realicen modificaciones sobre el entorno como consecuencia de esta medición. Esta placa de expansión --también denominada \textit{shield}--, se adaptará en la plataforma \ac{CNGD}, colaborando de esta manera al estudio y desarrollo de las \ac{CWSN}.
+Unido al desarrollo de esta plataforma, se está llevando a cabo la implantación de un banco de pruebas \cite{papertestbed}. En este marco se han realizado diversas investigaciones, como la creación de una arquitectura cognitiva \cite{guillepfc} o un \textit{firmware} para estos nodos \cite{juanpfc}.
 
-En este trabajo se detalla todo el proceso de creación de esta placa, desde el diseño, la implementación hardware y las pruebas de la misma hasta la implementación software mediante una \ac{HAL}, así como una aplicación de demostración.
+No obstante, el \ac{CNGD}, a pesar de haber sido diseñado con el propósito explícito de ser un nodo para \ac{CWSN}, no dispone de los sensores característicos de este tipo de redes, por lo que se hace necesario la creación de módulo auxiliar que los integre. En este módulo auxiliar, principal objetivo de este trabajo, se encontrarán presentes tanto los sensores, que midan parámetros ambientales, como los actuadores, que realicen modificaciones sobre el entorno. La placa de expansión --también denominada \textit{shield}--, se integrará en la plataforma \ac{CNGD}, completando de esta manera al estudio y desarrollo de las \ac{CWSN}.
+
+En este trabajo se detalla todo el proceso de creación de esta placa, desde el diseño, la implementación hardware y las pruebas de la misma hasta la implementación software desarrollada con una \ac{HAL}, así como una aplicación de demostración.
 
 %-------------------------------------------------------------------
-\section{Metas}
+\section{Objetivos}
 %-------------------------------------------------------------------
 \label{intro:sec:metas}
 %-------------------------------------------------------------------
 
-La principal meta del trabajo es diseñar e implementar una placa de expansión que permita monitorizar el ambiente y actuar sobre él, en un entorno \ac{CWSN}. En la implementación de la misma deberán considerarse parámetros como el bajo consumo, bajo coste y escalabilidad, entre otros. Finalmente, se tendrá que crear la capa de abstracción en el \ac{CNGD} para que la comunicación sea posible con esta nueva shield, así como una aplicación que muestre el funcionamiento del sistema en su conjunto.
+La principal meta del trabajo es \textbf{diseñar e implementar una placa de expansión que permita monitorizar el ambiente y actuar sobre él, en un entorno \ac{CWSN}}. En la implementación de la misma deberán considerarse parámetros como el bajo consumo, bajo coste y escalabilidad, entre otros. Asimismo, se tendrá que desarrollar el \textit{software} necesario en el \ac{CNGD} para que la comunicación sea posible con esta nueva \textit{shield}, así como una aplicación que muestre el funcionamiento del sistema en su conjunto.
 
 En este sentido, podemos fragmentar esta meta en varios objetivos más específicos:
 
 \begin{itemize}
 
-\item \emph{Documentación}. Consistirá en la lectura y estudio de los trabajos previos, así como la familiarización con las herramientas necesarias para la realización del módulo de expansión.
+%\item \emph{Documentación}. Consistirá en la lectura y estudio de los trabajos previos, así como la familiarización con las herramientas necesarias para la realización del módulo de expansión.
 
-\item \emph{Diseño, implementación y prueba de la placa de expansión}. Se decidirán los sensores y los actuadores que se utilizarán, se diseñará la placa de expansión, se soldarán los componentes y se probará.
+\item \emph{Diseño de la \textit{shield}}. Se decidirán los sensores y los actuadores que se formarán parte del sistema y se realizará su diseño.
 
-\item \emph{Desarrollo de la interfaz nodo-shield}. Comprende la inclusión del código necesario para que el microcontrolador del nodo pueda comunicarse con la placa de expansión.
+\item \emph{Implementación y prueba de la placa de expansión}. Se diseñará la \ac{PCB} física en la que se implementará la placa de expansión, se soldarán los componentes y se probarán sus funciones.
+
+\item \emph{Desarrollo del \textit{software}}. Comprende la inclusión de las funciones necesarias para que el microcontrolador del nodo pueda hacer uso de la placa de expansión.
 
 \item \emph{Aplicación}, que ilustre utilidades prácticas del sistema en su conjunto: la placa sobre un nodo \ac{CNGD} en un entorno \ac{CWSN}.
 
@@ -85,7 +90,8 @@ En esta primera etapa, se recopilará información acerca de las redes \ac{CWSN}, 
 
 	\begin{itemize}
 	\item Revisión de clases de sensores y actuadores de utilidad en un \ac{AMI}.
-	\item Aprehensión de conocimientos acerca de las principales herramientas, tanto software como hardware, útiles en este contexto.
+	\item Estudio de las principales herramientas, tanto \textit{software} como \textit{hardware}, útiles en este contexto.
+	\item Revisión de la plataforma \ac{CNGD}, base para la \textit{shield}.
 	\end{itemize}
 
 
@@ -95,17 +101,17 @@ Esta fase comprende desde la primera selección de elementos para la placa, hasta
 
 	\begin{itemize}
 	\item Decisión acerca de los sensores y actuadores: tipo, encapsulado, forma de comunicación, salidas, rangos, entre otros.
-	\item Diseño del hardware. Selección de componentes. Diseño del layout.
+	\item Diseño del \textit{hardware}. Selección de componentes auxiliares. Diseño del trazado.
 	\item Implementación y soldadura. Pruebas funcionales.
 	\end{itemize}
 
 
 \item \emph{Diseño software}.
 
-En esta etapa se creará la interfaz que permita abstraer los recursos hardware añadidos en la anterior fase, de forma que puedan servir para cualquier aplicación futura. Objetivos:
+En esta etapa se creará la interfaz que permita abstraer el \textit{hardware} añadidos en la anterior fase, de forma que puedan servir para cualquier aplicación futura. Objetivos:
 
 	\begin{itemize}
-	\item Implementación software de los recursos. Depuración del código.
+	\item Implementación \textit{software} de los módulos de la placa de expansión. Depuración del código.
 	\item Pruebas funcionales. Generación de la documentación acerca del software desarrollado.
 	\end{itemize}
 
@@ -116,8 +122,7 @@ En último lugar, se llevará a cabo el desarrollo de una demostración del sistema
 
 	\begin{itemize}
 	\item Pruebas previas completas y exhaustivas acerca de la integración del software y el hardware.
-	\item Implementación software de la aplicación, incluyendo la comunicación de información entre nodos.
-	\item Definición del entorno físico de pruebas.
+	\item Implementación \textit{software} de la aplicación, incluyendo la comunicación de información entre nodos.
 	\end{itemize}
 
 
@@ -133,7 +138,7 @@ Esta fase, transversal a todas ellas, consiste en la escritura de la memoria, pa
 \label{intro:sec:guion}
 %-------------------------------------------------------------------
 
-En el Capítulo \ref{cap:previo} se realiza un resumen de la plataforma \ac{CNGD}, así como de la investigación realizada en materia de sensores y actuadores, necesarios para la realización de la \textit{shield}. El Capítulo \ref{cap:diseno} muestra una panorámica del proceso de diseño: esquemáticos, componentes usados, entre otros; y de la implementación de la \ac{PCB}: layout, montaje, etc. La capa de \textit{software} necesaria para el control de la placa, así como la aplicación de prueba, se detallan en el Capítulo \ref{cap:software}. Seguidamente, en el Capítulo \ref{cap:pruebas} encontramos la betería de pruebas realizadas, tanto al \textit{hardware} como al \textit{software} pueden ser encontradas. Finalmente, el Capítulo \ref{cap:resultados} ofrece las conclusiones y las investigaciones futuras en esta materia.
+En el Capítulo \ref{cap:previo} se realiza un resumen de la plataforma \ac{CNGD}, así como de la investigación realizada en materia de sensores y actuadores, necesarios para la realización de la \textit{shield}. El Capítulo \ref{cap:diseno} muestra una panorámica del proceso de diseño: esquemáticos, componentes usados, entre otros; y de la implementación de la \ac{PCB}: layout, montaje, etc. La capa de \textit{software} necesaria para el control de la placa, así como la aplicación de prueba, se detallan en el Capítulo \ref{cap:software}. Seguidamente, en el Capítulo \ref{cap:pruebas} encontramos la batería de pruebas realizadas, tanto al \textit{hardware} como al \textit{software}. Finalmente, el Capítulo \ref{cap:resultados} ofrece las conclusiones y las investigaciones futuras en esta materia.
 
 
 

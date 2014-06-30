@@ -18,7 +18,7 @@ Anónimo
 \end{FraseCelebre}
 
 \begin{resumen}
-En este capítulo encontramos, en primer lugar, una revisión de la plataforma cNGD, base de la placa de expansión. Seguidamente, se expone una primera aproximación de las necesidades y requisitos de la misma, en cuanto a módulos y funcionalidades se refiere. Asimismo, se presentarán, para cada uno de estos módulos, una justificación de su uso y sus puntos más destacables.
+En este capítulo encontramos, en primer lugar, una revisión de la plataforma cNGD, base de la placa de expansión. Seguidamente, se expone una primera aproximación de las necesidades y requisitos de la \textit{shield}, en cuanto a dispositivos y funcionalidades se refiere.
 \end{resumen}
 
 %-------------------------------------------------------------------
@@ -54,13 +54,13 @@ El \ac{CNGD} incluye un \ac{MCU} PIC32MX675F256L, fabricado por Microchip \cite{
 \end{itemize}
 \end{multicols}
 
-En cuanto a las interfaces radio, se incluyen tres transceptores, por lo que es posible acceder a tres bandas del espectro: 434 MHz, 868 MHz y 2.4 GHz, todas ellas pertenecientes a las bandas sin licencia, denominadas \ac{ISM}. Esto es relevante, puesto que, al ser bandas de acceso libre, pueden estar ocupadas por otras aplicaciones. El \ac{CNGD}, por medio de su capacidad cognitiva, es capaz de medir el espectro en estas bandas y decidir dinámicamente cuál usar en función de la ocupación y el ruido de los canales. La comunicación se realiza bajo el protocolo MiWi \cite{miwi}, estándar inalámbrico propiedad de Microchip.
+En cuanto a las Interfaces de comunicación Radio, \ac{RI}, se incluyen tres transceptores, con acceso a tres bandas del espectro: 434 MHz, 868 MHz y 2.4 GHz, todas ellas pertenecientes a bandas sin licencia, denominadas \ac{ISM}. Esto es relevante, puesto que, al ser bandas de acceso libre, pueden estar ocupadas por otras aplicaciones. El \ac{CNGD}, por medio de su capacidad cognitiva, es capaz de sensar el espectro en estas bandas y decidir dinámicamente cuál usar en función de la ocupación y del ruido en los canales. La comunicación se realiza bajo el protocolo MiWi \cite{miwi}, estándar inalámbrico propiedad de Microchip.
 
-Las dos primeras (434 y 868 MHz) fueron diseñadas para esta plataforma a partir del integrado MRF49XA \cite{mrf49xa}, soportando tasas binarias de hasta 115.2 Kbps. Para la comunicación en 2.4 GHz, se emplea el MRF24J40MA \cite{mrf24j40}, el cual nos permite elevar la velocidad de transmisión de hasta 250 Kbps.
+Las dos primeras (434 y 868 MHz) fueron diseñadas para esta plataforma a partir del integrado MRF49XA \cite{mrf49xa}, soportando tasas binarias de hasta 115.2 Kbps. Para la comunicación en 2.4 GHz, se emplea el MRF24J40MA \cite{mrf24j40}, el cual nos permite elevar la velocidad de transmisión hasta los 250 Kbps.
 
 \medskip
 
-Una de las principales ventajas de este diseño es la cabecera de expansión --también denominada \textit{header}--, la cual permite ampliar el diseño de forma modular y totalmente escalable. Será en la misma donde insertaremos nuestra placa, por lo que le hacemos un estudio más exhaustivo. Se compone de 40 pines, cada uno pudiendo estar multiplexado con diversas funciones, en el que se permite el acceso a los periféricos del microcontrolador. En la tabla \ref{previo:tab:headerspinout} encontramos una relación entre el pin del \textit{header}, el pin del microcontrolador y las funciones que puede realizar.
+Una de las principales ventajas de este diseño es la cabecera de expansión, también denominada \textit{header}, la cual permite ampliar el diseño de forma modular. Será en la misma donde insertaremos nuestra placa, por lo que le hacemos un estudio más exhaustivo. Se compone de 40 pines, en los que se permite el acceso a los periféricos del microcontrolador. En la tabla \ref{previo:tab:headerspinout} encontramos una relación entre el pin del \textit{header}, el pin del microcontrolador y las funciones que puede realizar, pudiendo estar varias de estas funciones multiplexadas en el mismo pin.
 
 \begin{center}
 {\footnotesize
@@ -127,7 +127,7 @@ PIN & MCU PIN & 1a Func. & 2a Func. & 3a Func. & 4a Func. & 5a Func. \\
 38 & 12 & ECRSDV & SCL4 & SDO2 & U3TX & CN10/RG8 \\ \hline
 39 & 21 & AN4 & C1IN- & CN6 & RB4 & - \\ \hline
 \\ % esta línea es importante para que deje un espacio entre la tabla y el nombre de la tabla.
-\caption{Descripción del uso de los pines, obtenido de \cite{aguspfc}.}
+\caption[Descripción del uso de los pines del \textit{header} del cNGD]{Descripción del uso de los pines, obtenido de \cite{aguspfc}.}
 \label{previo:tab:headerspinout}
 \end{longtable}}
 \end{center}
@@ -154,6 +154,8 @@ Resaltamos las más relevantes para nuestro diseño:
 
 \item \emph{\ac{ADC}}. Son accesibles desde los pines 9 de los 16 \ac{ADC} del microcontrolador, referenciados en la tabla \ref{previo:tab:headerspinout} con el prefijo ANx. Adicionalmente, los pines VREF+ y VREF-, situados en el 19 y 18, proporcionan funciones auxiliares a este periférico.
 
+\item \emph{\ac{CN}}. Se genera una interrupción en el sistema cuando se produce un cambio en la señal de entrada. Un total de 9 \ac{CN} son accesibles desde los pines del \textit{header}.
+
 \item \emph{\ac{GPIO}}. Representan casi todos los pines del \textit{header}, multiplexados en su mayoría con otra función. Son identificados en la tabla \ref{previo:tab:headerspinout} mediante el uso del prefijo Rxx.
 
 \end{itemize}
@@ -166,13 +168,13 @@ Finalmente, el \ac{CNGD} es programado por medio del módulo de programación PGE.
 \label{previo:sec:sensores}
 %-------------------------------------------------------------------
 
-A continuación comenzamos a desarrollar los sensores que incluiremos en la placa de expansión. Estos van a ser la entrada de información a nuestro sistema, ya que por medio de sus mediciones conoceremos los parámetros del entorno. Dada su relevancia debemos escogerlos adecuadamente, por lo que definimos el procedimiento que detallamos a continuación:
+A continuación comenzamos a describir los sensores que incluiremos en la placa de expansión. Estos van a ser la entrada de información ambiental a nuestro sistema, ya que por medio de sus mediciones conoceremos los parámetros del entorno. Dada su relevancia debemos escogerlos adecuadamente, por lo que definimos el procedimiento que detallamos a continuación:
 
 \begin{enumerate}
 
 \item \emph{Definir los parámetros y valorarlos}. En esta fase seleccionamos los parámetros más destacables que nuestro sensor debe cumplir, y un margen de tolerancia para los mismos. Además, como restricción adicional, tendremos que cumplir los requisitos impuestos por la plataforma, tales como la tensión de alimentación, comunicación por medio de puertos disponibles, entre otros.
 \item \emph{Buscar sensores comerciales}. Tomando como base los resultados de la fase anterior, y usando las páginas webs de los principales proveedores (como Farnell \cite{farnell}, RS \cite{rs}, Digikey \cite{digikey} o SparkFun \cite{sparkfun}), realizaremos la búsqueda.
-\item \emph{Estudiar las hojas de características}, también conocidas como \ac{DS}. Estas son proporcionadas por los fabricantes y en ellas se detallan todas las propiedades que definen su producto. De esta evaluación obtenemos la verificación de que cumplen las constantes definidas.
+\item \emph{Estudiar las hojas de características}. Estas son proporcionadas por los fabricantes y en ellas se detallan todas las propiedades que definen su producto. De esta evaluación obtenemos la verificación de que cumplen las constantes definidas.
 
 \end{enumerate}
 
@@ -180,7 +182,7 @@ Como requisitos genéricos de nuestro sistema, y que por tanto deberán ser motivo
 
 \begin{itemize}
 
-\item \emph{Consumo}. No debemos olvidar que el sistema, al estar alimentado con baterías, requiere un estricto control sobre el gasto energético. Este requisito fue considerado a la hora del diseño del \ac{CNGD}, permitiendo la desconexión o la suspensión de los dispositivos que no se encuentran en uso, y por tanto será también objeto de evaluación.\newline Se buscará, de entre toda la gama de sensores, aquellos cuyas especificaciones de consumo sean menores, o bien que puedan ser sometidos a estados de bajo consumo.
+\item \emph{Consumo}. No debemos olvidar que el sistema, al estar alimentado con baterías, requiere un estricto control sobre el gasto energético, así como permitir estados de bajo consumo. Este requisito fue considerado a la hora del diseño del \ac{CNGD}, permitiendo la desconexión o la suspensión de los dispositivos que no se encuentran en uso, y por tanto será también objeto de evaluación.\newline Se buscará, de entre toda la gama de sensores, aquellos cuyas especificaciones de consumo sean menores, o bien que puedan ser sometidos a estados de bajo consumo.
 \item \emph{Precio}. Al igual que en el caso anterior, el bajo precio es uno de los pilares fundamentales para el diseño. Esto es muy comprensible, puesto que a la hora de fabricar lotes de unidades una pequeña diferencia en coste puede llevar a grandes ahorros económicos.\newline Tendremos que encontrar una solución de compromiso entre especificaciones del sensor y el coste.
 \item \emph{Salida}. La podemos clasificar en dos tipos: 
 	\begin{itemize}
@@ -191,7 +193,7 @@ No imponemos ningún filtro a priori, puesto que el \ac{CNGD} dispone de entradas
 
 \end{itemize}
 
-En el mercado podemos encontrar muchos tipos de sensores, en función del parámetro que se desee medir, por lo que centraremos nuestra búsqueda en base a la aplicación. Como nuestro propósito es el de crear una placa con un propósito genérico dentro de un \ac{AMI}, escogeremos los sensores ambientales que puedan ser utilizados en un número alto de aplicaciones. Se presentan a continuación.
+En el mercado podemos encontrar muchos tipos de sensores, en función del parámetro que se desee medir, por lo que centraremos nuestra búsqueda en base a la aplicación. Como nuestro propósito es el de crear una placa con un propósito genérico dentro de un \ac{AMI}, escogeremos los sensores ambientales que puedan ser utilizados en un número alto de aplicaciones. Se presentan en los siguientes puntos.
 
 %-------------------------------------------------------------------
 \subsection{Temperatura}
@@ -224,16 +226,16 @@ Los sensores de temperatura comerciales suelen ser, en su mayoría, termistores, 
 \begin{savenotes}
 \begin{table}[h]
 \centering
-\scalebox{1}{
-\begin{tabular}{|c|c|c|c|c|c|c|}
+\scalebox{0.9}{
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
 \hline
-Fabricante & Modelo & Rango de Medida & Precisión\footnote{Típica en el margen que incluye a 25 ºC.} & Consumo\footnote{Típico durante el modo de funcionamiento} & Precio & \ac{DS} \\ \hline \hline
-Analog Devices & TMP36 & [-40 ºC, 125 ºC] & $\pm$1 ºC & 50 $\mu$A & 1.61 \euro & \cite{tmp36} \\ \hline
-Microchip & MCP9701A & [-40 ºC, 125 ºC] & $\pm$2 ºC & 6 $\mu$A & 0.24 \euro & \cite{mcp9701} \\ \hline
-Texas Instr. & LM20B & [-55 ºC, 130 ºC] & $\pm$2 ºC & 10 $\mu$A & 1.07 \euro & \cite{lm20} \\ \hline
-Texas Instr. & TMP101 & [-55 ºC, 125 ºC] & $\pm$2 ºC & 45 $\mu$A & 2.56 \euro & \cite{tmp101} \\ \hline
-Analog Devices & AD7814 & [-55 ºC, 125 ºC] & $\pm$2 ºC & 250 $\mu$A & 2.71 \euro & \cite{ad7814} \\ \hline
-Microchip & MCP9800 & [-55 ºC, 125 ºC] & $\pm$0.5 ºC & 200 $\mu$A & 0.98 \euro & \cite{mcp9800} \\ \hline
+Fabricante & Modelo & Rango de Medida & Precisión\footnote{Típica en el margen que incluye a 25 ºC.} & Consumo\footnote{Típico durante el modo de funcionamiento} & Precio & Sal.\footnote{Salida. ``An.'' denota salida analógica, y ``Dig.'' salida digital.} & Ref. \\ \hline \hline
+Analog Devices & TMP36 & [-40 ºC, 125 ºC] & $\pm$1 ºC & 50 $\mu$A & 1.61 \euro & An. & \cite{tmp36} \\ \hline
+Microchip & MCP9701A & [-40 ºC, 125 ºC] & $\pm$2 ºC & 6 $\mu$A & 0.24 \euro & An. & \cite{mcp9701} \\ \hline
+Texas Instr. & LM20B & [-55 ºC, 130 ºC] & $\pm$2 ºC & 10 $\mu$A & 1.07 \euro & An. & \cite{lm20} \\ \hline
+Texas Instr. & TMP101 & [-55 ºC, 125 ºC] & $\pm$2 ºC & 45 $\mu$A & 2.56 \euro & Dig. & \cite{tmp101} \\ \hline
+Analog Devices & AD7814 & [-55 ºC, 125 ºC] & $\pm$2 ºC & 250 $\mu$A & 2.71 \euro & Dig. & \cite{ad7814} \\ \hline
+Microchip & MCP9800 & [-55 ºC, 125 ºC] & $\pm$0.5 ºC & 200 $\mu$A & 0.98 \euro & Dig. & \cite{mcp9800} \\ \hline
 \end{tabular}
 }
 \caption{Comparación de sensores de temperatura comerciales.
@@ -241,6 +243,7 @@ Microchip & MCP9800 & [-55 ºC, 125 ºC] & $\pm$0.5 ºC & 200 $\mu$A & 0.98 \euro &
 \end{table}
 \end{savenotes}
 
+Como comentario final, resaltar que una característica adicional de los modelos con salida digital es la disposición de modos de bajo consumo.
 
 %-------------------------------------------------------------------
 \subsection{Acelerómetro}
@@ -273,7 +276,7 @@ En la actualidad, los acelerómetros comerciales para propósitos generales están 
 \scalebox{1}{
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
-Fabricante & Modelo & Fondo de escala & Ejes & Consumo\footnote{Típico en estado de medición contínuo.} & Precio & \ac{DS} \\ \hline \hline
+Fabricante & Modelo & Fondo de escala & Ejes & Consumo\footnote{Típico en estado de medición contínuo.} & Precio & Ref. \\ \hline \hline
 Freescale & MMA8453Q & 2g, 4g, 8g & $\hat{x}$, $\hat{y}$, $\hat{z}$ & 23 $\mu$A & 1.05 \euro & \cite{mma8453q} \\ \hline
 Analog Devices & ADXL345 & 2g, 4g, 8g, 16g & $\hat{x}$, $\hat{y}$, $\hat{z}$ & 14 $\mu$A & 5.09 \euro & \cite{adxl345} \\ \hline
 ST & LIS3DH & 2g, 4g, 8g, 16g & $\hat{x}$, $\hat{y}$, $\hat{z}$ & 11 $\mu$A & 3.72 \euro & \cite{lis3dh} \\ \hline
@@ -283,6 +286,8 @@ ST & LIS3DH & 2g, 4g, 8g, 16g & $\hat{x}$, $\hat{y}$, $\hat{z}$ & 11 $\mu$A & 3.
 \label{previo:tab:acc}}
 \end{table}
 \end{savenotes}
+
+No aparece información acerca de la salida en dicha tabla puesto que todos los modelos estudiados tienen salida digital. Asimismo, todos disponen de modos de bajo consumo, que se alcanzan reduciendo la frecuencia de obtención de datos.
 
 
 %-------------------------------------------------------------------
@@ -309,7 +314,7 @@ La tabla \ref{previo:tab:pir} muestra los sensores de presencia bajo estudio, en
 \scalebox{1}{
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
-Fabricante & Modelo & Lente & Distancia & Consumo\footnote{Típico en detección.} & Precio\footnote{Incluye el precio por sensor y lente, en caso de que la última sea externa.} & \ac{DS} \\ \hline \hline
+Fabricante & Modelo & Lente & Distancia & Consumo\footnote{Típico en detección.} & Precio\footnote{Incluye el precio por sensor y lente, en caso de que la última sea externa.} & Ref. \\ \hline \hline
 Murata & E710ST0 & Externa & [3 m, 6 m] & N/D & 5.61 \euro & \cite{e710st0} \\ \hline
 Panasonic & EKMC160 & Integrada & 5 m & 100 $\mu$A & 15.49 \euro & \cite{ekmc} \\ \hline
 Panasonic & AMN33112J & Integrada & 3 m & 270 $\mu$A & 11.91 \euro & \cite{amn} \\ \hline
@@ -319,6 +324,8 @@ Panasonic & AMN33112J & Integrada & 3 m & 270 $\mu$A & 11.91 \euro & \cite{amn} 
 \label{previo:tab:pir}}
 \end{table}
 \end{savenotes}
+
+La salida de todos los modelos estudiados es digital, de forma que obtenemos un nivel alto de tensión en caso de detectar presencia, y un nivel bajo en caso contrario.
 
 
 %-------------------------------------------------------------------
@@ -346,7 +353,7 @@ La tabla \ref{previo:tab:lum} muestra los sensores de presencia bajo estudio, en
 \scalebox{0.9}{
 \begin{tabular}{|c|c|c|c|c|c|c|c|}
 \hline
-Fabricante & Modelo & Pico en $\lambda$ & Oscuridad & Iluminación\footnote{Típico bajo 100 luxes.} & Salida & Precio & \ac{DS} \\ \hline \hline
+Fabricante & Modelo & Pico en $\lambda$ & Oscuridad & Iluminación\footnote{Típico bajo 100 luxes.} & Salida & Precio & Ref. \\ \hline \hline
 Everlight & ALS PT19 & 630 $\mu$m & 100 nA & 15 $\mu$A & Lineal & 0.76 \euro\footnote{De venta en SparkFun.} & \cite{alspt19} \\ \hline
 Avago & APDS 9005 & 500 $\mu$m & 300 nA & 40 $\mu$A & Lineal & 0.74 \euro & \cite{apds9005} \\ \hline
 Osram & SFH5711 & 550 $\mu$m & <10 nA & 20 $\mu$A & Logarítmica & 2.27 \euro & \cite{sfh5711} \\ \hline
@@ -362,16 +369,18 @@ Osram & SFH5711 & 550 $\mu$m & <10 nA & 20 $\mu$A & Logarítmica & 2.27 \euro & \
 %-------------------------------------------------------------------
 \label{previo:sec:actuadores}
 %--------------------------------------------------------------------
-Los actuadores constituyen la forma de modificación del entorno como consecuencia de la medición por parte de los sensores. Estos pueden ejercer la función de actuar directamente, como podría ser el caso de un relé, o bien de hacer de nexo entre el sistema y el controlador responsable de la actuación, como puede ser emular el mando a distancia.
+Los actuadores constituyen la forma de modificación del entorno como consecuencia de la medición realizada por parte de los sensores y de la inteligencia del sistema. Estos pueden ejercer la función de actuar directamente, como podría ser el caso de un relé, o bien de hacer de nexo entre el sistema y el controlador responsable de la actuación, como puede ser emular un mando a distancia.
 
-En esta placa, dado su propósito general, se tenderá hacia la fabricación de este segundo tipo, de forma que se buscarán actuadores que se caractericen por su versatilidad y su generalidad, aunque teniendo siempre presente la funcionalidad. Los actuadores que desarrollan esta función los encontramos resumidos a continuación.
+En esta placa, dado su propósito general, se tenderá hacia la fabricación de este segundo tipo, de forma que se buscarán actuadores que se caractericen por su versatilidad y su generalidad, aunque teniendo siempre presente la funcionalidad. No se presentan tablas comparativas, como se ha realizado con los sensores, porque los modelos comerciales de los actuadores bajo estudio poseen características muy similares.
+
+Los actuadores que desarrollan esta función los encontramos resumidos a continuación.
 
 %-------------------------------------------------------------------
 \subsection{Emisor Infrarrojo}
 %-------------------------------------------------------------------
 \label{previo:sec:ir}
 %-------------------------------------------------------------------
-Un emisor \ac{IR} no es más que un \ac{LED} cuyo espectro de emisión de luz se centra en estas longitudes de ondas, típicamente en el entorno de los 630 nm. Esta señal es modulada para la transmisión digital de comandos, propios para cada dispositivo.
+Un emisor \ac{IR} no es más que un \ac{LED} cuyo espectro de emisión de luz se centra en estas longitudes de ondas, típicamente en el entorno de los 950 nm. Esta señal es modulada para la transmisión digital de comandos, propios para cada dispositivo.
 
 La inserción de este actuador en la placa está más que justificada, ya que son incontables los dispositivos que pueden controlarse hoy en día mediante un mando a distancia por \ac{IR}, como pueden ser la televisión, equipos de música, o, en relación con los sensores expuestos en \ref{previo:sec:sensores}, la climatización y las persianas, entre otros.
 
@@ -385,6 +394,8 @@ Las características que deberá reunir este actuador serán las de potencia media 
 Un buzzer es un dispositivo que, mediante la vibración de un elemento piezoeléctrico, produce una onda acústica a unas determinadas frecuencias, las cuales dependen de la forma de excitación del dispositivo y del propio material.
 
 El propósito de este actuador no es otro que el de avisar a los humanos acerca de las condiciones ambientales, generalmente cuando suponen la existencia de un peligro potencial, para que sean éstos los que, en último término, lleven a cabo la actuación.
+
+Como consecuencia de este hecho, se exigirá que el buzzer emita, al menos, a 70 dB(A), para asegurar un nivel alto de volumen que permita su audición.
 
 %-------------------------------------------------------------------
 \subsection{GPIOs}

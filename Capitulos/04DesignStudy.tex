@@ -22,18 +22,24 @@ En este capítulo, se seleccionan los componentes y los dispositivos que formarán
 \end{resumen}
 
 %-------------------------------------------------------------------
-\section{Elección de sensores y actuadores}
+\section{Diseño}
 %-------------------------------------------------------------------
 \label{diseno:sec:eleccion}
 %-------------------------------------------------------------------
 
-Con los conocimientos adquiridos durante la realización del capítulo \ref{cap:previo}, pasamos a seleccionar los componentes que formarán de forma definitiva nuestra placa de expansión. La estructura que se seguirá en los siguientes subapartados se presenta a continuación.
+Con los conocimientos adquiridos durante la realización del estudio previo, pasamos a seleccionar los componentes que formarán de forma definitiva nuestra placa de expansión. En la figura \ref{diseno:fig:bloquesprevio} se presenta un esquema del diseño general de nuestra \textit{shield}. 
+
+\figuraEx{Bitmap/Capitulo4/bloquesprevio}{width=.85\textwidth}{diseno:fig:bloquesprevio}%
+{Diagrama general del diseño.}{Diagrama general del diseño.}
+
+La estructura que se seguirá en los siguientes subapartados se presenta a continuación.
 
 \begin{enumerate}
 
 \item Elegimos, de manera justificada, el sensor o actuador comercial que se ajusta mejor a las necesidades de nuestro problema.
 \item Se presentará un diagrama de pines del dispositivo, junto con las señales de entrada y salida.
-\item Finalmente, se detallarán y se justificarán los componentes adicionales que se han de incluir.
+\item Se detallarán y se justificarán los componentes adicionales que se han de incluir.
+\item Finalmente, se decidirá el conexionado de las señales hacia el pin del \textit{header} más adecuado.
 
 \end{enumerate}
 
@@ -68,7 +74,7 @@ La figura \ref{diseno:fig:temp} muestra las entradas y salidas del sensor por me
 \figuraEx{Bitmap/Capitulo4/temp}{width=.5\textwidth}{diseno:fig:temp}%
 {Sensor de Temperatura Microchip MCP9800.}{Sensor de Temperatura Microchip MCP9800.}
 
-Comentamos brevemente la adición de los componentes añadidos. En la etapa de entrada encontramos R5 y C5, cuya función es la de actuar a modo de filtro paso bajo ante el posible ruido procedente de la alimentación, influyente para la medida. R4 es una resistencia de \textit{pull-up}, necesaria ya que la salida del pin 3 es de colector abierto. Además de esta resistencia, y con este mismo propósito, se incluirán dos resistencias R1 y R2 de \textit{pull-up} para la conexión por I$^2$C, que no vienen representadas en este esquema.
+Comentamos brevemente la adición de los componentes añadidos. En la etapa de entrada encontramos R5 y C5, cuya función es la de actuar a modo de filtro paso bajo ante el posible ruido procedente de la alimentación, influyente para la medida. R4 es una resistencia de \textit{pull-up}, necesaria ya que la salida del pin 3 es de colector abierto. Además de esta resistencia, y con este mismo propósito, se incluirán dos resistencias de \textit{pull-up} para la conexión por I$^2$C, que no vienen representadas en este esquema por estar compartida con todos los dispositivos que la usan.
 
 
 %-------------------------------------------------------------------
@@ -105,7 +111,7 @@ A continuación encontramos, en la figura \ref{diseno:fig:acc}, el diagrama de pi
 
 En primer lugar, resaltar que el pin 3 no se encuentra en la figura. Esto es así puesto que el fabricante nos indica que no debe ir conectado. Además, hemos conectado a masa el pin 7 (SA0), que hace que el bit menos significativo de la dirección I$^2$C del dispositivo sea 0.
 
-Comentamos a continuación los componentes del circuito. C1 y C2 son condensadores de desacoplo para las dos entradas de alimentación (principal e interfaz), mientras que el condensador C3 es denominado de \textit{bypass}. Al igual que como hemos comentado en el sensor de temperatura, son necesarias dos resistencias de \textit{pull-up} para la interfaz I$^2$C y que no aparecen en este esquema por estar compartida con todos los dispositivos que la usan.
+Comentamos a continuación los componentes del circuito. C1 y C2 son condensadores de desacoplo para las dos entradas de alimentación (principal e interfaz), mientras que el condensador C3 es denominado de \textit{bypass}. Al igual que como hemos comentado en el sensor de temperatura, son necesarias dos resistencias de \textit{pull-up} para la interfaz I$^2$C y que no aparecen en este esquema.
 
 
 %-------------------------------------------------------------------
@@ -114,7 +120,7 @@ Comentamos a continuación los componentes del circuito. C1 y C2 son condensadore
 \label{diseno:sec:presencia}
 %-------------------------------------------------------------------
 
-Siguiendo la misma línea que con los sensores anteriores, y en base a lo expuesto en la tabla \ref{previo:tab:pir}, seleccionamos como sensor de presencia el \textbf{Panasonic AMN33112J} \cite{amn} por ser el que mejor verificó una relación fiabilidad-precio. Sus características son:
+Siguiendo la misma línea que con los sensores anteriores, y en base a lo expuesto en la tabla \ref{previo:tab:pir}, seleccionamos como sensor de presencia el \textbf{Panasonic AMN33112J} \cite{amn}. En un primer lugar seleccionamos el Murata E710ST0, pero tras una primera prueba vimos que no se adecuaba a nuestra aplicación, por lo que nos decantamos por el que a continuación exponemos. Sus características son:
 
 \begin{itemize}
 \item Salida binaria.
@@ -151,7 +157,7 @@ El diagrama de entradas y salidas del sensor lo encontramos en la figura \ref{di
 \figuraEx{Bitmap/Capitulo4/lum}{width=.5\textwidth}{diseno:fig:lum}%
 {Sensor de Luminosidad Avago APDS 9005.}{Sensor de Luminosidad Avago APDS 9005.}
 
-De los componentes que encontramos a la salida del sensor, justificamos la presencia de la resistencia R3 con el objeto de convertir la fotocorriente a tensión, de forma que puede ser introducida al \ac{ADC}. Siguiendo la ley de Ohm, $V=IR$, de forma que la tensión será tanto mayor como lo sea la resistencia. Esto nos crea un compromiso, ya que un valor bajo hará que se resienta la precisión de la medida (al ser el escalón del \ac{ADC} constante), mientras que un valor alto hará que la salida llegue demasiado pronto a la saturación.
+De los componentes que encontramos a la salida del sensor, justificamos la presencia de la resistencia R3 con el objeto de convertir la fotocorriente a tensión, de forma que puede ser introducida al \ac{ADC}. Siguiendo la ley de Ohm, la tensión será tanto mayor como lo sea la resistencia. Esto nos crea un compromiso, ya que un valor bajo hará que se resienta la precisión de la medida (al ser el escalón del \ac{ADC} constante), mientras que un valor alto hará que la salida llegue demasiado pronto a la saturación.
 
 Finalmente, el condensador C4 es responsable de hacer un filtrado en la señal, ya que las luminarias basadas en fluorescentes introducen un rizado en la misma de 100 Hz.
 
@@ -223,9 +229,9 @@ En este caso, los valores de las resistencias han aumentado con respecto a lo vi
 \label{diseno:sec:placa}
 %-------------------------------------------------------------------
 
-En los siguientes subapartados se presenta la forma en la que los distintos componentes que ha sido objeto de análisis en la sección \ref{diseno:sec:eleccion} se combinan entre sí y cómo se integran dentro de nuestro nodo, el \ac{CNGD}.
+En los siguientes subapartados se presenta la forma en la que los distintos componentes que ha sido objeto de análisis en la sección \ref{diseno:sec:eleccion} se combinan entre sí y cómo se integran dentro de nuestro nodo.
 
-Primeraremnte se presentará un diagrama modular con los subsistemas que intervienen en nuestro diseño, y seguidamente el esquemático del sistema completo.
+Primeramente se presentará un diagrama modular con los subsistemas que intervienen en nuestro diseño, y seguidamente el esquemático del sistema completo.
 
 %-------------------------------------------------------------------
 \subsection{Diagrama de bloques}
@@ -236,7 +242,7 @@ Primeraremnte se presentará un diagrama modular con los subsistemas que intervie
 En el diagrama de bloques de la figura \ref{diseno:fig:bloques} presentamos las interfaces del \ac{MCU} y su conexión con los sensores y actuadores de nuestra placa. Asimismo, se presenta el pin del \textit{header} al que se conecta.
 
 \figuraEx{Bitmap/Capitulo4/bloques}{width=0.85\textwidth}{diseno:fig:bloques}%
-{Diagrama de Bloques de la Placa de Expansión.}{Diagrama de Bloques de la Placa de Expansión.}
+{Diagrama de bloques de la placa de expansión.}{Diagrama de bloques de la placa de expansión.}
 
 En adición, y a modo de resumen, presentamos en la tabla \ref{diseno:tab:ifaz} una relación de los dispositivos, tanto sensores como actuadores, la forma de comunicación y los pines del \textit{header} que ocupa, así como el periférico del \ac{MCU} del que hacen uso, en relación con lo visto en la tabla \ref{previo:tab:headerspinout}.
 
@@ -264,8 +270,8 @@ Infrarrojo & \multicolumn{2}{c|}{TSUS 5202} & GPIO & 35 & RE6 \\
 \hline
 Buzzer & \multicolumn{2}{c|}{PS1720} & GPIO & 3 & RB11 \\
 \hline
-\multirow{2}{*}{LEDs} & \multicolumn{2}{c|}{Rojo} & \multirow{2}{*}{GPIO} & 22 & RE5 \\
-& \multicolumn{2}{c|}{Verde} & & 23 & RE7 \\
+\multirow{2}{*}{LEDs} & \multicolumn{2}{c|}{Rojo} & \multirow{2}{*}{GPIO} & 22 & RE7 \\
+& \multicolumn{2}{c|}{Verde} & & 23 & RE5 \\
 \hline
 \end{tabular}
 }
@@ -274,9 +280,9 @@ Buzzer & \multicolumn{2}{c|}{PS1720} & GPIO & 3 & RB11 \\
 \label{diseno:tab:ifaz}}
 \end{table} 
 
-Justificamos la asignación de los puertos de salida de los sensores que deben generar interrupciones. Tales son los casos del acelerómetro --con INT1 e INT2-- y del de presencia, que se encuentran rutados hacia \ac{CN}s. No figura en esta lista el sensor de temperatura que, a pesar de tener una salida independiente de alerta, ésta solo se captura cuando el sensor se encuentra en estado despierto.
+Justificamos la asignación de los puertos de salida de los sensores que deben generar interrupciones. Tales son los casos del acelerómetro --con INT1 e INT2-- y del de presencia, que se encuentran rutados hacia \ac{CN}s. No figura en esta lista el sensor de temperatura que, a pesar de tener una salida independiente de alerta, ésta solo se captura cuando el sensor se encuentra en estado despierto, y es presumible que sea el estado de bajo consumo el que se encuentre habilitado, por lo que no es necesario.
 
-A la hora de considerar la asignación de los distintos pines a las entradas y salidas de los componentes, se tuvo en cuenta, aparte de que la función requerida estuviera disponible en el mismo, que no reutilizara ningún otro pin ya usado para hacer otras \textit{shields}, con lo que conseguimos que todas sean compatibles entre sí. En este sentido, evaluamos el uso que hacían de los \textit{headers} las placas de expansión correspondientes al módulo RS232 y al cargador \cite{aguspfc} y a la del módulo de reprogramación --en desarrollo en la actualidad.
+A la hora de considerar la asignación de los distintos pines a las entradas y salidas de los componentes, se tuvo en cuenta, aparte de que la función requerida estuviera disponible en el mismo, que no reutilizara ningún otro pin ya usado para hacer otras \textit{shields}, con lo que conseguimos que todas sean compatibles entre sí. En este sentido, evaluamos el uso que hacían de los \textit{headers} las placas de expansión correspondientes al módulo RS232 y al cargador \cite{aguspfc} y a la del módulo de \textit{wake-on radio} y \ac{OTAP} --en desarrollo en la actualidad.
 
 %-------------------------------------------------------------------
 \subsection{Esquemático}
@@ -297,26 +303,28 @@ Como peculiaridad, resaltar que las resistencias R1 y R2 son las responsables de
 \label{diseno:sec:pcb}
 %-------------------------------------------------------------------
 
-Como resultado de todo lo anterior, procedemos a realizar el circuito en \ac{PCB}. Esta hará las funciones de interconexión eléctrica entre los distintos componentes y de sustento mecánico a los mismos. 
+Una vez acabado el diseño, procedemos a realizar el circuito en \ac{PCB}.
 
-Detallamos a continuación los subapartados que encontraremos. En primer lugar, se presenta el \textit{layout} de la placa, en el que se presenta el diseño de la \ac{PCB}. Para el mismo, se detalla seguidamente la lista de materiales, que relaciona cada huella con su componente. Finalmente, la \textit{shield} final es expuesta.
+Detallamos a continuación los subapartados que encontraremos. En primer lugar, se expone el \textit{layout} de la placa, en el que se presenta el diseño de la \ac{PCB}. Para el mismo, se detalla seguidamente la lista de materiales, que relaciona cada huella con su componente. Finalmente, la \textit{shield} final es expuesta.
 
 %-------------------------------------------------------------------
-\subsection{Layout}
+\subsection{Trazado}
 %-------------------------------------------------------------------
 \label{diseno:sec:layout}
 %-------------------------------------------------------------------
 
-A continuación, en la figura \ref{diseno:fig:layout} se presentan los \textit{layouts} de nuestro diseño.
+A continuación, en la figura \ref{diseno:fig:layout} se presenta el trazado de nuestro diseño.
 
 \begin{figure}[!h]
 \centering
-\subfloat[\textit{Layout} de la cara superior]{\includegraphics[height=130px]{Imagenes/Bitmap/Capitulo4/LayoutTop}}%
+\subfloat[Trazado de la cara superior]{\includegraphics[height=130px]{Imagenes/Bitmap/Capitulo4/LayoutTop}}%
 \qquad
-\subfloat[\textit{Layout} de la cara inferior]{\includegraphics[height=130px]{Imagenes/Bitmap/Capitulo4/LayoutBottom}}%
-\caption{\textit{Layout} de la placa de expansión}
+\subfloat[Trazado de la cara inferior]{\includegraphics[height=130px]{Imagenes/Bitmap/Capitulo4/LayoutBottom}}%
+\caption{Trazado de la placa de expansión}
 \label{diseno:fig:layout}
 \end{figure}
+
+Antes de entrar a analizar el diseño del trazado, comentamos brevemente el por qué de la forma física de la placa. Esta responde al hecho de que las \textit{shields} ya realizadas tenían esta forma, por el motivo principal de que encajara física y estéticamente con el diseño del \ac{CNGD}.
 
 Para realizar el diseño de la \ac{PCB}, se han tenido en cuenta diversas consideraciones. En primer lugar, y como se puede apreciar, se ha construido en dos capas, suficiente para la colocación de los componentes. Es por ello por lo que no ha sido necesario crear planos de alimentación, hecho que hubiera aumentado, además, el coste de producción.
 
@@ -324,14 +332,14 @@ En segundo lugar, durante el rutado, se buscó un compromiso entre anchura de pis
 
 Adicionalmente, remarcamos la existencia de un plano de masa sobre ambas caras de la \ac{PCB}. Con esto conseguimos una reducción del ruido y de la influencia de emisiones electromagnéticas parásitas, puesto que este plano ofrece un camino de baja impedancia para las mismas.
 
-Remarcar que el \textit{layout} que acaba de ser expuesto se corresponde con el de la segunda versión. El de la primera, que puede verse en la figura \ref{diseno:fig:previo}, tuvo que ser modificado, principalmente por el hecho de que la huella del acelerómetro aparecía reflejada, lo que hacía que los pines no coincideran. No obstante, y aprovechando este segundo pedido, se modificaron ciertas características, como puede ser la adición de la resistencia de \textit{pull-down}, el rutado de las salidas de interrupción hacia \ac{CN}s y el reflejo de la huella del \ac{PIR}.
+Remarcar que el trazado que acaba de ser expuesto se corresponde con el de la segunda versión. El de la primera, que puede verse en la figura \ref{diseno:fig:previo}, tuvo que ser modificado, principalmente por el hecho de que la huella del acelerómetro aparecía reflejada, lo que hacía que los pines no coincideran. No obstante, y aprovechando este segundo diseño, se modificaron ciertas características, como puede ser el rutado de las salidas de interrupción hacia \ac{CN}s en lugar de hacia \ac{GPIO}s, y la adición de la resistencia de \textit{pull-down} y el reflejo de la huella del \ac{PIR}, de forma similar al caso del acelerómetro.
 
 \begin{figure}[!h]
 \centering
-\subfloat[\textit{Layout} de la cara superior]{\includegraphics[height=130px]{Imagenes/Bitmap/Capitulo4/PrevioTop}}%
+\subfloat[Trazado de la cara superior]{\includegraphics[height=130px]{Imagenes/Bitmap/Capitulo4/PrevioTop}}%
 \qquad
-\subfloat[\textit{Layout} de la cara inferior]{\includegraphics[height=130px]{Imagenes/Bitmap/Capitulo4/PrevioBottom}}%
-\caption{\textit{Layout} de la placa de expansión previa}
+\subfloat[Trazado de la cara inferior]{\includegraphics[height=130px]{Imagenes/Bitmap/Capitulo4/PrevioBottom}}%
+\caption{Trazado de la placa de expansión previa}
 \label{diseno:fig:previo}
 \end{figure}
 
@@ -377,7 +385,7 @@ hd40 & \multicolumn{2}{c|}{-} & Header apilable de 10 pines & TH Axial & 4 \\ \h
 \end{table}
 \end{savenotes}
 
-Como consideración de diseño, y siempre que ha sido posible, para los componentes hemos preferido usar encapsulado \ac{SMD}, y con tamaño 0805\footnote{2 mm x 1.3 mm (0.08 in x 0.05 in).}. Esto viene motivado debido al hecho de que ocupan un menor tamaño que sus homólogas en \ac{TH}, ofreciendo características similares, y permiten igualmente diseños de bajo consumo.
+Como consideración de diseño, y siempre que ha sido posible, para los componentes adicionales hemos preferido usar encapsulado \ac{SMD}, y con tamaño 0805\footnote{2 mm x 1.3 mm (0.08 in x 0.05 in).}. Esto viene motivado debido al hecho de que ocupan un menor tamaño que sus homólogas en \ac{TH}, ofreciendo características similares, y permiten igualmente diseños de bajo consumo.
 
 
 %-------------------------------------------------------------------
@@ -391,7 +399,50 @@ La figura \ref{diseno:fig:resultado} muestra el resultado final de nuestra placa
 \figuraEx{Bitmap/Capitulo4/resultado}{width=.6\textwidth}{diseno:fig:resultado}%
 {Resultado final: la placa de expansión sobre el cNGD.}{Resultado final: la placa de expansión sobre el cNGD.}
 
-No obstante, se trata de la primera versión de la misma, puesto que al cierre de esta memoria no se había recibido el pedido. No obstante, esta versión nos ha sido muy útil, puesto que sobre la misma se han realizado toda la batería de pruebas.
+No obstante, se trata de la primera versión de la misma, puesto que al cierre de esta memoria no se había recibido el de la segunda versión. No obstante, esta versión nos ha sido muy útil, puesto que es funcional para todos los módulos, excluyendo el acelerómetro, y nos ha permitido realizar sobre ella toda la batería de pruebas.
+
+%-------------------------------------------------------------------
+\section{Costes hardware}
+%-------------------------------------------------------------------
+\label{diseno:sec:costes}
+%-------------------------------------------------------------------
+
+En la tabla \ref{diseno:tab:costes}
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{| l l |r |r |r |}
+\hline
+\multicolumn{2}{|l|}{Concepto} & Precio unidad & Cantidad & Coste total \\
+\hline
+\hline
+\multicolumn{5}{|l|}{Fabricación de PCB}								\\
+\hline
+	& Versión 1 													& 21.33 \euro & 10 & 213.31 \euro \\
+	& Versión 2 (y final) 											& 12.60 \euro & 10 & 12.60 \euro \\
+\hline
+\multicolumn{5}{|l|}{Componentes electrónicos}						\\
+\hline
+	& Microchip MCP9800												& 0.98 \euro & 10 & 9.80 \euro \\
+	& Freescale MMA8453Q 			 								& 1.05 \euro & 10 & 10.50 \euro \\
+	& Panasonic AMN33112J 			 								& 11.91 \euro & 5 & 59.55 \euro \\
+	& Avago APDS 9005 				 								& 0.74 \euro & 10 & 7.40 \euro \\
+	& Vishay TSUS5202 				 								& 0.17 \euro & 10 & 1.70 \euro \\
+	& TDK PS1720 													& 0.75 \euro & 10 & 7.50 \euro \\
+	& LEDs 							 								& 0.085 \euro & 20 & 1.70 \euro \\
+	& Resistencias (11 por placa)									& 0.022 \euro & 110 & 2.42 \euro \\
+	& Condensadores (5 por placa)									& 0.008 \euro & 50 & 0.40 \euro \\
+	& Transistor													& 0.116 \euro & 10 & 1.16 \euro \\
+	& Header 10 pines (4 por placa)									& 0.116 \euro & 40 & 4.64 \euro \\
+%\multicolumn{2}{l}{Electronic components}						& 358 \euro & 100\% & 358 \euro	\\
+\hline
+\multicolumn{4}{|l|}{\textbf{Total}} 		& \textbf{332.68} \euro \\
+\hline
+\hline
+\end{tabular}
+\caption{Costes \textit{hardware} de la placa de expansión.
+\label{diseno:tab:costes}}
+\end{table}
 
 %-------------------------------------------------------------------
 \section{Herramientas}
@@ -399,7 +450,7 @@ No obstante, se trata de la primera versión de la misma, puesto que al cierre de
 \label{diseno:sec:herramientas}
 %-------------------------------------------------------------------
 
-Para la realización de estos trabajos, ha sido necesario usar ciertas herramientas, tanto \textit{software} como \textit{hardware}. Las introducimos a continuación.
+Para la realización del diseño y la implementación, ha sido necesario usar ciertas herramientas, tanto \textit{software} como \textit{hardware}. Las introducimos a continuación.
 
 %-------------------------------------------------------------------
 \subsection{Altium Designer}
@@ -413,7 +464,7 @@ Del conjunto de funciones que integran este \textit{software}, las principales u
 \item \emph{Gestión de librerías de componentes}, tanto de los esquemas como de sus huellas. En este sentido, se han usado:
 	\begin{itemize}
 	\item LSI. Librería colaborativa desarrollada en el \ac{LSI} en el que se encuentran los componentes ya utilizados por los investigadores.
-	\item SensoresActuadores. Librería propia en la que se diseñaron los componentes que no se encontraban en la anterior. Continuando con la filosofía, una vez testados se incorporaron a la misma.
+	\item SensoresActuadores. Librería propia en la que se diseñaron, tanto los esquemas como sus huellas, los componentes que no se encontraban en la anterior. Continuando con la filosofía, una vez testados se incorporaron a la misma.
 	\end{itemize}
 \item \emph{Posicionamiento y rutado de componentes}, que nos permite diseñar libremente nuestro \textit{layout}.
 \item \emph{Revisión de reglas de diseño}. Con los datos provenientes del fabricante de la \ac{PCB}, introducíamos una serie de requisitos, los cuales eran verificados automáticamente por Altium.
@@ -425,6 +476,6 @@ Del conjunto de funciones que integran este \textit{software}, las principales u
 \subsection{Puesto de Soldadura}
 %-------------------------------------------------------------------
 
-Los componentes y la \ac{PCB} fueron adquiridos por separado, por lo que tuvieron que ser soldados \textit{a posteriori}. La estación de soldadura JBC AM6000 \cite{jbc} fue usada con este propósito, proporcionando puntas de soldadura de entre 1 y 4 mm de diámetro y otras herramientas prácticas, como pinzas calientes o soldadora por aire caliente.
+Una tarea del trabajo consistía en soldar los componentes a la \ac{PCB}. La estación de soldadura JBC AM6000 \cite{jbc} fue usada con este propósito, proporcionando puntas de soldadura de entre 1 y 4 mm de diámetro y otras herramientas prácticas, como pinzas calientes o soldadora por aire caliente.
 
 Debido a la presencia de componentes de tamaño reducido, se hizo necesario el uso de un microscopio con el objeto de realizar soldaduras precisas. Es por ello que en el puesto de soldadura también contábamos con un microscopio Bausch \& Lomb StereoZoom 4, así como de unas mordazas que permitían mantener fija la placa y unas pinzas adecuadas para poder colocar los componentes \ac{SMD} en su posición a la hora de realizar la soldadura.
