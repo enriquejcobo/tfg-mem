@@ -27,25 +27,25 @@ En este último capítulo se ofrece una revisión de todo el proyecto, detallando l
 \label{conclusiones:sec:resultados}
 %-------------------------------------------------------------------
 
-La principal meta de este trabajo era diseñar e implementar una placa con sensores y actuadores que se incluya dentro de la plataforma \ac{CNGD} que ayudara al estudio de las \ac{CWSN}, además de realizarlas bajo unas constantes estrictas de bajo coste y bajo consumo.
+La principal meta de este trabajo era diseñar e implementar una placa con sensores y actuadores que se incluya dentro de la plataforma \ac{CNGD} y que ayudara al estudio de las \ac{CWSN}, además de realizarlas bajo unas constantes de bajo coste y bajo consumo.
 
 Adicionalmente, era necesario desarrollar \textit{software} que abstrajera el \textit{hardware} para su uso desde la aplicación. igualmente buscando la eficiencia y la simplicidad a la hora de implementar el código, y modularidad con el objeto de que la misma fuera versátil y ampliable en un futuro.
 
 Los sensores y actuadores que se han buscado se caracterizan por su polivalencia, en lo que se ha pensado una placa de propósito general, su variedad, puesto que permiten medir y actuar sobre diferentes aspectos del entorno, y su tamaño, de forma que fueran integrables en un reducido espacio.
 
-En referencia a lo que, en un principio, se expuso en los objetivos, exponemos los logros obtenidos a lo largo del trabajo:
+En referencia a lo que, en un principio, se expuso en los objetivos, mostramos los logros obtenidos a lo largo del trabajo:
 
 \begin{itemize}
 
-\item \emph{Documentación}. Se consideraron los trabajos previos realizados en esta materia, centrándonos especialmente en el desarrollo de la plataforma que sirve como base de este trabajo. \\Asimismo, se han usado las herramientas que han sido precisas para la elaboración del mismo, tanto \textit{hardware} como \textit{software} y referidas a lo largo del trabajo. 
+\item \emph{Documentación}. Se consideraron los trabajos previos realizados en esta materia, centrándonos especialmente en el desarrollo de la plataforma que sirve como base de este trabajo. Esto puede encontrarse en los capítulos \ref{cap:intro} y \ref{cap:previo}.\\Asimismo, se han usado las herramientas que han sido precisas para la elaboración del mismo, tanto \textit{hardware} como \textit{software}, referidas a lo largo del trabajo. 
 
-\item \emph{Diseño de la \textit{shield}}. Como ha sido expuesto, se han buscado sensores y actuadores bajo las premisas de bajo coste, consumo y con el objeto de desarrollar una placa de propósito general.
+\item \emph{Diseño de la \textit{shield}}. Como ha sido expuesto, se han buscado sensores y actuadores bajo las premisas de bajo coste, consumo y con el objeto de desarrollar una placa de propósito general. Este trabajo se detalla en el capítulo \ref{cap:previo}.\\ Adicionalmente, se realizó el diseño de la placa de expansión y se añadieron tanto los sensores y actuadores como los componentes adicionales necesarios, lo cual se encuentra en el capítulo \ref{cap:diseno} 
 
-\item \emph{Implementación y prueba de la placa de expansión}.  Se realizó el diseño de la \ac{PCB} y se añadieron tanto los sensores y actuadores como los componentes adicionales necesarios, fueron soldados y probados, tanto de forma individual como de forma conjunta.
+\item \emph{Implementación y prueba de la placa de expansión}. Se llevó a cabo la implementación del diseño en \ac{PCB}, trabajo detallado en el capítulo \ref{cap:diseno}.\\Además, los componentes fueron soldados sobre la misma y fueron probados, tanto de forma individual como de forma conjunta. Las pruebas se encuentran en el capítulo \ref{cap:pruebas}.
 
-\item \emph{Desarrollo del \textit{software}}. La \ac{HAL} desarrollada permite consultar el estado, realizar medidas y modificar parámetros de configuración de todos los sensores y actuadores que se encuentran sobre la placa. \\Adicionalmente, se han realizado pruebas tanto en vacío como con los sensores y actuadores conectados, verificando en ambos casos el funcionamiento correcto de los mismos.
+\item \emph{Desarrollo del \textit{software}}. La \ac{HAL} desarrollada permite consultar el estado, realizar medidas y modificar parámetros de configuración de todos los sensores y actuadores que se encuentran sobre la placa. El capítulo \ref{cap:software} muestra este trabajo.\\Asimismo, se han realizado pruebas tanto en vacío como con los sensores y actuadores conectados, verificando en ambos casos el funcionamiento correcto de los mismos, y que pueden encontrarse en el capítulo \ref{cap:pruebas}.
 
-\item \emph{Aplicación}. Se diseñó una aplicación de prueba que mostrara la integración de los trabajos realizados tanto con el \textit{hardware} como con el \textit{software}.
+\item \emph{Aplicación}. Se diseñó una aplicación de prueba que mostrara la integración de los trabajos realizados. Más detalles se encuentran en el capítulo \ref{cap:software}.
 
 \end{itemize}
 

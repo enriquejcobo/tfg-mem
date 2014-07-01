@@ -75,10 +75,10 @@ No fue necesario realizar una prueba similar con el \textbf{Buzzer}, puesto que 
 Las pruebas realizadas en el ámbito de la \ac{PCB} fueron generalmente test eléctricos para comprobar la soldadura, o las conexiones entre pistas. Para ello se hizo indispensable la ayuda de un multímetro, que será detallado más abajo, en la sección \ref{pruebas:sec:multimetro}. Las mismas se detallan a continuación.
 
 \begin{itemize}
-\item En primer lugar realizamos una inspección óptica, comprobando que el \textit{layout} de la placa es el esperado.
-\item Cuando acoplábamos un dispositivo, como puede ser un sensor, un actuador o un componente, realizábamos pruebas de corto, en las cuales comprobamos que las conexiones entre patas del componente eran nulas, y que había cortocircuitos entre el pad del mismo y el siguiente punto de conexión en el circuito.
-\item En caso de soldar resistencias, usábamos el multímetro en posición de medir esta magnitud, de forma que comprobamos que el valor que aparecía en el medidor era similar al que debíamos obtener, con lo que verificábamos tanto una buena conexión como la inserción de la resistencia de valor adecuado.
-\item Acciones similares eran seguidas con los condensadores, buscando los mismos propósitos que en el caso anterior. Para ello, poníamos el multímetro en posición de medir capacidades.
+\item En primer lugar se realizó una inspección óptica, comprobando que el trazado de la placa era el esperado.
+\item Cuando se soldaba un dispositivo, como puede ser un sensor, un actuador o un componente, se realizaron pruebas de corto, en las cuales comprobamos que las conexiones entre patas del componente eran nulas, y que había cortocircuitos entre el pad del mismo y el siguiente punto de conexión en el circuito.
+\item En caso de soldar resistencias, se usó el multímetro en posición de medir esta magnitud, de forma que comprobamos que el valor que aparecía en el medidor era similar al que debíamos obtener, con lo que verificábamos tanto una buena conexión como la inserción de la resistencia de valor adecuado.
+\item Acciones similares eran seguidas con los condensadores, buscando los mismos propósitos que en el caso anterior. Para ello, se configuró el multímetro en posición de medir capacidades.
 \end{itemize}
 
 Una vez satisfechas todas las pruebas, la \ac{PCB} final ya podría ser sometida a pruebas de comportamiento del sistema.
@@ -99,7 +99,7 @@ En este subapartado se detallan las pruebas hechas sobre el \textit{software} de
 
 Las pruebas realizadas sobre la \ac{HAL} consistieron en medidas sobre las distintas interfaces que iban a formar parte de nuestro sistema. Pasamos a detallarlas a continuación.
 
-En primer lugar probamos el \textbf{\ac{ADC}}, la cual consistió en formar un divisor de tensión por medio de resistencias conectadas a $V_{CC}$ y a GND, e introducir la tensión en distintos puntos en el \ac{ADC}, de forma que comprobáramos que la palabra obtenida era la que correspondía.
+En primer lugar probamos el \textbf{\ac{ADC}}, cuya prueba consistió en formar un divisor de tensión por medio de resistencias conectadas a $V_{CC}$ y a GND, e introducir la tensión en distintos puntos en el \ac{ADC}, de forma que comprobamos que la palabra obtenida era la que correspondía.
 
 En efecto, verificamos que las palabras en hexadecimal obtenidas cuando probamos con diferentes valores eran las que debían corresponder, por lo que determinamos que el funcionamiento era el correcto.
 
@@ -119,7 +119,7 @@ Los actuadores que requieren la intervención de un temporizador, como son el \te
 \label{pruebas:sec:softsensores}
 %-------------------------------------------------------------------
 
-Por último, se presentan las pruebas realizadas a los sensores y actuadores de las funciones desarrolladas para las mismas. En este punto los sensores y actuadores ya estaban soldados y la placa colocada sobre el \ac{CNGD}, de forma que estos tests se llevaran a cabo bajo las mismas condiciones que tendrán en su entorno final.
+Por último, se presentan las pruebas realizadas a las funciones desarrolladas para el control de los sensores y actuadores. En este punto los sensores y actuadores ya estaban soldados y la placa colocada sobre el \ac{CNGD}, de forma que estos tests se llevaran a cabo bajo las mismas condiciones que tendrán en su entorno final.
 
 En primer lugar presentamos las pruebas realizadas al sensor de \textbf{Temperatura}. En la sección \ref{software:sec:temp} presentamos el conjunto de funciones que necesita:
 
@@ -141,11 +141,11 @@ Siguiendo con el sensor de \textbf{Luminosidad}, llevamos un proceso similar al 
 
 \medskip
 
-No se han podido comprobar las funciones del \textbf{Acelerómetro}, puesto que, como se puso de manifiesto en el capítulo \ref{cap:diseno} no llegó la versión definitiva de la placa al cierre de esta memoria. No obstante, se ha probado que los periféricos del \ac{MCU} que usa el acelerómetro sí funcionan, puesto que la interfaz \ac{I2C} ha sido testada con éxito con el sensor de temperatura, y los \ac{CN} también han mostrado un comportamiento positivo en las pruebas desarrolladas con el \ac{PIR}.
+No se han podido comprobar las funciones del \textbf{Acelerómetro}, puesto que, como se puso de manifiesto en el capítulo \ref{cap:diseno} no llegó la versión definitiva de la placa al cierre de esta memoria. No obstante, se ha probado que los periféricos del \ac{MCU} que usa el acelerómetro sí funcionan, puesto que la interfaz \ac{I2C} ha sido testeada con éxito con el sensor de temperatura, y los \ac{CN} también han mostrado un comportamiento positivo en las pruebas desarrolladas con el \ac{PIR}.
 
 \medskip
 
-En cuando a los actuadores, comenzamos evaluando el \textbf{Emisor Infrarrojo}. Decidimos implementar el protocolo del aire acondicionado, debido a que la placa dispone de sensor de temperatura y puede conocer, por tanto, el valor de la misma en tiempo real. La temporalización de esta trama se corresponde con la de la figura \ref{software:fig:tramair}. 
+En cuando a los actuadores, comenzamos evaluando el \textbf{Emisor Infrarrojo}. Decidimos implementar el protocolo del aire acondicionado, debido a que la placa dispone de sensor de temperatura y puede conocer, por tanto, el valor de la misma en tiempo real.
 
 Evaluando trabajos previos \cite{javipfc}, obtenemos que la información en las tramas del aire acondicionado se organiza de la siguiente manera: En primer lugar en 2 bytes se codifica el dispositivo, seguido de un byte de protección frente a errores, el comando a mandar --con tamaño variable-- y, por último, su código redundante. La figura \ref{software:fig:bitstrama} muestra en detalle la información contenida en la trama.
 
@@ -157,13 +157,13 @@ Los bytes que forman las tramas fueron decodificados por medio de la inspección 
 \figuraEx{Bitmap/Capitulo6/tramaaa}{width=.7\textwidth}{pruebas:fig:tramaaa}%
 {Detalle del comienzo de trama infrarroja.}{Detalle del comienzo de trama infrarroja.}
 
-La función que permite añadir comandos del aire acondicionado a la cola de transmisión del aire acondicionado se denomina \verb@sendAA (int modo, int estado)@, en la que los argumentos indican si se quiere entrar en modo verano (\verb@AA_Summer@) o invierno (\verb@AA_Winter@); o bien si se quiere encender el aparato (\verb@AA_On@) o apagarlo (\verb@AA_Off@).
+La función \verb@void protocoloAA ()@ implementa el protocolo del aire acondicionado. Asimismo, en la función \verb@sendIR@, expuesta en el apartado \ref{software:sec:ir}, los argumentos serían \verb@AA@ para el dispositivo, \verb@modo@ (que indica si se quiere entrar en modo verano, \verb@AA_Summer@, o invierno, \verb@AA_Winter@) para el primer parámetro, y \verb@estado@ (que enciende el aparato, \verb@AA_On@, o lo apaga, \verb@AA_Off@) para el segundo.
 
 Las pruebas realizadas fueron el envío de los comandos ``Enciende Aire Acondicionado, modo Verano'' y ``Apaga Aire Acondicionado, modo Verano''. Estas tramas fueron reconocidas correctamente por el receptor de infrarrojos descrito en el apartado \ref{pruebas:sec:hardsensores}, y dieron lugar al encendido (y posterior apagado) de la máquina de aire acondicionado presente en el laboratorio.
 
 \medskip
 
-Por último, las pruebas realizadas al \textbf{Buzzer} y \textbf{LEDs} fueron el mandar el encendido y el apagado de los mismos, con las funciones ya descritas. En el caso del Buzzer, se obtuvo, como era de esperar, dos pitidos que se alternaban de forma aproximada cada medio segundo; y, para los LEDs, comprobamos que \verb@ledOn@ mantiene encendido el LED, \verb@ledOff@ lo apaga incondicionalmente, y \verb@ledToggle@ lo conmuta, apagándolo o encendiéndolo según el caso.
+Por último, las pruebas realizadas al \textbf{Buzzer} y \textbf{LEDs} fueron el mandar el encendido y el apagado de los mismos, con las funciones ya descritas. En el caso del Buzzer, se obtuvieron dos pitidos que se alternaban cada medio segundo; y, para los LEDs, comprobamos que \verb@ledOn@ mantiene encendido el LED, \verb@ledOff@ lo apaga incondicionalmente, y \verb@ledToggle@ lo conmuta, apagándolo o encendiéndolo según el caso.
 
 %-------------------------------------------------------------------
 \section{Herramientas}

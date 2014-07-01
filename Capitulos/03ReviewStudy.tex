@@ -18,7 +18,7 @@ Anónimo
 \end{FraseCelebre}
 
 \begin{resumen}
-En este capítulo encontramos, en primer lugar, una revisión de la plataforma cNGD, base de la placa de expansión. Seguidamente, se expone una primera aproximación de las necesidades y requisitos de la \textit{shield}, en cuanto a dispositivos y funcionalidades se refiere.
+En este capítulo encontramos, en primer lugar, una revisión de la plataforma cNGD, base de la placa de expansión. Seguidamente, se expone una primera aproximación de las necesidades y requisitos de la \textit{shield}, en cuanto a dispositivos y funcionalidades se refiere, así como una revisión de los sensores y actuadores a incluir.
 \end{resumen}
 
 %-------------------------------------------------------------------
@@ -27,7 +27,7 @@ En este capítulo encontramos, en primer lugar, una revisión de la plataforma cNG
 \label{previo:sec:cngd}
 %-------------------------------------------------------------------
 
-Comenzamos el trabajo describiendo brevemente el \ac{CNGD}, plataforma para redes de sensores inalámbricas cognitivas, puesto que será sobre esta donde se acoplará nuestra \textit{shield}, lo que hace indispensable conocer sus características. La figura \ref{previo:fig:cngd} muestra detalladamente este nodo.
+Comenzamos el trabajo describiendo brevemente el \ac{CNGD}, plataforma para \ac{CWSN}, puesto que será sobre esta donde se acoplará nuestra \textit{shield}, lo que hace indispensable conocer sus características. La figura \ref{previo:fig:cngd} muestra detalladamente este nodo.
 
 \begin{figure}[!h]
 \centering 
@@ -49,7 +49,8 @@ El \ac{CNGD} incluye un \ac{MCU} PIC32MX675F256L, fabricado por Microchip \cite{
 \item Módulos para comunicación serie \ac{UART}, \ac{SPI} e \ac{I2C}.
 \item Conectividad por medio de \ac{USB} 2.0 \ac{OTG} y 10/100 Ethernet MAC.
 \item Interfaz para programación y depuración.
-\item Temporizadores digitales, \ac{ADC} y \ac{GPIO}
+\item Temporizadores digitales, \ac{ADC} y \ac{GPIO}.
+\item Modos de bajo consumo.
 \item Encapsulado de 100 pines.
 \end{itemize}
 \end{multicols}
@@ -127,7 +128,7 @@ PIN & MCU PIN & 1a Func. & 2a Func. & 3a Func. & 4a Func. & 5a Func. \\
 38 & 12 & ECRSDV & SCL4 & SDO2 & U3TX & CN10/RG8 \\ \hline
 39 & 21 & AN4 & C1IN- & CN6 & RB4 & - \\ \hline
 \\ % esta línea es importante para que deje un espacio entre la tabla y el nombre de la tabla.
-\caption[Descripción del uso de los pines del \textit{header} del cNGD]{Descripción del uso de los pines, obtenido de \cite{aguspfc}.}
+\caption[Descripción del uso de los pines del \textit{header} del cNGD.]{Descripción del uso de los pines, obtenido de \cite{aguspfc}.}
 \label{previo:tab:headerspinout}
 \end{longtable}}
 \end{center}
@@ -160,7 +161,7 @@ Resaltamos las más relevantes para nuestro diseño:
 
 \end{itemize}
 
-Finalmente, el \ac{CNGD} es programado por medio del módulo de programación PGE. Esta misma interfaz es usada para la depuración In-Circuit del sistema. Esto será útil para comprobar la ejecución correcta del código desarrollado, por lo que se ampliará en el capítulo \ref{cap:software}.
+Finalmente, el \ac{CNGD} es programado por medio del módulo de programación PGE. Esta misma interfaz es usada para la depuración del sistema. Esto será útil para comprobar la ejecución correcta del código desarrollado, por lo que se ampliará en el capítulo \ref{cap:software}.
 
 %-------------------------------------------------------------------
 \section{Sensores}
@@ -168,13 +169,13 @@ Finalmente, el \ac{CNGD} es programado por medio del módulo de programación PGE.
 \label{previo:sec:sensores}
 %-------------------------------------------------------------------
 
-A continuación comenzamos a describir los sensores que incluiremos en la placa de expansión. Estos van a ser la entrada de información ambiental a nuestro sistema, ya que por medio de sus mediciones conoceremos los parámetros del entorno. Dada su relevancia debemos escogerlos adecuadamente, por lo que definimos el procedimiento que detallamos a continuación:
+A continuación comenzamos el estudio de los sensores, con objeto de determinar cuáles incluir en la placa de expansión. Estos van a ser la entrada de información ambiental a nuestro sistema, ya que por medio de sus mediciones conoceremos los parámetros del entorno. Dada su relevancia debemos escogerlos adecuadamente, por lo que definimos el procedimiento que detallamos a continuación:
 
 \begin{enumerate}
 
-\item \emph{Definir los parámetros y valorarlos}. En esta fase seleccionamos los parámetros más destacables que nuestro sensor debe cumplir, y un margen de tolerancia para los mismos. Además, como restricción adicional, tendremos que cumplir los requisitos impuestos por la plataforma, tales como la tensión de alimentación, comunicación por medio de puertos disponibles, entre otros.
+\item \emph{Definir los requisitos y valorarlos}. En esta fase seleccionamos los parámetros más destacables que nuestro sensor debe cumplir, y un margen de tolerancia para los mismos. Además, como restricción adicional, tendremos que cumplir los requisitos impuestos por la plataforma, tales como la tensión de alimentación, comunicación por medio de puertos disponibles, entre otros.
 \item \emph{Buscar sensores comerciales}. Tomando como base los resultados de la fase anterior, y usando las páginas web de los principales proveedores (como Farnell \cite{farnell}, RS \cite{rs}, Digikey \cite{digikey} o SparkFun \cite{sparkfun}), realizaremos la búsqueda.
-\item \emph{Estudiar las hojas de características}. Estas son proporcionadas por los fabricantes y en ellas se detallan todas las propiedades que definen su producto. De esta evaluación obtenemos la verificación de que cumplen las constantes definidas.
+\item \emph{Estudiar las hojas de características}. Estas son proporcionadas por los fabricantes y en ellas se detallan todas las propiedades que definen su producto. De esta evaluación obtenemos la verificación de que cumplen las características definidas.
 
 \end{enumerate}
 
@@ -187,7 +188,7 @@ Como requisitos genéricos de nuestro sistema, y que por tanto deberán ser motivo
 \item \emph{Salida}. La podemos clasificar en dos tipos: 
 	\begin{itemize}
 	\item Analógica, en el cual algún parámetro eléctrico, tal como la tensión, corriente o resistencia, es dependiente de la magnitud a medir y requiere, por tanto, del empleo de un \ac{ADC} para su tratamiento en el microcontrolador.
-	\item Digital, en el cual la medición se representa por una palabra binaria, y que se conecta al microcontrolador, generalmente, por buses serie, como pueden ser \ac{SPI} o \ac{I2C}, o entradas genéricas --\ac{GPIO}--.
+	\item Digital, en el cual la medición se representa por una palabra binaria, y que se conecta al microcontrolador, generalmente, por buses serie, como pueden ser \ac{SPI} o \ac{I2C}, o entradas genéricas (\ac{GPIO}).
 	\end{itemize}
 No imponemos ningún filtro a priori, puesto que el \ac{CNGD} dispone de entradas tanto digitales como analógicas.
 
@@ -215,7 +216,7 @@ Los principales parámetros que los definen son:
 
 \begin{itemize}
 
-\item \emph{Rango de medida}. Define las temperaturas máximas y mínimas en las que se puede medir. Normalmente va asociado con el margen de funcionamiento del mismo, de forma que si trabajamos fuera de este margen el dispositivo se deteriorará. \newline
+\item \emph{Rango de medida}. Define las temperaturas máximas y mínimas en las que se puede medir. \newline
 En nuestra aplicación, puede ser tan amplio como se pueda, pero fijando como mínimo un rango de medida entre -20 ºC y 100 ºC.
 \item \emph{Precisión}. Es una forma de expresar la calidad de la medida, entendiendo ésta como la fiabilidad entre el dato medido y el dato real. En ocasiones también aparece nombrado como \emph{error}. Como es comprensible, es un parámetro que varía mucho el precio del mismo.\newline
 Puesto que lo usaremos en una aplicación genérica, debemos encontrar un compromiso entre precio y precisión, por lo que centraremos nuestra búsqueda en valores de entre $\pm$0.2 ºC y $\pm$2 ºC.
@@ -258,7 +259,7 @@ Definimos un acelerómetro como un sensor que nos permite medir las aceleraciones
 \item \emph{Tecnología \ac{MEMS}}. Están basados en el traspaso por convección de calor, cuya variación es causada por la aceleración.
 \end{itemize}
 
-A priori, puede parecer que introducir un sensor de este tipo es extraño para la obtención de parámetros de un entorno. No obstante, el uso de este tipo de sensores está creciendo en multitud de aplicaciones, por la versatilidad que le caracteriza. Tanto es así que puede ser usado, por ejemplo, para detectar la posición de la placa en el plano tridimensional, o para detectar vibraciones, bien generadas por la acción humana (como pisadas en el suelo o vehículos pasando por un puente) o por la naturaleza (como los terremotos).
+A priori, puede parecer que introducir un sensor de este tipo es extraño para la obtención de parámetros de un entorno. No obstante, el uso de este tipo de sensores está creciendo en multitud de aplicaciones, por la versatilidad que le caracteriza. Tanto es así que puede ser usado, por ejemplo, para detectar la posición de la placa en el plano tridimensional, o para detectar vibraciones, bien generadas por la acción humana (como pisadas en el suelo, vehículos pasando por un puente o la apertura de una puerta) o por la naturaleza (como los terremotos).
 
 Las principales características que los definen se resumen a continuación:
 
@@ -287,7 +288,7 @@ ST & LIS3DH & 2g, 4g, 8g, 16g & $\hat{x}$, $\hat{y}$, $\hat{z}$ & 11 $\mu$A & 3.
 \end{table}
 \end{savenotes}
 
-No aparece información acerca de la salida en dicha tabla puesto que todos los modelos estudiados tienen salida digital. Asimismo, todos disponen de modos de bajo consumo, que se alcanzan reduciendo la frecuencia de obtención de datos.
+No aparece información acerca de la salida en dicha tabla puesto que todos los modelos estudiados tienen salida digital. Asimismo, todos disponen de modos de bajo consumo.
 
 
 %-------------------------------------------------------------------
@@ -333,7 +334,7 @@ La salida de todos los modelos estudiados es digital, de forma que obtenemos un 
 %-------------------------------------------------------------------
 \label{previo:sec:luminosidad}
 %-------------------------------------------------------------------
-Un sensor de luminosidad es aquel que permite determinar la cantidad de luz que se encuentra en el espacio de medida del mismo. Podemos encontrar principalmente dos tipos: las fotorresistencias, conocidas por sus siglas inglesas \ac{LDR}, las cuales son unas resistencias cuyo valor depende de la luz, y los fotodiodos, que ofrecen a la salida una corriente que es proporcional al nivel de iluminación que encuentren. Serán estos últimos sobre los que centraremos nuestra búsqueda al ser más comunes en aplicaciones de propósito general.
+Un sensor de luminosidad es aquel que permite determinar la cantidad de luz que se encuentra en el espacio de medida del mismo. Podemos encontrar principalmente dos tipos: las fotorresistencias, conocidas por sus siglas inglesas \ac{LDR}, las cuales son unas resistencias cuyo valor depende de la luz, y los fotodiodos, que ofrecen a la salida una corriente que es proporcional al nivel de iluminación que encuentren. Serán estos últimos sobre los que centraremos nuestra búsqueda.
 
 La elección de este sensor viene motivada por las múltiples aplicaciones que puede desempeñar en el contexto de los \ac{AMI}, como puede ser la de eficiencia energética, regulando la luz artificial en función de la luz solar, o la de confort, adaptando los niveles de luminosidad en función de nuestra preferencia o de la situación en la que nos encontramos.
 
@@ -341,11 +342,11 @@ Un sensor de luminosidad se define principalmente en base a los siguientes parám
 
 \begin{itemize}
 \item \emph{Pico de longitud de onda}. Determina la longitud de onda del fotón cuya respuesta mejor se percibe. A partir de ésta, se dibuja la curva de respuesta del sensor frente a otras longitudes.\newline Impondremos que esta curva de respuesta sea lo más similar posible a la del ojo humano, puesto que esto hará que el sensor responda con la misma información que recibe una persona.
-\item \emph{Corriente de oscuridad}. Parámetro que determina la corriente que ofrece a la salida en condiciones de iluminación nula. Supone un offset a la medida.\newline Al ser un dato parásito, exigiremos que sea tan pequeño como sea posible.
-\item \emph{Salida}. Todos ellos ofrecen una salida analógica en corriente, al estar buscando fotodiodos. No obstante, algunos modelos presentan algún circuito que modifica su curva de salida, pasando de ser lineal con la luminosidad a hacerlo de forma logarítmica.\newline Como consecuencia de este hecho, la medida de consumo se establece como el nivel de corriente a la salida bajo determinadas condiciones de iluminación.
+\item \emph{Corriente de oscuridad}. Parámetro que determina la corriente que ofrece a la salida en condiciones de iluminación nula. Supone un \textit{offset} a la medida.\newline Al ser un dato parásito, exigiremos que sea tan pequeño como sea posible.
+\item \emph{Salida}. Todos ellos ofrecen una salida analógica en corriente, al estar buscando fotodiodos. No obstante, algunos modelos presentan algún circuito que modifica su curva de salida, pasando de ser lineal con la luminosidad a hacerlo de forma logarítmica.
 \end{itemize}
 
-La tabla \ref{previo:tab:lum} muestra los sensores de presencia bajo estudio, en los que han sido evaluadas todas las características enunciadas anteriormente.
+En la tabla \ref{previo:tab:lum} se encuentran los sensores de luminosidad bajo estudio, donde se evalúan todas las características enunciadas anteriormente. En la misma, el consumo coincide con las corrientes en condiciones de iluminación (a 100 luxes) y oscuridad, como consecuencia de ser un sensor analógico en corriente. 
 
 \begin{savenotes}
 \begin{table}[h]
@@ -382,7 +383,7 @@ Los actuadores que desarrollan esta función los encontramos resumidos a continua
 %-------------------------------------------------------------------
 Un emisor \ac{IR} no es más que un \ac{LED} cuyo espectro de emisión de luz se centra en estas longitudes de ondas, típicamente en el entorno de los 950 nm. Esta señal es modulada para la transmisión digital de comandos, propios para cada dispositivo.
 
-La inserción de este actuador en la placa está más que justificada, ya que son incontables los dispositivos que pueden controlarse hoy en día mediante un mando a distancia por \ac{IR}, como pueden ser la televisión, equipos de música, o, en relación con los sensores expuestos en \ref{previo:sec:sensores}, la climatización y las persianas, entre otros.
+La inserción de este actuador en la placa está más que justificada, ya que son incontables los dispositivos que pueden controlarse hoy en día mediante un mando a distancia por \ac{IR}, como pueden ser la televisión, equipos de música, la climatización o las persianas, entre otros.
 
 Las características que deberá reunir este actuador serán las de potencia media de transmisión, para que su uso no se vea limitado en exceso con la distancia, y un tiempo de respuesta que permita la modulación de las señales a transmitir.
 
@@ -393,18 +394,17 @@ Las características que deberá reunir este actuador serán las de potencia media 
 %-------------------------------------------------------------------
 Un buzzer es un dispositivo que, mediante la vibración de un elemento piezoeléctrico, produce una onda acústica a unas determinadas frecuencias, las cuales dependen de la forma de excitación del dispositivo y del propio material.
 
-El propósito de este actuador no es otro que el de avisar a los humanos acerca de las condiciones ambientales, generalmente cuando suponen la existencia de un peligro potencial, para que sean éstos los que, en último término, lleven a cabo la actuación.
+El propósito de este actuador no es otro que el de avisar a los usuarios acerca de las condiciones ambientales, generalmente cuando suponen la existencia de un peligro potencial, para que sean éstos los que, en último término, lleven a cabo la actuación.
 
-Como consecuencia de este hecho, se exigirá que el buzzer emita, al menos, a 70 dB(A), para asegurar un nivel alto de volumen que permita su audición.
+Como consecuencia de este hecho, se exigirá que el buzzer emita, al menos, a 70 dB(A), para asegurar un nivel suficiente de volumen que permita su audición.
 
 %-------------------------------------------------------------------
-\subsection{GPIOs}
+\subsection{Salidas digitales}
 %-------------------------------------------------------------------
 \label{previo:sec:gpio}
 %-------------------------------------------------------------------
-Un \ac{GPIO} es un puerto, generalmente de un microcontrolador, que puede actuar como entrada o salida digital, y que se puede usar cualquier tipo de aplicación.
 
-Como vimos en \ref{previo:sec:cngd}, nuestra plataforma, por medio de sus \textit{header}s, tiene accesible varios puertos \ac{GPIO}, por lo que es posible, a partir de ellos, controlar cualquier dispositivo externo cuya señal de control sea digital, como puede ser un relé.
+Estas salidas son muy útiles, puesto que, a partir de ellas, es posible controlar cualquier dispositivo externo cuya señal de control sea digital. En el microcontrolador, estas salidas se corresponden con los puertos \ac{GPIO}, a varios de los cuales da nuestra plataforma acceso en sus \textit{header}s, como vimos en la sección \ref{previo:sec:cngd}.
 
 
 %-------------------------------------------------------------------
