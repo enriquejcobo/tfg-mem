@@ -60,7 +60,7 @@ De los modelos presentados en la tabla \ref{previo:tab:temp}, hemos decidido sel
 \begin{multicols}{2}
 \begin{itemize}
 \item Precisión típica de $\pm$0.5 ºC a 25 ºC.
-\item Error máximo de $\pm$1ºC entre -10 ºC y 85 ºC.
+\item Error máximo de $\pm$1 ºC entre -10 ºC y 85 ºC.
 \item Resolución seleccionable de 9-12 bits.
 \item Conexión I$^2$C.
 \item Corriente de operación de 200 $\mu$A.
@@ -90,7 +90,7 @@ En base al análisis realizado en la sección \ref{previo:sec:acelerometro}, en el
 \item Resolución seleccionable de 8-10 bits.
 \item Conexión I$^2$C.
 \item Modos de bajo consumo.
-\item Consumo de corriente de entre 6$\mu$A y 165$\mu$A.
+\item Consumo de corriente de entre 6 $\mu$A y 165 $\mu$A.
 \item Dos salidas programables para seis fuentes de interrupción.
 	\begin{multicols}{2}
 	\begin{itemize}
@@ -179,8 +179,8 @@ El \ac{IR} escogido fue el \textbf{Vishay TSUS5202} \cite{tsus}, el cual se cara
 \begin{multicols}{2}
 \begin{itemize}
 \item Componente \ac{TH}.
-\item Longitud de onda $\lambda_p=950$ nm.
-\item Tiempo de respuesta $t_r=800$ ns.
+\item Longitud de onda $\lambda_p$ de 950 nm.
+\item Tiempo de respuesta $t_r$ de 800 ns.
 \item Corriente máxima de 0.1 A.
 \end{itemize}
 \end{multicols}
@@ -203,7 +203,7 @@ Para asegurar, escogemos un valor de resistencia de $33\Omega$, de forma que se 
 \label{diseno:sec:buzzer}
 %-------------------------------------------------------------------
 
-Para el zumbador elegimos el modelo comercial de \textbf{TDK PS1720} \cite{buzzer}, idóneo al ser diseñado para aplicaciones de alarma, como es nuestro caso, y con un precio de 0.75 \euro. La figura \ref{diseno:fig:buzz} muestra el circuito pasa su correcto funcionamiento.
+Para el zumbador elegimos el modelo comercial \textbf{TDK PS1720} \cite{buzzer}, idóneo al ser diseñado para aplicaciones de alarma, como es nuestro caso, y con un precio de 0.75 \euro. La figura \ref{diseno:fig:buzz} muestra el circuito para su correcto funcionamiento.
 
 \figuraEx{Bitmap/Capitulo4/buzz}{width=.5\textwidth}{diseno:fig:buzz}%
 {Buzzer TDK PS1720.}{Buzzer TDK PS1720.}
@@ -332,7 +332,7 @@ Adicionalmente, apuntamos la existencia de un plano de masa sobre ambas caras de
 
 Como parte del trabajo asociado a diseñar el trazado de la \textit{shield}, se implementaron las huellas de los componentes que no se encontraban en las librerías, como se detalla en la sección \ref{diseno:sec:herramientas}.
 
-Remarcar que el trazado que acaba de ser expuesto se corresponde con el de la segunda versión. El de la primera, que puede verse en la figura \ref{diseno:fig:previo}, tuvo que ser modificado, principalmente por el hecho de que la huella del acelerómetro aparecía reflejada, lo que hacía que los pines no coincidieran. No obstante, y aprovechando este segundo diseño, se modificaron ciertas características, como puede ser el rutado de las salidas de interrupción hacia \ac{CN}s en lugar de hacia \ac{GPIO}s, y la adición de la resistencia de \textit{pull-down} y el reflejo de la huella del \ac{PIR}, de forma similar al caso del acelerómetro.
+Remarcar que el trazado que acaba de ser expuesto se corresponde con el de la segunda versión. El de la primera, que puede verse en la figura \ref{diseno:fig:previo}, tuvo que ser modificado, principalmente por el hecho de que la huella del acelerómetro aparecía reflejada, lo que hacía que los pines no coincidieran. No obstante, y aprovechando este segundo diseño, se modificaron ciertas características, como puede ser el rutado de las salidas de interrupción hacia \ac{CN}s en lugar de hacia \ac{GPIO}s, y la adición de la resistencia de \textit{pull-down} y el reflejo de la huella del \ac{PIR}, de forma similar al caso del acelerómetro. A esta versión la denominamos previa.
 
 \begin{figure}[!h]
 \centering
@@ -394,12 +394,15 @@ Como consideración de diseño, y siempre que ha sido posible, para los componente
 \label{diseno:sec:final}
 %-------------------------------------------------------------------
 
-La figura \ref{diseno:fig:resultado} muestra el resultado final de nuestra placa de sensores y actuadores.
+La figura \ref{diseno:fig:resultadodefi} muestra el resultado final de nuestra placa de sensores y actuadores. Se corresponde con el diseño de la segunda versión.
 
-\figuraEx{Bitmap/Capitulo4/resultado}{width=.6\textwidth}{diseno:fig:resultado}%
+\figuraEx{Bitmap/Capitulo4/resultadodefi}{width=.8\textwidth}{diseno:fig:resultadodefi}%
 {Resultado final: la placa de expansión sobre el cNGD.}{Resultado final: la placa de expansión sobre el cNGD.}
 
-En la misma encontramos la primera versión del diseño, puesto que al cierre de esta memoria no se había recibido el de la segunda versión. No obstante, esta versión nos ha sido muy útil, puesto que es funcional para todos los módulos, excluyendo el acelerómetro, y nos ha permitido realizar sobre ella toda la batería de pruebas.
+También se incluye en esta memoria el resultado final correspondiente a la versión previa de la placa de expansión, en la figura \ref{diseno:fig:resultado}. Podemos observar que el sensor de presencia aparece conectado, ya que fue posible su inclusión girando los pines de inserción y soldando una resistencia de \textit{pull-down} \ac{TH}, y que la huella del acelerómetro aparece vacía. No obstante, esta versión nos ha sido muy útil puesto que nos ha permitido realizar sobre ella toda la batería de pruebas funcionales, con excepción del acelerómetro.
+
+\figuraEx{Bitmap/Capitulo4/resultado}{width=.7\textwidth}{diseno:fig:resultado}%
+{La placa de expansión previa sobre el cNGD.}{La placa de expansión previa sobre el cNGD.}
 
 %-------------------------------------------------------------------
 \section{Costes hardware}

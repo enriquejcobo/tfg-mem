@@ -101,7 +101,7 @@ Este argumento muestra la cantidad de bits fraccionarios que se usarán, de forma
 \item \verb@BOOL getTempAlert ()@. Lee, del GPIO correspondiente, el valor de si hay alarma detectada o no.
 \end{itemize}
 
-A continuación mostramos aquellas funciones que, aunque no se encuentran exportadas, cumplen la misión de simplificar el código, evitando duplicidades si dentro de dos funciones distintas se requería hacer la misma acción. En el caso del sensor de temperatura, serán principalmente las que llamen a las funciones que proporciona el fabricante en \verb@i2c.h@ para la comunicación por medio de este protocolo.
+A continuación mostramos aquellas funciones que cumplen la misión de simplificar el código, evitando duplicidades si dentro de dos funciones distintas se requería hacer la misma acción. En el caso del sensor de temperatura, serán principalmente las que llamen a las funciones que proporciona el fabricante en \verb@i2c.h@ para la comunicación por medio de este protocolo. Generalmente, estas funciones no están exportadas.
 
 \begin{itemize}
 \item \verb@void setTempConf ()@. Realiza la escritura en el registro de configuración. Se encuentra exportada al ser requerida por todas las funciones que realizan cambios sobre el mismo, como pueden ser \verb@setTempResolution ()@ o \verb@setTempLowPower ()@.
@@ -120,7 +120,7 @@ Nuestro acelerómetro se conecta al sistema por medio de la interfaz I$^2$C y por
 \begin{itemize}
 \item \verb@void getAcc ()@. Función que consulta al dispositivo las aceleraciones correspondientes a los tres ejes ($\hat{x}$, $\hat{y}$, $\hat{z}$) y las guarda en variables locales. Puesto que son tres valores distintos, tomamos la decisión de diseño de que esta función únicamente trajera los datos, siendo necesario invocar otra para acceder a ellos.
 \item \verb@INT8 getAccX ()@, \verb@INT8 getAccY ()@, \verb@INT8 getAccZ ()@. Devuelven el valor de las variables locales en las que previamente se han almacenado los valores de las aceleraciones en los ejes correspondientes.
-\item \verb@void setAccInt (int interrupcion, int source)@. Permite modificar los parámetros correspondientes a la \verb@interrupcion@, como puede ser la fuente (\verb@source@) que la ocasiona.
+\item \verb@void setAccInt (int interrupcion, int source)@. Permite modificar los parámetros correspondientes a la \verb@interrupcion@, como puede ser la fuente (\verb@source@) que la ocasiona. Hay definidas constantes tanto para la interrupción, \verb@ACC_INT1@ y \verb@ACC_INT2@, como para las posibles fuentes: \verb@DATA_READY@, \verb@MOTION_FREEFALL@, \verb@TAP@, \verb@ORIENTATION@, \verb@TRANSIENT@ o \verb@ASLEEP@. Asimismo, \verb@NO_INT@ borra la asociación de la fuente a la salida.
 \item \verb@void setAccLowPower ()@. Induce al acelerómetro a un modo de bajo consumo.
 \item \verb@BOOL getAccInt1 ()@, \verb@BOOL getAccInt2 ()@. Devuelve \verb@TRUE@ o \verb@FALSE@ en función de si hay interrupción pendiente o no. En principio estas funciones no serían necesarias, puesto que al estar rutadas hacia \ac{CN}s, el vector de interrupción correspondiente atendería la petición cuando se genere. No obstante, se referencian por si fueran necesarias.
 \end{itemize}
@@ -207,7 +207,8 @@ El buzzer se activa mediante una señal rectangular periódica, cuya frecuencia de
 
 Para este actuador volveremos a requerir la interrupción periódica, la cual, como consecuencia de lo estudiado en la sección \ref{software:sec:ir}, es capaz de soportar las frecuencias que se precisan.
 
-Se han desarrollado dos funciones que gobiernan el control del mismo: \verb@void buzzerOn ()@, que hace que el buzzer empiece a sonar, y \verb@void buzzerOff ()@, que lo detiene.
+Se han desarrollado dos funciones, \verb@void buzzerOn ()@ y \verb@void buzzerOff ()@, que gobiernan el control del mismo. En este sentido, la primera hace que el buzzer empiece a sonar y la segunda lo detiene.
+
 
 %-------------------------------------------------------------------
 \subsubsection{LEDs}
@@ -243,15 +244,17 @@ En este sentido, se desarrolla una aplicación que consta de los siguientes pasos
 \item Se ejecuta el programa de prueba, comprobando periódicamente:
 	\begin{itemize}
 	\item Si la temperatura alcanza una temperatura máxima predefinida, se mandan instrucciones al aire acondicionado por vía \ac{IR} para que se encienda. En caso de que bajara de una temperatura mínima, se mandaría el comando con efecto opuesto.
-	\item Toda solicitud de interrupción por parte del acelerómetro disparará la alarma y la del nodo vecino, hasta que se restablezca.
-	\item En caso de presencia detectada, se dispara la alarma en el nodo que detecta presencia.
-	\item Si la luz excede de un umbral superior, se ilumina el \ac{LED} verde; y si lo hace de uno inferior, se enciende el rojo.
+	\item Un giro de la placa, que será detectado por el acelerómetro, disparará la alarma del nodo vecino hasta que vuelva a su posición de reposo.
+	\item En caso de presencia detectada, se ilumina el \ac{LED} verde; y en caso contrario, se enciende el rojo.
+	\item Mientras el nivel de luz esté por debajo de un umbral predefinido, sonará el buzzer del nodo emisor.
 	\end{itemize}
 \end{enumerate}
 
+Remarcar que, para esta aplicación de prueba, la consulta del valor de los sensores se realiza mediante \textit{polling} de periodo 3 segundos (salvo el de presencia, que genera interrupciones). Esto quiere decir que obtenemos un nuevo dato cada 3 segundos, lo que hace que las actuaciones se realicen coincidiendo con este periodo. Además, esta aplicación genera tramas en las que se muestran los datos leídos por los sensores y algunas actuaciones. Para esto, hemos hecho uso de la interfaz RS-232 y de las librerías ya desarrolladas con este fin.
+
 El archivo que contiene este \textit{software} se denomina \verb@MainAppCode_NodeTest.c@, el cual es el responsable de llamar a las funciones de inicialización y de albergar el bucle para que se ejecuten estas acciones de forma continua. Además, es necesario definir la función de cada nodo en particular, como corresponde a una aplicación \ac{P2P} Unicast.
 
-Este programa se ha diseñado bajo la idea de que ilustre el funcionamiento de todos los sensores y actuadores que se incluyen en la placa, de forma que una variación de los mismos implique una modificación en algún parámetro.
+Este programa se ha diseñado bajo la idea de que ilustre el funcionamiento de todos los sensores y actuadores que se incluyen en la placa, de forma que una variación de los mismos implique alguna actuación sobre el entorno.
 
 %-------------------------------------------------------------------
 \section{Herramientas}

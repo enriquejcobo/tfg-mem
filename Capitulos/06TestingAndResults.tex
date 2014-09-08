@@ -125,7 +125,7 @@ En primer lugar presentamos las pruebas realizadas al sensor de \textbf{Temperat
 
 \begin{itemize}
 \item \verb@getTemp@. Comprobamos que el sensor respondía a esta instrucción, y que el valor de temperatura devuelto se correspondía con el del entorno. Un aumento de temperatura fue forzado, y volvimos a repetir la medición, esta vez con un resultado superior.
-\item \verb@setTempResolution@. Tras enviar este comando, procedimos a solicitar de nuevo la temperatura actual, observando en dicha medida que su precisión había aumentado conforme se le había indicado.
+\item \verb@setTempResolution@. Tras enviar este comando, procedimos a solicitar de nuevo la temperatura actual, observando en dicha medida que su precisión había variado conforme se le había indicado.
 \item \verb@setTempAlert@ y \verb@getTempAlert@. Conocida la temperatura ambiente en el momento, e iniciando la prueba en una situación de no alarma, modificamos el valor de los registros de forma tal que este valor pasara a estar en la zona de peligro. Con la segunda función, comprobamos efectivamente que bajo estas nuevas condiciones se producía la alarma.
 \end{itemize}
 
@@ -141,11 +141,11 @@ Siguiendo con el sensor de \textbf{Luminosidad}, llevamos un proceso similar al 
 
 \medskip
 
-No se han podido comprobar las funciones del \textbf{Acelerómetro}, puesto que, como se puso de manifiesto en el capítulo \ref{cap:diseno} no llegó la versión definitiva de la placa al cierre de esta memoria. No obstante, se ha probado que los periféricos del \ac{MCU} que usa el acelerómetro sí funcionan, puesto que la interfaz \ac{I2C} ha sido testeada con éxito con el sensor de temperatura, y los \ac{CN} también han mostrado un comportamiento positivo en las pruebas desarrolladas con el \ac{PIR}.
+No se han podido comprobar todas las funciones del \textbf{Acelerómetro}, puesto que la versión definitiva no llegó hasta pocos días antes del fin de este proyecto. No obstante, sí hemos podido comprobar la función \verb@getAcc@ y las auxiliares que acceden a las variables locales, necesarias para la aplicación de prueba. Es por ello que somos optimistas respecto a la operación del sensor, conociendo además que los periféricos del \ac{MCU} que usa el acelerómetro sí funcionan, ya que la interfaz \ac{I2C} ha sido testeada con éxito con el sensor de temperatura, y los \ac{CN} también han mostrado un comportamiento positivo en las pruebas desarrolladas con el \ac{PIR}.
 
 \medskip
 
-En cuando a los actuadores, comenzamos evaluando el \textbf{Emisor Infrarrojo}. Decidimos implementar el protocolo del aire acondicionado, debido a que la placa dispone de sensor de temperatura y puede conocer, por tanto, el valor de la misma en tiempo real.
+En cuanto a los actuadores, comenzamos evaluando el \textbf{Emisor Infrarrojo}. Decidimos implementar el protocolo del aire acondicionado, debido a que la placa dispone de sensor de temperatura y puede conocer, por tanto, el valor de la misma en tiempo real.
 
 Evaluando trabajos previos \cite{javipfc}, obtenemos que la información en las tramas del aire acondicionado se organiza de la siguiente manera: En primer lugar en 2 bytes se codifica el dispositivo, seguido de un byte de protección frente a errores, el comando a mandar --con tamaño variable-- y, por último, su código redundante. La figura \ref{software:fig:bitstrama} muestra en detalle la información contenida en la trama.
 
@@ -154,7 +154,7 @@ Evaluando trabajos previos \cite{javipfc}, obtenemos que la información en las t
 
 Los bytes que forman las tramas fueron decodificados por medio de la inspección de la trama enviada por el mando original, usando el receptor y presentando dicha trama en el osciloscopio, realizando ingeniería inversa. La figura \ref{pruebas:fig:tramaaa} muestra en detalle este proceso con una trama. A partir del análisis de varias tramas en las que se modificaba algún parámetro (conocido), procedimos a identificar la posición de los mismos dentro de la trama, observando manualmente qué bits eran los que cambiaban su estado. Para este propósito requerimos el uso de una hoja de cálculo. 
 
-\figuraEx{Bitmap/Capitulo6/tramaaa}{width=.7\textwidth}{pruebas:fig:tramaaa}%
+\figuraEx{Bitmap/Capitulo6/tramaaa}{width=.65\textwidth}{pruebas:fig:tramaaa}%
 {Detalle del comienzo de trama infrarroja.}{Detalle del comienzo de trama infrarroja.}
 
 La función \verb@void protocoloAA ()@ implementa el protocolo del aire acondicionado. Asimismo, en la función \verb@sendIR@, expuesta en el apartado \ref{software:sec:ir}, los argumentos serían \verb@AA@ para el dispositivo, \verb@modo@ (que indica si se quiere entrar en modo verano, \verb@AA_Summer@, o invierno, \verb@AA_Winter@) para el primer parámetro, y \verb@estado@ (que enciende el aparato, \verb@AA_On@, o lo apaga, \verb@AA_Off@) para el segundo.

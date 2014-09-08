@@ -10,7 +10,7 @@
 \begin{FraseCelebre}
 \begin{Frase}
 El hombre no se mide por lo que conoce, \\
-sino en cómo aplica lo que conoce
+sino en cómo aplica lo que conoce.
 \end{Frase}
 \begin{Fuente}
 Anónimo
@@ -44,7 +44,7 @@ El \ac{CNGD} incluye un \ac{MCU} PIC32MX675F256L, fabricado por Microchip \cite{
 \begin{itemize}
 \item \ac{MCU} de 32 bits.
 \item Memoria Flash de 256 KB.
-\item Memoria \ac{RAM} de 64KB.
+\item Memoria \ac{RAM} de 64 KB.
 \item Velocidad máxima de funcionamiento de 80 MHz.
 \item Módulos para comunicación serie \ac{UART}, \ac{SPI} e \ac{I2C}.
 \item Conectividad por medio de \ac{USB} 2.0 \ac{OTG} y 10/100 Ethernet MAC.
@@ -137,7 +137,7 @@ Resaltamos las más relevantes para nuestro diseño:
 
 \begin{itemize}
 
-\item \emph{Fuentes de alimentación}. Para la alimentación de los componentes, son necesarios estos pines.
+\item \emph{Fuentes de alimentación}. Para la alimentación de los componentes son necesarios estos pines.
 
 	\begin{itemize}
 	\item VCC. Conectado al sistema de alimentación del \ac{CNGD}, accesible desde los pines 14, 24 y 28.
@@ -175,7 +175,7 @@ A continuación comenzamos el estudio de los sensores, con objeto de determinar c
 
 \item \emph{Definir los requisitos y valorarlos}. En esta fase seleccionamos los parámetros más destacables que nuestro sensor debe cumplir, y un margen de tolerancia para los mismos. Además, como restricción adicional, tendremos que cumplir los requisitos impuestos por la plataforma, tales como la tensión de alimentación, comunicación por medio de puertos disponibles, entre otros.
 \item \emph{Buscar sensores comerciales}. Tomando como base los resultados de la fase anterior, y usando las páginas web de los principales proveedores (como Farnell \cite{farnell}, RS \cite{rs}, Digikey \cite{digikey} o SparkFun \cite{sparkfun}), realizaremos la búsqueda.
-\item \emph{Estudiar las hojas de características}. Estas son proporcionadas por los fabricantes y en ellas se detallan todas las propiedades que definen su producto. De esta evaluación obtenemos la verificación de que cumplen las características definidas.
+\item \emph{Estudiar las hojas de características}. Éstas son proporcionadas por los fabricantes y en ellas se detallan todas las propiedades que definen su producto. De esta evaluación obtenemos la verificación de que cumplen las características definidas.
 
 \end{enumerate}
 
@@ -190,7 +190,7 @@ Como requisitos genéricos de nuestro sistema, y que por tanto deberán ser motivo
 	\item Analógica, en el cual algún parámetro eléctrico, tal como la tensión, corriente o resistencia, es dependiente de la magnitud a medir y requiere, por tanto, del empleo de un \ac{ADC} para su tratamiento en el microcontrolador.
 	\item Digital, en el cual la medición se representa por una palabra binaria, y que se conecta al microcontrolador, generalmente, por buses serie, como pueden ser \ac{SPI} o \ac{I2C}, o entradas genéricas (\ac{GPIO}).
 	\end{itemize}
-No imponemos ningún filtro a priori, puesto que el \ac{CNGD} dispone de entradas tanto digitales como analógicas.
+No imponemos ningún filtro \textit{a priori}, puesto que el \ac{CNGD} dispone de entradas tanto digitales como analógicas.
 
 \end{itemize}
 
@@ -217,12 +217,12 @@ Los principales parámetros que los definen son:
 \begin{itemize}
 
 \item \emph{Rango de medida}. Define las temperaturas máximas y mínimas en las que se puede medir. \newline
-En nuestra aplicación, puede ser tan amplio como se pueda, pero fijando como mínimo un rango de medida entre -20 ºC y 100 ºC.
+En nuestra aplicación puede ser tan amplio como se pueda, pero fijando como mínimo un rango de medida entre -20 ºC y 100 ºC.
 \item \emph{Precisión}. Es una forma de expresar la calidad de la medida, entendiendo ésta como la fiabilidad entre el dato medido y el dato real. En ocasiones también aparece nombrado como \emph{error}. Como es comprensible, es un parámetro que varía mucho el precio del mismo.\newline
 Puesto que lo usaremos en una aplicación genérica, debemos encontrar un compromiso entre precio y precisión, por lo que centraremos nuestra búsqueda en valores de entre $\pm$0.2 ºC y $\pm$2 ºC.
 \end{itemize}
 
-Los sensores de temperatura comerciales suelen ser, en su mayoría, termistores, a los que se les añade un circuito de acondicionamiento, de forma que en la salida únicamente encontramos variaciones en tensión o, directamente, una secuencia de bits. Los que han sido evaluados, siguiendo estos requisitos, aparecen resumidos en la Tabla \ref{previo:tab:temp}.
+Los sensores de temperatura comerciales suelen ser, en su mayoría, termistores, a los que se les añade un circuito de acondicionamiento, de forma que en la salida únicamente encontramos variaciones en tensión o, directamente, una secuencia de bits. Los que han sido evaluados, siguiendo estos requisitos, aparecen resumidos en la tabla \ref{previo:tab:temp}.
 
 \begin{savenotes}
 \begin{table}[h]
@@ -255,7 +255,7 @@ Definimos un acelerómetro como un sensor que nos permite medir las aceleraciones
 
 \begin{itemize}
 \item \emph{Mecánico}. Basado en la Segunda Ley de Newton, se fabrica mediante la unión de la masa de prueba a un dinamómetro cuyo eje se encuentra en la dirección en la que se quiere medir.
-\item \emph{Piezoeléctrico}. Tiene su fundamento físico en el hecho que, cuando se comprime un cristal con propiedades piezoeléctricas, se crea una carga eléctrica que es directamente proporcional a la fuerza que se aplica, la cual a su vez es proporcional a la aceleración.
+\item \emph{Piezoeléctrico}. Tiene su fundamento físico en el hecho de que, cuando se comprime un cristal con propiedades piezoeléctricas, se crea una carga eléctrica que es directamente proporcional a la fuerza que se aplica, la cual a su vez es proporcional a la aceleración.
 \item \emph{Tecnología \ac{MEMS}}. Están basados en el traspaso por convección de calor, cuya variación es causada por la aceleración.
 \end{itemize}
 
